@@ -1,71 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:nina_digital/features/home/models/product_model.dart';
+import 'package:nina_digital/features/home/providers/product_provider.dart';
 
-import '../../shared/constants/media_assets.dart';
-import '../../shared/mixins/ui_mixins.dart';
+import '../../shared/common_widgets/product_list_widget.dart';
 
-class ProductCategoryScreen extends StatelessWidget with UiMixins {
-  const ProductCategoryScreen({super.key});
+part './models/mock_models.dart';
 
-  static const String nameRoute = 'product-category';
-  static const String pathRoute = '/product-category';
+class ProductCategoryScreen extends ConsumerWidget {
+  final String titleCategory;
+  const ProductCategoryScreen({super.key, required this.titleCategory});
+
+  static const String nameRoute = 'products-category';
+  static const String pathRoute = '/products-category';
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: appBarType1(context, text: 'Danh mục sản phẩm'),
-      body: SingleChildScrollView(
-        child: Container(
-          padding:
-              const EdgeInsets.only(left: 20, right: 20, top: 30, bottom: 20),
-          child: GridView.builder(
-            reverse: false,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              mainAxisSpacing: 15,
-              crossAxisSpacing: 15,
-              mainAxisExtent: 140,
-            ),
-            shrinkWrap: true,
-            itemCount: 12,
-            itemBuilder: (context, index) {
-              return _itemCategory();
-            },
-          ),
-        ),
-      ),
-    );
-  }
+  Widget build(BuildContext context, WidgetRef ref) {
+    AsyncValue asyncValue = ref.watch(productListProvider);
 
-  Widget _itemCategory() {
-    return GestureDetector(
-      onTap: () {
-        print('vo danh muc san pham');
-      },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.all(Radius.circular(80)),
-            child: Image.asset(
-              '${MediaAssets.images}/danhmuc.jpg',
-              height: 80,
-              width: 80,
-              fit: BoxFit.cover,
+    return Scaffold(
+        appBar: AppBar(
+          title: Text(titleCategory),
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: SvgPicture.asset('assets/icons/search.svg'),
+            ),
+          ],
+        ),
+        body: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              children: [
+                asyncValue.when(
+                    loading: () => CircularProgressIndicator(),
+                    data: (data) {
+                      // return ProductListWidget(products: product);
+                      return Text(data.toString());
+                    },
+                    error: (Object error, StackTrace stackTrace) =>
+                        Text(error.toString())),
+                SizedBox(
+                  height: 30,
+                ),
+              ],
             ),
           ),
-          const SizedBox(
-            height: 10,
-          ),
-          Text(
-            'Loa - Tai nghe',
-            style: TextStyle(fontSize: 15),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
-    );
+        ));
   }
 }

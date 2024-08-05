@@ -2,13 +2,6 @@ part of 'app_routes.dart';
 
 List<RouteBase> _danhsachRoute = [
   GoRoute(
-    name: SplashScreen.nameRoute,
-    path: SplashScreen.pathRoute,
-    pageBuilder: (context, state) {
-      return _effectTransitionFade(context, state, const SplashScreen());
-    },
-  ),
-  GoRoute(
     name: OnboardingScreen.nameRoute,
     path: OnboardingScreen.pathRoute,
     pageBuilder: (context, state) {
@@ -16,172 +9,239 @@ List<RouteBase> _danhsachRoute = [
     },
   ),
   GoRoute(
-    name: IntroAuthScreen.nameRoute,
-    path: IntroAuthScreen.pathRoute,
-    pageBuilder: (context, state) {
-      return _effectTransitionFade(context, state, const IntroAuthScreen());
-    },
-  ),
+      name: LoginScreen.nameRoute,
+      path: LoginScreen.pathRoute,
+      pageBuilder: (context, state) {
+        return _effectTransitionFade(context, state, const LoginScreen());
+      },
+      routes: [
+        GoRoute(
+          name: LoginPasswordScreen.nameRoute,
+          path: LoginPasswordScreen.pathRoute,
+          pageBuilder: (context, state) {
+            return _effectTransitionFade(
+                context, state, const LoginPasswordScreen());
+          },
+        ),
+      ]),
   GoRoute(
-    name: SignUpScreen.nameRoute,
-    path: SignUpScreen.pathRoute,
+    name: RegisterScreen.nameRoute,
+    path: RegisterScreen.pathRoute,
     pageBuilder: (context, state) {
-      return _effectTransitionFade(context, state, const SignUpScreen());
-    },
-  ),
-  GoRoute(
-    name: SignInScreen.nameRoute,
-    path: SignInScreen.pathRoute,
-    pageBuilder: (context, state) {
-      return _effectTransitionFade(context, state, const SignInScreen());
+      return _effectTransitionFade(context, state, const RegisterScreen());
     },
   ),
   GoRoute(
     name: ForgotPasswordScreen.nameRoute,
     path: ForgotPasswordScreen.pathRoute,
-    builder: (context, state) {
-      return const ForgotPasswordScreen();
+    pageBuilder: (context, state) {
+      return _effectTransitionFade(
+          context, state, const ForgotPasswordScreen());
     },
-  ),
-  addShellRouterMain(),
-  GoRoute(
-    name: NotificationScreen.nameRoute,
-    path: NotificationScreen.pathRoute,
-    builder: (context, state) {
-      return const NotificationScreen();
-    },
-  ),
-  GoRoute(
-    name: ShoppingCartScreen.nameRoute,
-    path: ShoppingCartScreen.pathRoute,
-    builder: (context, state) {
-      return const ShoppingCartScreen();
-    },
-  ),
-  GoRoute(
-    name: PaymentScreen.nameRoute,
-    path: PaymentScreen.pathRoute,
-    builder: (context, state) {
-      return const PaymentScreen();
-    },
+    routes: [
+      GoRoute(
+          name: ConfirmCodeScreen.nameRoute,
+          path: ConfirmCodeScreen.pathRoute,
+          pageBuilder: (context, state) {
+            return _effectTransitionFade(
+                context, state, const ConfirmCodeScreen());
+          }),
+      GoRoute(
+          name: ResetPasswordScreen.nameRoute,
+          path: ResetPasswordScreen.pathRoute,
+          pageBuilder: (context, state) {
+            return _effectTransitionFade(
+                context, state, const ResetPasswordScreen());
+          }),
+    ],
   ),
   GoRoute(
-    name: DoiDiaChiScreen.nameRoute,
-    path: DoiDiaChiScreen.pathRoute,
-    builder: (context, state) {
-      return const DoiDiaChiScreen();
-    },
-  ),
+      name: NotificationScreen.nameRoute,
+      path: NotificationScreen.pathRoute,
+      pageBuilder: (context, state) {
+        return _effectTransitionFade(
+            context, state, const NotificationScreen());
+      }),
   GoRoute(
-    name: PhuongThucVanChuyenScreen.nameRoute,
-    path: PhuongThucVanChuyenScreen.pathRoute,
-    builder: (context, state) {
-      return const PhuongThucVanChuyenScreen();
+    name: ProfileScreen.nameRoute,
+    path: ProfileScreen.pathRoute,
+    pageBuilder: (context, state) {
+      return _effectTransitionFade(context, state, ProfileScreen());
     },
   ),
   GoRoute(
-      name: OrderScreen.nameRoute,
-      path: OrderScreen.pathRoute,
-      builder: (context, state) {
-        return const OrderScreen();
+    name: HelpCenterScreen.nameRoute,
+    path: HelpCenterScreen.pathRoute,
+    pageBuilder: (context, state) {
+      return _effectTransitionFade(context, state, HelpCenterScreen());
+    },
+  ),
+  GoRoute(
+    name: NotificationSettingScreen.nameRoute,
+    path: NotificationSettingScreen.pathRoute,
+    pageBuilder: (context, state) {
+      return _effectTransitionFade(context, state, NotificationSettingScreen());
+    },
+  ),
+  GoRoute(
+    name: SecurityScreen.nameRoute,
+    path: SecurityScreen.pathRoute,
+    pageBuilder: (context, state) {
+      return _effectTransitionFade(context, state, SecurityScreen());
+    },
+  ),
+  GoRoute(
+    name: CartScreen.nameRoute,
+    path: CartScreen.pathRoute,
+    pageBuilder: (context, state) {
+      return _effectTransitionFade(context, state, CartScreen());
+    },
+  ),
+  GoRoute(
+    name: CheckoutScreen.nameRoute,
+    path: CheckoutScreen.pathRoute,
+    pageBuilder: (context, state) {
+      return _effectTransitionFade(context, state, CheckoutScreen());
+    },
+  ),
+  GoRoute(
+    name: SelectAddressScreen.nameRoute,
+    path: SelectAddressScreen.pathRoute,
+    pageBuilder: (context, state) {
+      return _effectTransitionFade(
+          context,
+          state,
+          SelectAddressScreen(
+            checkedAddress: state.extra as AddressModel,
+          ));
+    },
+  ),
+  GoRoute(
+      name: AddressScreen.nameRoute,
+      path: AddressScreen.pathRoute,
+      pageBuilder: (context, state) {
+        return _effectTransitionFade(context, state, AddressScreen());
       },
       routes: [
         GoRoute(
-          name: OrderDetailScreen.nameRoute,
-          path: OrderDetailScreen.pathRoute,
-          builder: (context, state) {
-            return OrderDetailScreen(
-                code: state.pathParameters['code'].toString());
+          name: AddAddressScreen.nameRoute,
+          path: AddAddressScreen.pathRoute,
+          pageBuilder: (context, state) {
+            return _effectTransitionFade(context, state, AddAddressScreen());
+          },
+        ),
+        GoRoute(
+          name: UpdateAddressScreen.nameRoute,
+          path: UpdateAddressScreen.pathRoute,
+          pageBuilder: (context, state) {
+            final addressModel = state.extra as AddressModel;
+            return _effectTransitionFade(
+              context,
+              state,
+              UpdateAddressScreen(
+                model: addressModel,
+              ),
+            );
           },
         ),
       ]),
   GoRoute(
-    name: SearchProductScreen.nameRoute,
-    path: SearchProductScreen.pathRoute,
+    name: ShipMethodScreen.nameRoute,
+    path: ShipMethodScreen.pathRoute,
     pageBuilder: (context, state) {
-      return _effectTransitionFade(context, state, const SearchProductScreen());
+      return _effectTransitionFade(context, state, ShipMethodScreen());
     },
   ),
   GoRoute(
-    name: ProductCategoryScreen.nameRoute,
-    path: ProductCategoryScreen.pathRoute,
-    builder: (context, state) {
-      return const ProductCategoryScreen();
+    name: PromotionScreen.nameRoute,
+    path: PromotionScreen.pathRoute,
+    pageBuilder: (context, state) {
+      return _effectTransitionFade(context, state, PromotionScreen());
     },
   ),
   GoRoute(
-    name: ProductsScreen.nameRoute,
-    path: ProductsScreen.pathRoute,
-    builder: (context, state) {
-      return const ProductsScreen();
+    name: PaymentMethodScreen.nameRoute,
+    path: PaymentMethodScreen.pathRoute,
+    pageBuilder: (context, state) {
+      return _effectTransitionFade(context, state, PaymentMethodScreen());
+    },
+  ),
+  GoRoute(
+    name: SearchScreen.nameRoute,
+    path: SearchScreen.pathRoute,
+    pageBuilder: (context, state) {
+      return _effectTransitionFade(context, state, SearchScreen());
     },
   ),
   GoRoute(
     name: NewsDetailScreen.nameRoute,
     path: NewsDetailScreen.pathRoute,
-    builder: (context, state) {
-      return NewsDetailScreen(
-        id: state.pathParameters['id'],
+    pageBuilder: (context, state) {
+      return _effectTransitionFade(
+          context,
+          state,
+          NewsDetailScreen(
+            id: state.pathParameters['id'].toString(),
+          ));
+    },
+  ),
+  GoRoute(
+      name: OrderScreen.nameRoute,
+      path: OrderScreen.pathRoute,
+      pageBuilder: (context, state) {
+        return _effectTransitionFade(context, state, OrderScreen());
+      },
+      routes: [
+        GoRoute(
+          name: OrderDetailScreen.nameRoute,
+          path: OrderDetailScreen.pathRoute,
+          pageBuilder: (context, state) {
+            return _effectTransitionFade(
+                context,
+                state,
+                OrderDetailScreen(
+                  id: state.pathParameters['id'].toString(),
+                ));
+          },
+        ),
+      ]),
+  GoRoute(
+    name: ProductCategoryScreen.nameRoute,
+    path: ProductCategoryScreen.pathRoute,
+    pageBuilder: (context, state) {
+      return _effectTransitionFade(
+        context,
+        state,
+        ProductCategoryScreen(
+          titleCategory: state.uri.queryParameters['title'].toString(),
+        ),
       );
     },
   ),
   GoRoute(
-    name: ProfileScreen.nameRoute,
-    path: ProfileScreen.pathRoute,
-    builder: (context, state) {
-      return const ProfileScreen();
-    },
-  ),
-  GoRoute(
-    name: AddressScreen.nameRoute,
-    path: AddressScreen.pathRoute,
-    builder: (context, state) {
-      return const AddressScreen();
-    },
-  ),
-  GoRoute(
-    name: AddressDetailScreen.nameRouteEdit,
-    path: AddressDetailScreen.pathRouteEdit,
-    builder: (context, state) {
-      return AddressDetailScreen(
-        id: state.pathParameters['id'],
-      );
-    },
-  ),
-  GoRoute(
-    name: AddressDetailScreen.nameRouteAdd,
-    path: AddressDetailScreen.pathRouteAdd,
-    builder: (context, state) {
-      return AddressDetailScreen(
-        from: state.uri.queryParameters['from'],
-      );
-    },
-  ),
-  GoRoute(
-    name: ProductDetailScreen.nameRoute,
-    path: ProductDetailScreen.pathRoute,
-    builder: (context, state) {
-      return ProductDetailScreen(id: state.pathParameters['id'] ?? '');
-    },
-  ),
-  GoRoute(
-    name: ReviewsProductScreen.nameRoute,
-    path: ReviewsProductScreen.pathRoute,
-    builder: (context, state) {
-      return ReviewsProductScreen(
-        id: state.pathParameters['id'].toString(),
-      );
-    },
-  ),
-  GoRoute(
-    name: AddReviewProduct.nameRoute,
-    path: AddReviewProduct.pathRoute,
-    builder: (context, state) {
-      return AddReviewProduct(
-        id: state.pathParameters['id'].toString(),
-      );
-    },
-  ),
+      name: ReviewScreen.nameRoute,
+      path: ReviewScreen.pathRoute,
+      pageBuilder: (context, state) {
+        return _effectTransitionFade(
+          context,
+          state,
+          ReviewScreen(),
+        );
+      },
+      routes: [
+        GoRoute(
+          name: AddReviewScreen.nameRoute,
+          path: AddReviewScreen.pathRoute,
+          pageBuilder: (context, state) {
+            return _effectTransitionFade(
+              context,
+              state,
+              AddReviewScreen(),
+            );
+          },
+        ),
+      ]),
+  addShellRouterMain()
 ];
 
 ShellRouteBase addShellRouterMain() {
@@ -194,12 +254,45 @@ ShellRouteBase addShellRouterMain() {
       StatefulShellBranch(
         routes: [
           GoRoute(
-            name: HomeScreen.nameRoute,
-            path: HomeScreen.pathRoute,
-            builder: (context, state) {
-              return const HomeScreen();
-            },
-          ),
+              name: HomeScreen.nameRoute,
+              path: HomeScreen.pathRoute,
+              builder: (context, state) {
+                return HomeScreen();
+              },
+              routes: [
+                GoRoute(
+                  name: SliderSeen.nameRoute,
+                  path: SliderSeen.pathRoute,
+                  builder: (context, state) {
+                    return const SliderSeen();
+                  },
+                ),
+                GoRoute(
+                  name: CategoryScreen.nameRoute,
+                  path: CategoryScreen.pathRoute,
+                  builder: (context, state) {
+                    return const CategoryScreen();
+                  },
+                ),
+                GoRoute(
+                  name: PopularScreen.nameRoute,
+                  path: PopularScreen.pathRoute,
+                  builder: (context, state) {
+                    return const PopularScreen();
+                  },
+                ),
+                GoRoute(
+                  name: ProductDetailScreen.nameRoute,
+                  path: ProductDetailScreen.pathRoute,
+                  pageBuilder: (context, state) {
+                    return _effectTransitionFade(
+                        context,
+                        state,
+                        ProductDetailScreen(
+                            productId: state.pathParameters['id']!));
+                  },
+                ),
+              ]),
         ],
       ),
       StatefulShellBranch(
@@ -216,10 +309,10 @@ ShellRouteBase addShellRouterMain() {
       StatefulShellBranch(
         routes: [
           GoRoute(
-            name: StoresScreen.nameRoute,
-            path: StoresScreen.pathRoute,
+            name: BranchScreen.nameRoute,
+            path: BranchScreen.pathRoute,
             builder: (context, state) {
-              return StoresScreen();
+              return const BranchScreen();
             },
           ),
         ],
@@ -248,14 +341,7 @@ ShellRouteBase addShellRouterMain() {
                   name: LanguageScreen.nameRoute,
                   path: LanguageScreen.pathRoute,
                   builder: (context, state) {
-                    return const LanguageScreen();
-                  },
-                ),
-                GoRoute(
-                  name: SupportScreen.nameRoute,
-                  path: SupportScreen.pathRoute,
-                  builder: (context, state) {
-                    return const SupportScreen();
+                    return LanguageScreen();
                   },
                 ),
               ]),

@@ -50,8 +50,15 @@ class AuthUserInterceptor extends InterceptorsWrapper {
   String _getAPIToken({required timeAction, required dynamic data}) {
     Map<String, dynamic> payload = {};
     if (data != null && data != '') {
-      payload = data;
+      Map<String, dynamic> tempData = {};
+      final tempMap = data as Map;
+
+      for (final entry in tempMap.entries) {
+        tempData[entry.key] = entry.value;
+      }
+      payload = tempData;
     }
+
     payload['timeAction'] = timeAction.toString();
     final JwtEncoder jwtEncoder = JwtEncoder(secretKey: AppConfig.secretKey);
     return jwtEncoder.encode(payload);
@@ -60,6 +67,13 @@ class AuthUserInterceptor extends InterceptorsWrapper {
   Map<String, dynamic>? _customHeaders(
       {required String url, required dynamic data, String accessToken = ''}) {
     int timeNow = DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000;
+
+    // Map<String, dynamic> tempData = {};
+    // final tempMap = data as Map<String, dynamic>;
+
+    // for (final entry in tempMap.entries) {
+    //   tempData['${entry.key}'] = entry.value;
+    // }
 
     // Authentication API
     String apiToken = _getAPIToken(timeAction: timeNow, data: data);

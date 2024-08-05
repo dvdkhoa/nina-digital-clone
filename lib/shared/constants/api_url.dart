@@ -1,7 +1,9 @@
 class ApiUrl {
-  static const String domain = 'http://nina-digital.com';
-  // static const String domain = 'http://demo11.ninavietnam.com.vn/nina-digital';
+  // static const String domain = 'http://nina-digital.com';
+  static const String domain = 'http://demo11.ninavietnam.com.vn/nina-digital';
   static const String baseUrl = '$domain/api-app/v1';
+
+  static const String resourcesURL = 'https://vikof.kr/';
 
   // Media
   static const String uploadUser = '$domain/upload/user';
@@ -17,7 +19,23 @@ class ApiUrl {
   static const String signUp = '$baseUrl/account/sign-up';
   static const String forgotPassword = '$baseUrl/account/forgot-password';
 
-  static const String allProduct = '$baseUrl/product';
+  // PRODUCT - API
+  static const String PRODUCT = '$baseUrl/product';
+  static const String PRODUCT_CATEGORY = '$baseUrl/product/categories';
+  static const String FAVORITE_PRODUCT = '$baseUrl/product-favorite';
 
-  static const String address = '$baseUrl/address';
+  // NEWS - API
+  static const String NEWS = '$baseUrl/news';
+
+  // Photo - API
+  static const String PHOTO = '$baseUrl/photos';
+
+  // Account - API
+  static const String ACCOUNT_ID = '67';
+  static const String ACCOUNT = '$baseUrl/account';
+
+  // Address - API
+  static const String ADDRESS = '$baseUrl/address';
+
+  static const String CART = '$baseUrl/cart';
 }

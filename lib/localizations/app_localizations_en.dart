@@ -36,4 +36,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get home => 'Home page';
+
+  @override
+  String get login_with_google => 'Login with Google';
+
+  @override
+  String get login_with_fb => 'Login with Facebook';
 }

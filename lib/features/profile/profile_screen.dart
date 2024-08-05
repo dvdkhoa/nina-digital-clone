@@ -1,88 +1,174 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
 
-import '../../../shared/mixins/form_mixin.dart';
-import '../../../shared/utils/helper.dart';
-import '../../core/authentication_user/model/user_model.dart';
-import '../../core/authentication_user/providers/auth_user_provider.dart';
-import '../../shared/extensions/context_ext.dart';
-import '../../shared/extensions/date_time_ext.dart';
-
-part 'widgets/hoten_widget.dart';
-part 'widgets/email_widget.dart';
-part 'widgets/sodienthoai_widget.dart';
-part 'widgets/ngaysinh_widget.dart';
-part 'widgets/gioitinh_widget.dart';
-
-final GlobalKey<FormState> _keyFormProfile = GlobalKey<FormState>();
-
-const _labelStyle = TextStyle(fontSize: 15);
-const _fillColor = Color(0xffF5F5F5);
-const _contentPadding = EdgeInsets.symmetric(horizontal: 15, vertical: 18);
-
-class ProfileScreen extends ConsumerStatefulWidget {
-  const ProfileScreen({super.key});
+class ProfileScreen extends StatelessWidget {
+  ProfileScreen({Key? key}) : super(key: key);
 
   static const String nameRoute = 'profile';
   static const String pathRoute = '/profile';
 
-  @override
-  ConsumerState createState() => _ProfileScreenState();
-}
-
-class _ProfileScreenState extends ConsumerState<ProfileScreen> with FormMixins {
-  @override
-  void initState() {
-    super.initState();
-  }
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController nickNameController = TextEditingController();
+  final TextEditingController dobController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final defaultTextStyle = DefaultTextStyle.of(context).style;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Thông tin tài khoản'),
-        centerTitle: false,
+        title: const Text('Chỉnh sửa thông tin'),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding:
-              const EdgeInsets.only(left: 20, right: 20, top: 30, bottom: 20),
-          child: Form(
-            key: _keyFormProfile,
-            child: const Column(
-              children: [
-                _HotenWidget(),
-                SizedBox(height: 25),
-                _EmailWidget(),
-                SizedBox(height: 25),
-                _SoDienThoaiWidget(),
-                SizedBox(height: 25),
-                _NgaySinhWidget(),
-                SizedBox(height: 25),
-                _GioiTinhWidget(),
-              ],
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Container(
+              constraints: BoxConstraints(minHeight: 600),
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              child: Column(
+                children: [
+                  _textInputWidget(
+                      hintText: 'Họ và tên', controller: nameController),
+                  _textInputWidget(
+                      hintText: 'Nickname', controller: nickNameController),
+                  _textInputWidget(
+                    hintText: 'Ngày sinh',
+                    controller: emailController,
+                    icon: Icon(
+                      Icons.calendar_month_outlined,
+                      size: 18,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  _textInputWidget(
+                    hintText: 'Email',
+                    controller: emailController,
+                    icon: const Icon(
+                      Icons.mail_outline,
+                      size: 18,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  _textInputWidget(
+                      hintText: 'Số điện thoại', controller: phoneController),
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 10),
+                    child: DropdownButtonFormField(
+                      value: -1,
+                      style: DefaultTextStyle.of(context)
+                          .style
+                          .copyWith(fontSize: 13),
+                      items: const [
+                        DropdownMenuItem(
+                          child: Text(
+                            'Giới tính',
+                          ),
+                          value: -1,
+                        ),
+                        DropdownMenuItem(
+                          child: Text(
+                            'Nữ',
+                          ),
+                          value: 0,
+                        ),
+                        DropdownMenuItem(
+                          child: Text(
+                            'Nam',
+                          ),
+                          value: 1,
+                        ),
+                      ],
+                      onChanged: (value) {
+                        print('Giới tính: $value');
+                      },
+                      decoration: const InputDecoration(
+                        filled: true,
+                        fillColor: Color(0xFFF4F4F4),
+                        errorBorder: _errorInputBorder,
+                        focusedBorder: _normalInputBorder,
+                        enabledBorder: _enableInputBorder,
+                        contentPadding: EdgeInsets.symmetric(
+                          vertical: 5,
+                          horizontal: 15,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-      ),
-      bottomNavigationBar: Container(
-        padding: EdgeInsets.only(
-            left: 20, right: 20, bottom: context.getViewPaddingBottom()),
-        child: customButton(
-          context,
-          text: 'Cập nhật',
-          background: Theme.of(context).primaryColor,
-          textColor: Colors.white,
-          onTap: () => _capNhatThongTin(ref),
-        ),
+          Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                padding: EdgeInsets.only(left: 20, right: 20, bottom: 15),
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    print('update');
+                  },
+                  child: Text(
+                    'Cập nhật',
+                    style: defaultTextStyle.copyWith(
+                      fontSize: 15,
+                      color: Colors.white,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xff0A70B8),
+                  ),
+                ),
+              ))
+        ],
       ),
     );
   }
 }
 
-_capNhatThongTin(WidgetRef ref) {
-  if (_keyFormProfile.currentState?.validate() == true) {
-    print('OK');
+class _textInputWidget extends StatelessWidget {
+  final String hintText;
+  final TextEditingController controller;
+  final Widget? icon;
+
+  _textInputWidget(
+      {required this.hintText, required this.controller, this.icon});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10),
+      child: TextFormField(
+        controller: controller,
+        style: DefaultTextStyle.of(context).style.copyWith(fontSize: 13),
+        decoration: InputDecoration(
+            hintText: hintText,
+            suffixIcon: this.icon != null ? this.icon : null,
+            filled: true,
+            fillColor: const Color(0xFFF4F4F4),
+            errorBorder: _errorInputBorder,
+            focusedBorder: _normalInputBorder,
+            enabledBorder: _enableInputBorder,
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 5, horizontal: 15)),
+      ),
+    );
   }
 }
+
+const _normalInputBorder = OutlineInputBorder(
+    borderSide: BorderSide(color: Colors.blueAccent),
+    borderRadius: BorderRadius.all(Radius.circular(14)));
+
+const _enableInputBorder = OutlineInputBorder(
+    borderSide: BorderSide(color: Colors.transparent),
+    borderRadius: BorderRadius.all(Radius.circular(14)));
+
+const _errorInputBorder = OutlineInputBorder(
+  borderSide: BorderSide(color: Colors.redAccent),
+  borderRadius: BorderRadius.all(
+    Radius.circular(14),
+  ),
+);

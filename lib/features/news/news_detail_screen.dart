@@ -1,44 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
+import 'package:isar/isar.dart';
+import 'package:nina_digital/features/news/providers/news_provider.dart';
 
-class NewsDetailScreen extends StatefulWidget {
-  const NewsDetailScreen({super.key, required this.id});
+import '../../shared/common_widgets/custom_scaffold_widget.dart';
+import '../../shared/extensions/string_ext.dart';
+
+class NewsDetailScreen extends ConsumerWidget {
+  final String id;
+  NewsDetailScreen({Key? key, required this.id}) : super(key: key);
 
   static const String nameRoute = 'news-detail';
   static const String pathRoute = '/news-detail/:id';
 
-  final String? id;
-
   @override
-  State<NewsDetailScreen> createState() => _NewsDetailScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final detailNews = ref.watch(detailNewsProvider(int.parse(id)));
 
-class _NewsDetailScreenState extends State<NewsDetailScreen> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  final dataHtml = '''
-  <h3>Heading</h3>
-  <p>
-    A paragraph with <strong>strong</strong>, <em>emphasized</em>
-    and <span style="color: red">colored</span> text.
-  </p>
-  ''';
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Chi tiết tin tức ID: ${widget.id}'),
-        centerTitle: false,
-      ),
-      body: Container(
-        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-        child: HtmlWidget(
-          dataHtml,
-          textStyle: const TextStyle(fontSize: 14),
+    return CustomScaffoldWidget(
+      title: 'Tin tức',
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 10,
+          ),
+          child: detailNews.when(
+            data: (data) {
+              return HtmlWidget(data.contentvi.decodeHtml());
+            },
+            error: (error, stackTrace) => Center(
+              child: Text(error.toString()),
+            ),
+            loading: () => const Center(
+              child: CircularProgressIndicator(),
+            ),
+          ),
         ),
       ),
     );

@@ -10,5 +10,7 @@
   "tieptuc": "Continue",
   "batdau": "Let's start",
   "xacnhan": "Confirm",
-  "home": "Home page"
+  "home": "Home page",
+  "login_with_google": "Login with Google",
+  "login_with_fb": "Login with Facebook"
 }
