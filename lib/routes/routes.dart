@@ -32,6 +32,20 @@ List<RouteBase> _danhsachRoute = [
     },
   ),
   GoRoute(
+    name: SignUpScreen.nameRoute,
+    path: SignUpScreen.pathRoute,
+    pageBuilder: (context, state) {
+      return _effectTransitionFade(context, state, const SignUpScreen());
+    },
+  ),
+  GoRoute(
+    name: SignInScreen.nameRoute,
+    path: SignInScreen.pathRoute,
+    pageBuilder: (context, state) {
+      return _effectTransitionFade(context, state, const SignInScreen());
+    },
+  ),
+  GoRoute(
     name: ForgotPasswordScreen.nameRoute,
     path: ForgotPasswordScreen.pathRoute,
     pageBuilder: (context, state) {

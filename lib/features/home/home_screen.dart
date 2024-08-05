@@ -10,6 +10,8 @@ import 'package:isar/isar.dart';
 import 'package:nina_digital/shared/providers/account_provider.dart';
 
 import '../../core/app_setttings/app_setting_provider.dart';
+import '../../core/authentication_user/model/user_model.dart';
+import '../../core/authentication_user/providers/auth_user_provider.dart';
 import '../../localizations/language_ext.dart';
 import '../../shared/constants/api_url.dart';
 import '../../shared/utils/ndgap.dart';
@@ -53,8 +55,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final theme =
         ref.watch(appSettingProvider.select((value) => value.theme.toString()));
 
-    final accountAsyncValue =
-        ref.watch(asyncAccountProvider(ApiUrl.ACCOUNT_ID));
+    final UserModel? userInfo =
+        ref.watch(authUserProvider.select((value) => value.userLogin));
+
+    // final accountAsyncValue =
+    //     ref.watch(asyncAccountProvider(userInfo!.id.toString()));
 
     final totalQuantityCart =
         ref.watch(cartProvider.select((value) => value.total));
@@ -76,28 +81,34 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               // height: 50,
               // width: 50,
               width: double.infinity,
-              // color: Colors.blueAccent,
-              child: accountAsyncValue.when(
-                data: (data) {
-                  return CircleAvatar(
-                    child: Image.asset(
-                      'assets/images/boy.png',
-                      width: 40,
-                      fit: BoxFit.cover,
-                    ),
-                  );
-                },
-                error: (error, stackTrace) {
-                  print(error.toString());
-                  print(stackTrace.toString());
-
-                  return CircleAvatar(
-                    child: Image.asset('assets/images/error.png'),
-                  );
-                },
-                loading: () => Center(
-                  child: CircularProgressIndicator(),
+              child: CircleAvatar(
+                child: Image.asset(
+                  'assets/images/boy.png',
+                  width: 40,
+                  fit: BoxFit.cover,
                 ),
+                // color: Colors.blueAccent,
+                // child: accountAsyncValue.when(
+                //   data: (data) {
+                //     return CircleAvatar(
+                //       child: Image.asset(
+                //         'assets/images/boy.png',
+                //         width: 40,
+                //         fit: BoxFit.cover,
+                //       ),
+                //     );
+                //   },
+                //   error: (error, stackTrace) {
+                //     print(error.toString());
+                //     print(stackTrace.toString());
+
+                //     return CircleAvatar(
+                //       child: Image.asset('assets/images/error.png'),
+                //     );
+                //   },
+                //   loading: () => Center(
+                //     child: CircularProgressIndicator(),
+                //   ),
               ),
             ),
           ),
@@ -112,20 +123,24 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     fontSize: 14,
                   ),
                 ),
-                accountAsyncValue.when(
-                  data: (data) {
-                    return Text(
-                      data.fullname,
-                      style: defaultTextStyle.copyWith(fontSize: 20),
-                    );
-                  },
-                  error: (error, stackTrace) => Center(
-                    child: Text(error.toString()),
-                  ),
-                  loading: () => Center(
-                    child: CircularProgressIndicator(),
-                  ),
+                Text(
+                  userInfo?.fullname ?? 'Tài khoản',
+                  style: defaultTextStyle.copyWith(fontSize: 20),
                 ),
+                // accountAsyncValue.when(
+                //   data: (data) {
+                //     return Text(
+                //       data.fullname,
+                //       style: defaultTextStyle.copyWith(fontSize: 20),
+                //     );
+                //   },
+                //   error: (error, stackTrace) => Center(
+                //     child: Text(error.toString()),
+                //   ),
+                //   loading: () => Center(
+                //     child: CircularProgressIndicator(),
+                //   ),
+                // ),
               ],
             ),
           ),

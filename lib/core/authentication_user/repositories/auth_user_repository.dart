@@ -112,12 +112,14 @@ class AuthUserRepository {
   Future<dynamic> refreshAccessToken(String? refreshToken,
       {bool typeString = false}) async {
     if (Helper.isNull(refreshToken)) return false;
-
     final response = await _dioClient
         .post(ApiUrl.refreshToken, data: {'token': refreshToken});
+    String newAccessToken = '';
 
     if (response.statusCode == 200) {
       final data = response.data['data'];
+      print('2: ${response.data}');
+      print('refresh data: $data');
       final newAccessToken = data['accessToken'];
       final newRefreshToken = data['refreshToken'];
       await _saveToken(
@@ -126,6 +128,9 @@ class AuthUserRepository {
         return newAccessToken;
       }
       return true;
+    }
+    if (typeString) {
+      return newAccessToken;
     }
     return false;
   }

@@ -4,24 +4,31 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/app_setttings/app_setting_provider.dart';
+import '../../core/authentication_user/model/user_model.dart';
+import '../../core/authentication_user/providers/auth_user_provider.dart';
 import '../address/address_screen.dart';
 import '../help_center/help_center_screen.dart';
-import '../notification/notification_screen.dart';
+import '../login/login_screen.dart';
 import '../notification_settings/notification_setting_screen.dart';
 import '../orders/order_screen.dart';
 import '../profile/profile_screen.dart';
 import '../security/security_screen.dart';
+import '../sign_in/sign_in_screen.dart';
+import '../sign_up/sign_up_screen.dart';
 import 'language/language_screen.dart';
 import 'package:badges/badges.dart' as badges;
 
-class AccountScreen extends StatelessWidget {
+class AccountScreen extends ConsumerWidget {
   const AccountScreen({super.key});
 
   static const String nameRoute = 'account';
   static const String pathRoute = '/account';
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final UserModel? userInfo =
+        ref.watch(authUserProvider.select((value) => value.userLogin));
+
     return Scaffold(
         // extendBody: true,
         appBar: AppBar(
@@ -44,128 +51,139 @@ class AccountScreen extends StatelessWidget {
                 const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 80),
             child: Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    badges.Badge(
-                      badgeContent: Icon(
-                        Icons.photo_camera,
-                        size: 10,
-                      ),
-                      position: badges.BadgePosition.bottomEnd(),
-                      onTap: () {
-                        showModalBottomSheet(
-                          useRootNavigator: true,
-                          context: context,
-                          builder: (context) {
-                            return Container(
-                                child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                ListTile(
-                                  title: Center(child: Text('Camera')),
-                                ),
-                                Divider(
-                                  height: 10,
-                                ),
-                                ListTile(
-                                  title: Center(child: Text('Thư viện ảnh')),
-                                ),
-                                Divider(
-                                  height: 10,
-                                ),
-                                ListTile(
-                                  title: Center(
-                                      child: Text('Hủy',
-                                          style: TextStyle(
-                                              color: Colors.redAccent))),
-                                ),
-                              ],
-                            ));
-                          },
-                        );
-                      },
-                      badgeStyle:
-                          badges.BadgeStyle(badgeColor: Colors.grey.shade300),
-                      child: CircleAvatar(
-                        child: Image.asset(
-                          'assets/images/boy.png',
-                          width: 50,
-                          fit: BoxFit.cover,
+                if (userInfo != null) ...[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      badges.Badge(
+                        badgeContent: Icon(
+                          Icons.photo_camera,
+                          size: 10,
+                        ),
+                        position: badges.BadgePosition.bottomEnd(),
+                        onTap: () {
+                          showModalBottomSheet(
+                            useRootNavigator: true,
+                            context: context,
+                            builder: (context) {
+                              return Container(
+                                  child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  ListTile(
+                                    title: Center(child: Text('Camera')),
+                                  ),
+                                  Divider(
+                                    height: 10,
+                                  ),
+                                  ListTile(
+                                    title: Center(child: Text('Thư viện ảnh')),
+                                  ),
+                                  Divider(
+                                    height: 10,
+                                  ),
+                                  ListTile(
+                                    title: Center(
+                                        child: Text('Hủy',
+                                            style: TextStyle(
+                                                color: Colors.redAccent))),
+                                  ),
+                                ],
+                              ));
+                            },
+                          );
+                        },
+                        badgeStyle:
+                            badges.BadgeStyle(badgeColor: Colors.grey.shade300),
+                        child: CircleAvatar(
+                          child: Image.asset(
+                            'assets/images/boy.png',
+                            width: 50,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(right: 40),
-                      child: const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Huu Tho',
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          Text('huuthonina@gmail.com'),
-                          Text('0987654321')
-                        ],
-                      ),
-                    ),
-                    Container(
-                      width: 22,
-                      height: 22,
-                      child: IconButton(
-                          padding: EdgeInsets.zero,
-                          onPressed: () {
-                            context.pushNamed(ProfileScreen.nameRoute);
-                          },
-                          icon: const Icon(
-                            Icons.edit,
-                            color: Colors.white,
-                            size: 15,
-                          ),
-                          style: IconButton.styleFrom(
-                            backgroundColor: const Color(0xff0A70B8),
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(5),
-                              ),
+                      Container(
+                        margin: EdgeInsets.only(right: 40),
+                        child: const Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Huu Tho',
+                              style: TextStyle(fontSize: 18),
                             ),
-                          )),
-                    ),
-                  ],
-                ),
-                const Divider(
-                  height: 50,
-                ),
-                _itemModifier(
-                  text: 'Đơn hàng',
-                  child: Icon(Icons.arrow_forward_ios, size: 13),
-                  onClick: () {
-                    context.pushNamed(OrderScreen.nameRoute);
-                  },
-                ),
-                _itemModifier(
-                    text: 'Địa chỉ',
+                            Text('huuthonina@gmail.com'),
+                            Text('0987654321')
+                          ],
+                        ),
+                      ),
+                      Container(
+                        width: 22,
+                        height: 22,
+                        child: IconButton(
+                            padding: EdgeInsets.zero,
+                            onPressed: () {
+                              context.pushNamed(ProfileScreen.nameRoute);
+                            },
+                            icon: const Icon(
+                              Icons.edit,
+                              color: Colors.white,
+                              size: 15,
+                            ),
+                            style: IconButton.styleFrom(
+                              backgroundColor: const Color(0xff0A70B8),
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(5),
+                                ),
+                              ),
+                            )),
+                      ),
+                    ],
+                  ),
+                  const Divider(
+                    height: 50,
+                  ),
+                  _itemModifier(
+                    text: 'Đơn hàng',
                     child: Icon(Icons.arrow_forward_ios, size: 13),
                     onClick: () {
-                      context.pushNamed(AddressScreen.nameRoute);
-                    }),
-                _itemModifier(
-                  text: 'Thông báo',
-                  child: Icon(Icons.arrow_forward_ios, size: 13),
-                  onClick: () {
-                    context.pushNamed(NotificationSettingScreen.nameRoute);
-                  },
-                ),
-                _itemModifier(
-                  text: 'Bảo vệ tài khoản',
-                  child: Icon(
-                    Icons.arrow_forward_ios,
-                    size: 13,
+                      context.pushNamed(OrderScreen.nameRoute);
+                    },
                   ),
-                  onClick: () {
-                    context.pushNamed(SecurityScreen.nameRoute);
-                  },
-                ),
+                  _itemModifier(
+                      text: 'Địa chỉ',
+                      child: Icon(Icons.arrow_forward_ios, size: 13),
+                      onClick: () {
+                        context.pushNamed(AddressScreen.nameRoute);
+                      }),
+                  _itemModifier(
+                    text: 'Thông báo',
+                    child: Icon(Icons.arrow_forward_ios, size: 13),
+                    onClick: () {
+                      context.pushNamed(NotificationSettingScreen.nameRoute);
+                    },
+                  ),
+                  _itemModifier(
+                    text: 'Bảo vệ tài khoản',
+                    child: Icon(
+                      Icons.arrow_forward_ios,
+                      size: 13,
+                    ),
+                    onClick: () {
+                      context.pushNamed(SecurityScreen.nameRoute);
+                    },
+                  ),
+                ] else ...[
+                  Container(
+                    child: FilledButton(
+                      onPressed: () {
+                        context.pushNamed(SignInScreen.nameRoute);
+                      },
+                      child: Text('Đăng nhập'),
+                    ),
+                  ),
+                ],
                 _LanguageWidget(),
                 _darkModeWidget(),
                 _itemModifier(
@@ -175,7 +193,7 @@ class AccountScreen extends StatelessWidget {
                     context.pushNamed(HelpCenterScreen.nameRoute);
                   },
                 ),
-                _LogOutWidget(),
+                userInfo != null ? _LogOutWidget() : SizedBox(),
               ],
             ),
           ),

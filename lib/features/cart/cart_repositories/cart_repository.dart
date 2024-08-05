@@ -36,7 +36,7 @@ class CartRepository {
       "id_product": id_product,
       "quantity": quantity
     };
-    final response = await dioClient.patch(ApiUrl.CART, data: data);
+    final response = await dioClient.put(ApiUrl.CART, data: data);
 
     if (response.statusCode == 200) {
       return response.data;

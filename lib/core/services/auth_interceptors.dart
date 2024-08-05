@@ -3,6 +3,7 @@ part of 'dio_client.dart';
 class AuthUserInterceptor extends InterceptorsWrapper {
   final Dio _dio;
   final Ref _ref;
+  String _requestPath = '';
 
   // Lưu trữ header cũ
   RequestOptions? previousOptions;
@@ -26,39 +27,43 @@ class AuthUserInterceptor extends InterceptorsWrapper {
   Future<void> onError(
       DioException err, ErrorInterceptorHandler handler) async {
     if (err.response?.statusCode == 401) {
-      // Refresh token
-      String accessToken = await _ref
-          .read(authUserProvider.notifier)
-          .refreshAccessToken(typeString: true);
+      String accessToken = '';
+      int code = err.response?.data['code'];
 
+      if (code != 4012) {
+        _requestPath = err.requestOptions.path;
+        // Refresh token
+        accessToken = await _ref
+            .read(authUserProvider.notifier)
+            .refreshAccessToken(typeString: true);
+      } else {
+        _ref.read(authUserProvider.notifier).signOut();
+        return handler.reject(err);
+      }
       // Retry request với token mới
       Options newOptions = Options(
         headers: previousOptions?.headers,
       );
-      newOptions.headers?['Authorization'] = 'Bearer ${accessToken.toString()}';
 
-      final response =
-          await _dio.request(err.requestOptions.path, options: newOptions);
-      if (response.statusCode != 200) {
-        _ref.read(authUserProvider.notifier).signOut();
+      if (accessToken.isNotEmpty && accessToken != '') {
+        newOptions.headers?['Authorization'] =
+            'Bearer ${accessToken.toString()}';
       }
+
+      // final response = await _dio.request(_requestPath, options: newOptions);
+      final response = await _dio.request(_requestPath, options: newOptions);
+
       return handler.resolve(response);
+    } else {
+      return handler.next(err);
     }
-    super.onError(err, handler);
   }
 
   String _getAPIToken({required timeAction, required dynamic data}) {
     Map<String, dynamic> payload = {};
     if (data != null && data != '') {
-      Map<String, dynamic> tempData = {};
-      final tempMap = data as Map;
-
-      for (final entry in tempMap.entries) {
-        tempData[entry.key] = entry.value;
-      }
-      payload = tempData;
+      payload = data;
     }
-
     payload['timeAction'] = timeAction.toString();
     final JwtEncoder jwtEncoder = JwtEncoder(secretKey: AppConfig.secretKey);
     return jwtEncoder.encode(payload);
@@ -67,13 +72,6 @@ class AuthUserInterceptor extends InterceptorsWrapper {
   Map<String, dynamic>? _customHeaders(
       {required String url, required dynamic data, String accessToken = ''}) {
     int timeNow = DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000;
-
-    // Map<String, dynamic> tempData = {};
-    // final tempMap = data as Map<String, dynamic>;
-
-    // for (final entry in tempMap.entries) {
-    //   tempData['${entry.key}'] = entry.value;
-    // }
 
     // Authentication API
     String apiToken = _getAPIToken(timeAction: timeNow, data: data);

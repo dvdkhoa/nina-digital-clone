@@ -4,8 +4,7 @@ class DioExceptions implements Exception {
   late String message;
 
   DioExceptions.fromDioError(DioException dioError) {
-    print('response: ${dioError.response}');
-    if (dioError.response != null) {
+    if (dioError.response != null && dioError.response != '') {
       switch (dioError.type) {
         case DioExceptionType.cancel:
           message = 'Request to API server was cancelled';
