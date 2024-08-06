@@ -1,5 +1,7 @@
 part of 'app_routes.dart';
 
+
+
 final routerNotifierProvider =
     AsyncNotifierProvider<AppRouterNotifier, void>(() {
   return AppRouterNotifier();

@@ -27,7 +27,7 @@ class Address extends _$Address {
       'detail_address': 'dahfjshfj',
       'is_default': 0
     };
-    final Response res = await _dioClient.post(ApiUrl.address, data: data);
+    final Response res = await _dioClient.post(ApiUrl.ADDRESS, data: data);
     if (res.statusCode == 200) {
       print(res.data);
     } else {

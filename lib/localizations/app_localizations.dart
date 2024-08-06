@@ -158,6 +158,18 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Trang chủ'**
   String get home;
+
+  /// No description provided for @login_with_google.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tiếp tục với Google'**
+  String get login_with_google;
+
+  /// No description provided for @login_with_fb.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tiếp túc với Facebook'**
+  String get login_with_fb;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

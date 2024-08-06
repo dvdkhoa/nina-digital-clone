@@ -2,6 +2,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
+import '../features/cart/providers/cart_provider.dart';
 import '../features/home/home_screen.dart';
 import '../features/onboarding/onboarding_screen.dart';
 
@@ -10,6 +11,9 @@ class AppConfig {
   static String appTitle = 'VMC CORE';
   static String appPackageName = 'com.vmc.core';
   static String appVersion = '1.0.1';
+
+  // Debug: Hiển thị tất cả các Routes của App  =>  tắt thì set về false
+  static bool debugLogDiagnostics = true;
 
   // đặt false để bật chế độ debug
   static bool production = false;
@@ -60,6 +64,7 @@ class AppConfig {
     deviceInfo = await _loadDeviceInfo();
 
     // Viết thêm các khởi tạo provider mong muốn ở đây...
+    // ref.read(cartProvider.notifier).getCart();
 
     // hiển thị Splash ít nhất 1 giây (khi quá trình khởi tạo diễn ra nhanh)
     await Future.delayed(const Duration(seconds: 1));

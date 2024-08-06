@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:crypto/crypto.dart';
 import 'package:map_launcher/map_launcher.dart';
@@ -10,6 +12,30 @@ import 'package:url_launcher/url_launcher_string.dart';
 import '../common_widgets/gallery_photo/gallery_photo_view_widget.dart';
 
 class Helper {
+  static Future<File?> pickImage(ImageSource source) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: source);
+
+    if (pickedFile != null) {
+      return File(pickedFile.path);
+    } else {
+      print('No image selected.');
+      return null;
+    }
+  }
+
+  static Future<List<XFile>?> pickMultiImage(ImageSource source) async {
+    final picker = ImagePicker();
+    List<XFile> pickedFiles = await picker.pickMultiImage();
+
+    if (pickedFiles.isNotEmpty) {
+      return pickedFiles;
+    } else {
+      print('No image selected.');
+      return null;
+    }
+  }
+
   static bool isNull(dynamic data) {
     if (data == null || data == 'null' || data == '') return true;
     return false;
@@ -121,6 +147,7 @@ class Loading {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context2) {
+        this.context = context2;
         return const Dialog(
           elevation: 0.0,
           backgroundColor:
@@ -143,6 +170,6 @@ class Loading {
   }
 
   Future<void> stop() async {
-    context.pop();
+    Navigator.pop(this.context);
   }
 }
