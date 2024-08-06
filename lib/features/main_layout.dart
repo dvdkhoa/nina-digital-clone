@@ -71,9 +71,12 @@ class MainLayout extends StatelessWidget {
             backgroundColor: Colors.white,
             currentIndex: navigationShell.currentIndex,
             showUnselectedLabels: true,
-            unselectedLabelStyle: const TextStyle(fontSize: 12),
-            selectedLabelStyle:
-                const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+            unselectedLabelStyle:
+                const TextStyle(fontSize: 12, fontFamily: 'UTM-Caviar'),
+            selectedLabelStyle: const TextStyle(
+                fontSize: 12,
+                fontFamily: 'UTM-Caviar',
+                fontWeight: FontWeight.bold),
             onTap: _onItemTapped,
           ),
         ),

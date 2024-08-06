@@ -10,5 +10,7 @@
   "tieptuc": "Tiếp tục",
   "batdau": "Bắt đầu",
   "xacnhan": "Xác nhận",
-  "home": "Trang chủ"
+  "home": "Trang chủ",
+  "login_with_google": "Tiếp tục với Google",
+  "login_with_fb": "Tiếp túc với Facebook"
 }

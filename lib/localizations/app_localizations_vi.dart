@@ -36,4 +36,10 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get home => 'Trang chủ';
+
+  @override
+  String get login_with_google => 'Tiếp tục với Google';
+
+  @override
+  String get login_with_fb => 'Tiếp túc với Facebook';
 }

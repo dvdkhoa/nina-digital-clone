@@ -32,7 +32,7 @@ class AuthUserInterceptor extends InterceptorsWrapper {
 
       if (code != 4012) {
         _requestPath = err.requestOptions.path;
-        // Refresh token
+        // Refresh token                                                                                                                               
         accessToken = await _ref
             .read(authUserProvider.notifier)
             .refreshAccessToken(typeString: true);
@@ -40,6 +40,7 @@ class AuthUserInterceptor extends InterceptorsWrapper {
         _ref.read(authUserProvider.notifier).signOut();
         return handler.reject(err);
       }
+
       // Retry request với token mới
       Options newOptions = Options(
         headers: previousOptions?.headers,

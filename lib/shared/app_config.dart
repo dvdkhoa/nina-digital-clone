@@ -11,6 +11,9 @@ class AppConfig {
   static String appPackageName = 'com.vmc.core';
   static String appVersion = '1.0.1';
 
+  // Debug: Hiển thị tất cả các Routes của App  =>  tắt thì set về false
+  static bool debugLogDiagnostics = true;
+
   // đặt false để bật chế độ debug
   static bool production = false;
 

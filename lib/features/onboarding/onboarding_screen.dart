@@ -4,10 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import '../../core/app_setttings/app_setting_provider.dart';
 import '../../localizations/language_ext.dart';
 import '../../shared/constants/media_assets.dart';
 import '../home/home_screen.dart';
+import '../login/login_screen.dart';
 import 'providers/page_onboarding_provider.dart';
 
 class OnboardingScreen extends ConsumerStatefulWidget {
@@ -84,8 +84,6 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   _onClickButton() {
     final page = ref.watch(pageOnboardingProvider) + 1;
     if (page == _listPage.length) {
-      ref.read(appSettingProvider.notifier).setOnboardingLoaded();
-      context.go(HomeScreen.pathRoute);
     } else {
       _pageController.nextPage(
         duration: const Duration(milliseconds: 500),
@@ -133,33 +131,77 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             Container(
               width: double.infinity,
               padding: const EdgeInsets.only(bottom: 35, left: 50, right: 50),
-              child: ElevatedButton(
-                style: const ButtonStyle(
-                  padding: WidgetStatePropertyAll(
-                    EdgeInsets.symmetric(vertical: 12),
-                  ),
-                  shape: WidgetStatePropertyAll(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(30)),
-                    ),
-                  ),
-                ),
-                onPressed: _onClickButton,
-                child: Consumer(
-                  builder:
-                      (BuildContext context, WidgetRef ref, Widget? child) {
-                    final page = ref.watch(pageOnboardingProvider) + 1;
-                    return (page == _listPage.length)
-                        ? Text(
+              child: Consumer(
+                builder: (context, ref, child) {
+                  final page = ref.watch(pageOnboardingProvider) + 1;
+                  return (page == _listPage.length)
+                      ? ElevatedButton(
+                          style: const ButtonStyle(
+                            padding: WidgetStatePropertyAll(
+                              EdgeInsets.symmetric(vertical: 12),
+                            ),
+                            shape: WidgetStatePropertyAll(
+                              RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30)),
+                              ),
+                            ),
+                          ),
+                          onPressed: () {
+                            context.pushNamed(LoginScreen.nameRoute);
+                          },
+                          child: Text(
                             context.translate.batdau,
                             style: const TextStyle(
                                 color: Colors.black, fontSize: 16),
-                          )
-                        : Text(context.translate.tieptuc,
-                            style: const TextStyle(
-                                color: Colors.black, fontSize: 16));
-                  },
-                ),
+                          ),
+                        )
+                      : ElevatedButton(
+                          style: const ButtonStyle(
+                            padding: WidgetStatePropertyAll(
+                              EdgeInsets.symmetric(vertical: 12),
+                            ),
+                            shape: WidgetStatePropertyAll(
+                              RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30)),
+                              ),
+                            ),
+                          ),
+                          onPressed: _onClickButton,
+                          child: Text(context.translate.tieptuc,
+                              style: const TextStyle(
+                                  color: Colors.black, fontSize: 16)),
+                        );
+                },
+                // child: ElevatedButton(
+                //   style: const ButtonStyle(
+                //     padding: WidgetStatePropertyAll(
+                //       EdgeInsets.symmetric(vertical: 12),
+                //     ),
+                //     shape: WidgetStatePropertyAll(
+                //       RoundedRectangleBorder(
+                //         borderRadius: BorderRadius.all(Radius.circular(30)),
+                //       ),
+                //     ),
+                //   ),
+                //   onPressed: _onClickButton,
+                //   child: Consumer(
+                //     builder:
+                //         (BuildContext context, WidgetRef ref, Widget? child) {
+                //       final page = ref.watch(pageOnboardingProvider) + 1;
+                //       return (page == _listPage.length)
+                //           ? Text(
+                //               context.translate.batdau,
+                //               style: const TextStyle(
+                //                   color: Colors.black, fontSize: 16),
+                //             )
+                //           : Text(context.translate.tieptuc,
+                //               style: const TextStyle(
+                //                   color: Colors.black, fontSize: 16));
+                //     },
+                //   ),
+                // ),
               ),
             ),
           ],

@@ -3,91 +3,87 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/app_setttings/app_setting_provider.dart';
-import '../../../localizations/language_ext.dart';
-import '../../../shared/mixins/form_mixin.dart';
 
 class LanguageScreen extends ConsumerStatefulWidget {
-  const LanguageScreen({super.key});
+  LanguageScreen({Key? key}) : super(key: key);
 
   static const String nameRoute = 'language';
   static const String pathRoute = 'language';
 
   @override
-  ConsumerState createState() => _LanguageScreenState();
+  ConsumerState<LanguageScreen> createState() => _LanguageScreenState();
 }
 
-class _LanguageScreenState extends ConsumerState<LanguageScreen>
-    with FormMixins {
-  String lang = 'vi';
+class _LanguageScreenState extends ConsumerState<LanguageScreen> {
+  final languages = [
+    {'code': 'vi', 'title': 'Tiếng việt'},
+    {'code': 'en', 'title': 'Tiếng Anh'},
+  ];
+
+  String? _selectedLanguage;
+
+  _onSelectLanguage(code) {
+    setState(() {
+      _selectedLanguage = code;
+    });
+  }
 
   @override
   void initState() {
-    super.initState();
-    lang = ref.read(appSettingProvider.select(
-      (setting) => setting.language.toString(),
-    ));
+    _selectedLanguage =
+        ref.read(appSettingProvider.select((setting) => setting.language));
   }
 
   @override
   Widget build(BuildContext context) {
+    final defaultTextStyle = DefaultTextStyle.of(context).style;
+
     return Scaffold(
-      backgroundColor: const Color(0xfff2f2f2),
       appBar: AppBar(
-        title: Text(context.translate.ngonngu),
-        centerTitle: false,
+        title: Text('Ngôn ngữ'),
       ),
-      body: Column(
-        children: [
-          const SizedBox(
-            height: 10,
-          ),
-          ListTile(
-            tileColor: Colors.white,
-            leading: (lang == 'vi')
-                ? const Icon(
-                    Icons.check,
-                    color: Colors.green,
-                  )
-                : const SizedBox.shrink(),
-            title: Text(context.translate.vi),
-            onTap: () {
-              lang = 'vi';
-              setState(() {});
-            },
-          ),
-          const SizedBox(
-            height: 1,
-          ),
-          ListTile(
-            tileColor: Colors.white,
-            leading: (lang == 'en')
-                ? const Icon(
-                    Icons.check,
-                    color: Colors.green,
-                  )
-                : const SizedBox.shrink(),
-            title: Text(context.translate.en),
-            onTap: () {
-              lang = 'en';
-              setState(() {});
-            },
-          ),
-        ],
+      body: Container(
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        child: ListView.separated(
+          itemCount: languages.length,
+          itemBuilder: (context, index) {
+            final isChecked =
+                languages[index]['code'].toString() == _selectedLanguage;
+
+            return ListTile(
+              selected: isChecked,
+              leading: isChecked ? Icon(Icons.check_rounded) : null,
+              title: Text(
+                languages[index]['title'].toString(),
+              ),
+              onTap: () {
+                print('click');
+                _onSelectLanguage(languages[index]['code'].toString());
+              },
+            );
+          },
+          separatorBuilder: (BuildContext context, int index) {
+            return Divider(
+              height: 1,
+            );
+          },
+        ),
       ),
       bottomNavigationBar: Container(
-        // width: double.infinity,
-        padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
-        child: customButton(
-          context,
-          background: Theme.of(context).primaryColor,
-          text: context.translate.xacnhan,
-          textColor: Colors.white,
-          onTap: () {
+        padding: EdgeInsets.all(28),
+        decoration: BoxDecoration(color: Colors.white, boxShadow: []),
+        child: ElevatedButton(
+          child: Text(
+            'Cập nhật',
+            style: defaultTextStyle.copyWith(fontSize: 15, color: Colors.white),
+          ),
+          onPressed: () {
             ref
                 .read(appSettingProvider.notifier)
-                .changeLanguage(language: lang);
+                .changeLanguage(language: _selectedLanguage.toString());
             context.pop();
           },
+          style: ElevatedButton.styleFrom(backgroundColor: Color(0xff0A70B8)),
         ),
       ),
     );
