@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:isar/isar.dart';
-import 'package:nina_digital/features/search/models/product_model.dart';
 import 'package:nina_digital/features/search/widgets/box_product_widget.dart';
+
+import '../../../shared/providers/models/product_model.dart';
 
 class ProductListResultWidget extends StatelessWidget {
   final List<ProductModel> products;

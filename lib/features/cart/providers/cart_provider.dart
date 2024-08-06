@@ -1,5 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/authentication_user/model/user_model.dart';
+import '../../../core/authentication_user/providers/auth_user_provider.dart';
 import '../../../core/services/dio_client.dart';
 import '../../../shared/constants/api_url.dart';
 import '../cart_repositories/cart_repository.dart';
@@ -9,8 +11,10 @@ import '../models/cart_item_model.dart';
 part 'cart_state.dart';
 
 class CartNotifier extends Notifier<CartState> {
+  UserModel? _userInfo;
   @override
   CartState build() {
+    _userInfo = ref.watch(authUserProvider.select((value) => value.userLogin));
     return CartState();
   }
 
@@ -20,7 +24,9 @@ class CartNotifier extends Notifier<CartState> {
 
   _refreshCart() async {
     final List<CartItemModel> ds = await _fetchCart();
-    state = state.copyWith(dsCart: ds, total: _getTotalQuantity(ds));
+    if (ds != null) {
+      state = state.copyWith(dsCart: ds, total: _getTotalQuantity(ds));
+    }
   }
 
   int _getTotalQuantity(List<CartItemModel> list) {
@@ -31,22 +37,32 @@ class CartNotifier extends Notifier<CartState> {
     return sum;
   }
 
-  _fetchCart() async {
+  Future<List<CartItemModel>> _fetchCart() async {
+    if (_userInfo == null) {
+      return List<CartItemModel>.empty();
+    }
+
     final cartRepository = CartRepository(ref.watch(dioProvider));
-    final res = await cartRepository.getCart(ApiUrl.ACCOUNT_ID);
+    final res = await cartRepository.getCart(_userInfo?.id.toString())
+        as Map<String, dynamic>;
 
-    final list = res['data']['cart_items'] as List;
+    if (res.containsKey('data')) {
+      final list = res['data']['cart_items'] as List;
 
-    final cartItems = list.map((item) => CartItemModel.fromJson(item)).toList();
+      final cartItems =
+          list.map((item) => CartItemModel.fromJson(item)).toList();
 
-    return cartItems;
+      return cartItems;
+    }
+
+    return List.empty();
   }
 
   changeQuantity(id_product, quantity) async {
     // CALL API
     final cartRepository = CartRepository(ref.watch(dioProvider));
-    final res = await cartRepository.updateCart(
-        ApiUrl.ACCOUNT_ID, id_product, quantity);
+    final res =
+        await cartRepository.updateCart(_userInfo?.id, id_product, quantity);
 
     final kq = int.parse(res['data']['kq'].toString());
 
@@ -69,7 +85,7 @@ class CartNotifier extends Notifier<CartState> {
     final cartRepository = CartRepository(ref.watch(dioProvider));
 
     final addToCartModel = AddToCartModel(
-        userId: int.parse(ApiUrl.ACCOUNT_ID),
+        userId: int.parse(_userInfo?.id ?? ''),
         productId: productId,
         quantity: quantity);
 

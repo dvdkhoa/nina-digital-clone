@@ -11,7 +11,7 @@ class AddressModel {
     required this.detailAddress,
     required this.isDefault,
   });
-  late final int? id;
+  late int? id;
   late final int idUser;
   late final String nameAddress;
   late final String nameRecipient;

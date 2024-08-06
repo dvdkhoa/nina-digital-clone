@@ -102,7 +102,7 @@ class BoxProductWidget extends StatelessWidget {
                   color: Colors.red,
                   borderRadius: BorderRadius.all(Radius.circular(20))),
               child: Text(
-                product.discount.toString(),
+                product.discount.toString() + '%',
                 style: TextStyle(color: Colors.white, fontSize: 12),
               ),
             ),

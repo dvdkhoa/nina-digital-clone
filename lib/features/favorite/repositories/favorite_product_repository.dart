@@ -6,8 +6,8 @@ class FavoriteProductRepository {
 
   FavoriteProductRepository(this.dioClient);
 
-  Future fetchProducts() async {
-    final data = {"id_user": ApiUrl.ACCOUNT_ID};
+  Future fetchProducts(userId) async {
+    final data = {"id_user": userId};
     final response = await dioClient.get('${ApiUrl.FAVORITE_PRODUCT}',
         queryParameters: data);
     if (response.statusCode == 200) {

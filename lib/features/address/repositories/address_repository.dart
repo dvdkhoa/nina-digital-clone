@@ -16,17 +16,15 @@ class AddressRepository {
     }
   }
 
-  Future<bool> addAddress(AddressModel address) async {
+  addAddress(AddressModel address) async {
     final data = address.toJson();
 
     final response = await dioClient.post(ApiUrl.ADDRESS, data: data);
 
-    print(response);
     if (response.statusCode == 200) {
-      print(response.data);
-      return true;
+      return response.data;
     }
-    return false;
+    return null;
   }
 
   Future<bool> updateAddress(AddressModel address) async {

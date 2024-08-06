@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/authentication_user/model/user_model.dart';
+import '../../core/authentication_user/providers/auth_user_provider.dart';
 import '../../shared/common_widgets/text_input_widget.dart';
 import '../../shared/constants/api_url.dart';
 import 'models/AddressModel.dart';
@@ -32,9 +34,13 @@ class _UpdateAddressScreenState extends ConsumerState<UpdateAddressScreen> {
   late final TextEditingController detailAddressController;
 
   void _onSubmit() async {
+
+    final UserModel? userInfo =
+        ref.watch(authUserProvider.select((value) => value.userLogin));
+
     final address = AddressModel(
         id: widget.model.id,
-        idUser: int.parse(ApiUrl.ACCOUNT_ID),
+        idUser: int.parse(userInfo?.id ?? ''),
         nameAddress: addressNameController.text,
         nameRecipient: recipientNameController.text,
         phoneRecipient: phoneAddressController.text,

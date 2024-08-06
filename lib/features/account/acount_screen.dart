@@ -201,15 +201,16 @@ class AccountScreen extends ConsumerWidget {
   }
 }
 
-class _LogOutWidget extends StatelessWidget {
+class _LogOutWidget extends ConsumerWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final defaultTextStyle = DefaultTextStyle.of(context).style;
 
     return InkWell(
       onTap: () {
         showModalBottomSheet(
           isScrollControlled: true,
+          useRootNavigator: true,
           context: context,
           builder: (context) {
             return Wrap(
@@ -251,7 +252,10 @@ class _LogOutWidget extends StatelessWidget {
                           ),
                           Expanded(
                             child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                ref.read(authUserProvider.notifier).signOut();
+                                context.pop();
+                              },
                               child: Text(
                                 'Đồng ý',
                                 style: defaultTextStyle.copyWith(

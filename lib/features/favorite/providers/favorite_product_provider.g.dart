@@ -7,7 +7,7 @@ part of 'favorite_product_provider.dart';
 // **************************************************************************
 
 String _$asyncFavoriteProductHash() =>
-    r'acd29df06e5cdccfcb1c9f30beafa9ea6785af52';
+    r'18128e2a8821c764f31c44a28eca6e86de4c2ad0';
 
 /// See also [AsyncFavoriteProduct].
 @ProviderFor(AsyncFavoriteProduct)

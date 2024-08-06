@@ -1,5 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../core/authentication_user/model/user_model.dart';
+import '../../../core/authentication_user/providers/auth_user_provider.dart';
 import '../../../core/services/dio_client.dart';
 import '../../../shared/constants/api_url.dart';
 import '../models/AddressModel.dart';
@@ -15,13 +17,20 @@ class AsyncAddressNotifier extends _$AsyncAddressNotifier {
   }
 
   Future<List<AddressModel>> _fetchAddresses() async {
+    final UserModel? userInfo =
+        ref.watch(authUserProvider.select((value) => value.userLogin));
+
     final addressRepository = AddressRepository(ref.watch(dioProvider));
-    final res = await addressRepository.fetchAddresses(ApiUrl.ACCOUNT_ID);
+    final res = await addressRepository.fetchAddresses(userInfo?.id)
+        as Map<String, dynamic>;
+    if (res != null && res.containsKey('data')) {
+      final list = res['data'] as List;
+      final addresses =
+          list.map((item) => AddressModel.fromJson(item)).toList();
 
-    final list = res['data'] as List;
-    final addresses = list.map((item) => AddressModel.fromJson(item)).toList();
-
-    return addresses;
+      return addresses;
+    }
+    return List.empty();
   }
 
   refreshAddress() async {
@@ -34,10 +43,18 @@ class AsyncAddressNotifier extends _$AsyncAddressNotifier {
 
   addAddress(AddressModel address) async {
     final addressRepository = AddressRepository(ref.watch(dioProvider));
-    bool result = await addressRepository.addAddress(address);
+    final result =
+        await addressRepository.addAddress(address) as Map<String, dynamic>;
 
-    if (result) {
-      refreshAddress();
+    if (result != null) {
+      state.whenData(
+        (List<AddressModel> list) {
+          final temp = result['data']['insertId'].toString();
+          address.id = int.parse(temp);
+          list.add(address);
+          state = AsyncData(list);
+        },
+      );
     }
   }
 
@@ -46,7 +63,15 @@ class AsyncAddressNotifier extends _$AsyncAddressNotifier {
     bool result = await addressRepository.updateAddress(address);
 
     if (result) {
-      refreshAddress();
+      state.whenData((list) {
+        for (int i = 0; i < list.length; i++) {
+          if (list[i].id == address.id) {
+            list[i] = address;
+            break; // Thoát vòng lặp khi tìm thấy
+          }
+        }
+        state = AsyncValue.data(list);
+      });
     }
   }
 
@@ -55,11 +80,19 @@ class AsyncAddressNotifier extends _$AsyncAddressNotifier {
     bool result = await addressRepository.deleteAddress(id);
 
     if (result) {
-      refreshAddress();
+      state.whenData((list) {
+        final item = list.firstWhere(
+          (element) => element.id == id,
+        );
+
+        list.remove(item);
+
+        state = AsyncValue.data(list);
+      });
     }
   }
 
-   AddressModel? getDefaultAddress() {
+  AddressModel? getDefaultAddress() {
     return state.value?.firstWhere((item) => item.isDefault == 1);
   }
 }

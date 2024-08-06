@@ -1,31 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nina_digital/features/search/models/product_model.dart';
 import 'package:nina_digital/features/home/widgets/category_list_filter_widget.dart';
 import 'package:nina_digital/shared/common_widgets/list_filter_widget.dart';
 
 import 'models/mock_model.dart';
+import 'providers/search_provider.dart';
 import 'widgets/old_search_list_widget.dart';
 import 'widgets/search_result_widget.dart';
 
-class SearchScreen extends StatefulWidget {
+part 'widgets/filter_modal_widget.dart';
+
+class SearchScreen extends ConsumerStatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
 
   static const String nameRoute = 'search';
   static const String pathRoute = '/search';
 
   @override
-  State<SearchScreen> createState() => _SearchScreenState();
+  ConsumerState<SearchScreen> createState() => _SearchScreenState();
 }
 
-class _SearchScreenState extends State<SearchScreen> {
+class _SearchScreenState extends ConsumerState<SearchScreen> {
   String _searchKey = '';
-  List<ProductModel> _results = [];
+  final searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     final defaultTextStyle = DefaultTextStyle.of(context).style;
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Search'),
@@ -37,14 +40,13 @@ class _SearchScreenState extends State<SearchScreen> {
           child: Column(
             children: [
               TextField(
-                onSubmitted: (value) {
+                controller: searchController,
+                onSubmitted: (value) async {
+                  await ref
+                      .read(searchNotifierProvider.notifier)
+                      .searchProducts(value);
                   setState(() {
                     _searchKey = value;
-                    if (_searchKey == 'iphone') {
-                      _results = products;
-                    } else {
-                      _results = [];
-                    }
                   });
                 },
                 style: TextStyle(fontSize: 14),
@@ -55,139 +57,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     suffixIcon: GestureDetector(
                       child: Icon(Icons.tune),
                       onTap: () {
-                        showModalBottomSheet(
-                          isScrollControlled: true,
-                          context: context,
-                          builder: (context) {
-                            return Container(
-                              padding: EdgeInsets.symmetric(horizontal: 20),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    margin: EdgeInsets.symmetric(vertical: 10),
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      'Bộ lọc',
-                                      style: defaultTextStyle.copyWith(
-                                          fontSize: 20),
-                                    ),
-                                  ),
-                                  Divider(
-                                    height: 10,
-                                  ),
-                                  Text('Danh mục'),
-                                  ListFilterWidget(
-                                    list: categories,
-                                    multipleSelect: false,
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text('Hãng'),
-                                  ListFilterWidget(
-                                    list: brands,
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text('Khoảng giá'),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: TextField(
-                                          style: defaultTextStyle.copyWith(
-                                              fontSize: 14),
-                                          decoration:
-                                              _priceInputDecoration('Từ'),
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.symmetric(
-                                            horizontal: 10),
-                                        child: Text('-'),
-                                      ),
-                                      Expanded(
-                                        child: TextField(
-                                          style: defaultTextStyle.copyWith(
-                                              fontSize: 14),
-                                          decoration:
-                                              _priceInputDecoration('Đến'),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text('Sắp xếp theo'),
-                                  ListFilterWidget(
-                                    list: orderBy,
-                                    multipleSelect: false,
-                                  ),
-                                  /* -------------- */
-                                  Divider(
-                                    height: 15,
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.symmetric(vertical: 25),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          child: ElevatedButton(
-                                            onPressed: () {
-                                              context.pop();
-                                            },
-                                            child: Text(
-                                              'Reset',
-                                              style: defaultTextStyle.copyWith(
-                                                  fontSize: 15),
-                                            ),
-                                            style: ElevatedButton.styleFrom(
-                                              backgroundColor:
-                                                  Color(0xffE7E7E7),
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 10, vertical: 14),
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        Expanded(
-                                          child: ElevatedButton(
-                                            onPressed: () {
-                                              print('Filter...');
-                                              context.pop();
-                                            },
-                                            child: Text(
-                                              'Lọc',
-                                              style: defaultTextStyle.copyWith(
-                                                  fontSize: 15,
-                                                  color: Colors.white),
-                                            ),
-                                            style: ElevatedButton.styleFrom(
-                                              backgroundColor:
-                                                  Color(0xff0A70B8),
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 10, vertical: 14),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                            );
-                          },
-                        );
+                        _showFilterModal(context, defaultTextStyle);
                       },
                     ),
                     hintText: 'Nhập nội dung tìm kiếm',
@@ -207,7 +77,10 @@ class _SearchScreenState extends State<SearchScreen> {
                   ),
                   InkWell(
                     onTap: () {
-                      print('Xóa tất cả');
+                      searchController.text = '';
+                      setState(() {
+                        _searchKey = '';
+                      });
                     },
                     child: Text(
                       'Xóa tất cả',
@@ -221,7 +94,9 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
               _searchKey.isEmpty
                   ? OldSearchListWidget()
-                  : SearchResultWidget(keyword: _searchKey, results: _results),
+                  : SearchResultWidget(
+                      keyword: _searchKey,
+                    ),
             ],
           ),
         ),

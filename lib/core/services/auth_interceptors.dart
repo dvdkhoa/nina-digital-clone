@@ -32,15 +32,14 @@ class AuthUserInterceptor extends InterceptorsWrapper {
 
       if (code != 4012) {
         _requestPath = err.requestOptions.path;
-        // Refresh token                                                                                                                               
+        // Refresh token
         accessToken = await _ref
             .read(authUserProvider.notifier)
             .refreshAccessToken(typeString: true);
       } else {
         _ref.read(authUserProvider.notifier).signOut();
-        return handler.reject(err);
+        return handler.resolve(err.response!);
       }
-
       // Retry request với token mới
       Options newOptions = Options(
         headers: previousOptions?.headers,
@@ -51,9 +50,12 @@ class AuthUserInterceptor extends InterceptorsWrapper {
             'Bearer ${accessToken.toString()}';
       }
 
-      final response = await _dio.request(_requestPath, options: newOptions);
-
-      return handler.resolve(response);
+      try {
+        final response = await _dio.request(_requestPath, options: newOptions);
+        return handler.resolve(response); // Trả về response thành công
+      } catch (e) {
+        return handler.reject(err); // Trả về lỗi nếu request thất bại
+      }
     } else {
       return handler.next(err);
     }
@@ -62,7 +64,13 @@ class AuthUserInterceptor extends InterceptorsWrapper {
   String _getAPIToken({required timeAction, required dynamic data}) {
     Map<String, dynamic> payload = {};
     if (data != null && data != '') {
-      payload = data;
+      Map<String, dynamic> tempData = {};
+      final tempMap = data as Map;
+
+      for (final entry in tempMap.entries) {
+        tempData[entry.key] = entry.value;
+      }
+      payload = tempData;
     }
     payload['timeAction'] = timeAction.toString();
     final JwtEncoder jwtEncoder = JwtEncoder(secretKey: AppConfig.secretKey);

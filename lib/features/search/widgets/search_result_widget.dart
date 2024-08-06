@@ -1,30 +1,38 @@
 import 'package:flutter/material.dart';
-
-import '../models/product_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../providers/search_provider.dart';
 import 'product_list_result_widget.dart';
 
-class SearchResultWidget extends StatelessWidget {
+class SearchResultWidget extends ConsumerWidget {
   final String keyword;
-  final List<ProductModel> results;
-  const SearchResultWidget(
-      {Key? key, required this.keyword, required this.results})
-      : super(key: key);
+  const SearchResultWidget({Key? key, required this.keyword}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final searchProvider = ref.watch(searchNotifierProvider);
+
     return Container(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Kết quả tìm kiếm $keyword'),
-              Text('${results.length} sản phẩm'),
-            ],
-          ),
-          results.length > 0
-              ? ProductListResultWidget(products: results)
-              : _emptyResultWidget()
+          if (searchProvider.isLoading) ...[
+            Center(
+              child: CircularProgressIndicator(),
+            )
+          ] else ...[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Kết quả tìm kiếm $keyword'),
+                Text('${searchProvider.products?.length} sản phẩm'),
+              ],
+            ),
+            searchProvider.products!.length > 0
+                ? ProductListResultWidget(
+                    products: searchProvider.products ?? [])
+                : _emptyResultWidget()
+          ],
         ],
       ),
     );

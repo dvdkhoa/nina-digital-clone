@@ -58,9 +58,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final UserModel? userInfo =
         ref.watch(authUserProvider.select((value) => value.userLogin));
 
-    // final accountAsyncValue =
-    //     ref.watch(asyncAccountProvider(userInfo!.id.toString()));
-
     final totalQuantityCart =
         ref.watch(cartProvider.select((value) => value.total));
 
@@ -155,34 +152,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 color: defaultTextStyle.color,
               ),
             ),
-            Container(
-              margin: const EdgeInsets.only(right: 30),
-              child: badges.Badge(
-                badgeContent: Text(
-                  totalQuantityCart.toString(),
-                  style: TextStyle(fontSize: 10, color: Colors.white),
-                ),
-                badgeStyle: const badges.BadgeStyle(
-                    badgeColor: Color(0xFF0A70B8), padding: EdgeInsets.all(5)),
-                badgeAnimation: const badges.BadgeAnimation.slide(
-                  animationDuration: Duration(seconds: 1),
-                  colorChangeAnimationDuration: Duration(seconds: 1),
-                  loopAnimation: false,
-                  curve: Curves.fastOutSlowIn,
-                  colorChangeAnimationCurve: Curves.easeInCubic,
-                ),
-                child: InkWell(
-                  onTap: () {
-                    context.pushNamed(CartScreen.nameRoute);
-                  },
-                  child: icons.ShoppingBag(
-                    height: 20,
-                    width: 20,
-                    color: defaultTextStyle.color,
-                  ),
-                ),
-              ),
-            )
+            CartIconWidget(
+                totalQuantityCart: totalQuantityCart,
+                defaultTextStyle: defaultTextStyle)
           ],
         ),
         body: RefreshIndicator(
@@ -238,6 +210,57 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ],
               ),
             ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CartIconWidget extends ConsumerWidget {
+  const CartIconWidget({
+    super.key,
+    required this.totalQuantityCart,
+    required this.defaultTextStyle,
+  });
+
+  final int totalQuantityCart;
+  final TextStyle defaultTextStyle;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen(
+      authUserProvider,
+      (previous, next) {
+        if (previous?.status != next.status) {
+          ref.read(cartProvider.notifier).getCart();
+        }
+      },
+    );
+    return Container(
+      margin: const EdgeInsets.only(right: 30),
+      child: badges.Badge(
+        badgeContent: Text(
+          totalQuantityCart.toString(),
+          style: TextStyle(fontSize: 10, color: Colors.white),
+        ),
+        badgeStyle: const badges.BadgeStyle(
+            badgeColor: Color(0xFF0A70B8), padding: EdgeInsets.all(5)),
+        badgeAnimation: const badges.BadgeAnimation.slide(
+          animationDuration: Duration(seconds: 1),
+          colorChangeAnimationDuration: Duration(seconds: 1),
+          loopAnimation: false,
+          curve: Curves.fastOutSlowIn,
+          colorChangeAnimationCurve: Curves.easeInCubic,
+        ),
+        child: InkWell(
+          onTap: () {
+            context.pushNamed(CartScreen.nameRoute);
+          },
+          child: icons.ShoppingBag(
+            height: 20,
+            width: 20,
+            color: defaultTextStyle.color,
           ),
         ),
       ),

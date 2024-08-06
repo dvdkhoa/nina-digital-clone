@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nina_digital/shared/constants/api_url.dart';
+import 'package:nina_digital/shared/providers/models/product_model.dart';
 import '../../../shared/extensions/string_ext.dart';
 import '../../login/login_screen.dart';
 import '../../product/product_detail_screen.dart';
-import '../models/product_model.dart';
+
 import 'package:badges/badges.dart' as badges;
 
 class BoxProductWidget extends StatelessWidget {
@@ -17,11 +19,12 @@ class BoxProductWidget extends StatelessWidget {
     return InkWell(
       onTap: () {
         context.pushNamed(ProductDetailScreen.nameRoute,
-            pathParameters: {'id': product.name.toString()});
+            pathParameters: {'id': product.id.toString()});
       },
       child: Stack(
         children: [
           Container(
+            width: double.infinity,
             padding: const EdgeInsets.only(top: 20),
             decoration: BoxDecoration(
               color: Colors.white,
@@ -40,16 +43,22 @@ class BoxProductWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               // mainAxisSize: MainAxisSize.min,
               children: [
-                Image.asset(
-                  'assets/images/${product.image}',
-                  height: 120,
+                Container(
+                  padding: EdgeInsets.all(5),
+                  child: Image.network(
+                    // 'assets/images/iphone.png',
+                    '${ApiUrl.resourcesURL}/upload/product/' +
+                        product.photo.toString(),
+                    height: 120,
+                  ),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
                 Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
                   child: Text(
-                    product.name.toString(),
+                    product.namevi.toString(),
                     style: defaultTextStyle.copyWith(
                         fontSize: 13, color: Colors.black),
                   ),
@@ -61,14 +70,14 @@ class BoxProductWidget extends StatelessWidget {
                   padding: const EdgeInsets.all(4.0),
                   child: RichText(
                     text: TextSpan(
-                      text: product.newPrice!.formattedVNDCustom() + ' ',
+                      text: '${product.salePrice?.formattedVNDCustom()} ',
                       style: defaultTextStyle.copyWith(
                           fontSize: 12,
                           color: Colors.red,
                           fontWeight: FontWeight.w500),
                       children: [
                         TextSpan(
-                          text: product.price!.formattedVNDCustom(),
+                          text: product.regularPrice?.formattedVNDCustom(),
                           style: defaultTextStyle.copyWith(
                               fontSize: 10,
                               color: Colors.black,
@@ -92,8 +101,8 @@ class BoxProductWidget extends StatelessWidget {
               decoration: const BoxDecoration(
                   color: Colors.red,
                   borderRadius: BorderRadius.all(Radius.circular(20))),
-              child: const Text(
-                '20%',
+              child: Text(
+                product.discount.toString() + '%',
                 style: TextStyle(color: Colors.white, fontSize: 12),
               ),
             ),
