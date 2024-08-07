@@ -12,7 +12,7 @@ class SelectAddressScreen extends ConsumerStatefulWidget {
       : super(key: key);
 
   static const String nameRoute = 'select-address';
-  static const String pathRoute = '/select-address';
+  static const String pathRoute = 'select-address';
 
   @override
   ConsumerState<SelectAddressScreen> createState() =>

@@ -41,7 +41,7 @@ import '../features/reviews/add_review_screen.dart';
 import '../features/reviews/review_screen.dart';
 import '../features/search/search_screen.dart';
 import '../features/security/security_screen.dart';
-import '../features/ship_method/ship_method_screen.dart';
+import '../features/checkout/ship_method_screen.dart';
 import '../features/sign_in/sign_in_screen.dart';
 import '../shared/app_config.dart';
 import '../shared/common_widgets/error_404_widget.dart';

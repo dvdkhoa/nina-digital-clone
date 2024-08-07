@@ -11,10 +11,12 @@ import 'package:nina_digital/shared/utils/helper.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 
+import '../../core/authentication_user/providers/auth_user_provider.dart';
 import '../../shared/common_widgets/gallery_photo/gallery_photo_view_widget.dart';
 import '../../shared/extensions/string_ext.dart';
 import '../../shared/mixins/ui_mixins.dart';
 import '../cart/providers/cart_provider.dart';
+import '../favorite/providers/favorite_product_provider.dart';
 import 'models/product_detail_model.dart';
 import 'providers/product_provider.dart';
 
@@ -84,7 +86,13 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final userInfo = ref.watch(authUserProvider.select(
+      (value) => value.userLogin,
+    ));
+
     final asyncProductDetail = ref.watch(detailProduct(widget.productId));
+
+    final isLiked = userInfo?.crush?.contains(widget.productId) ?? false;
 
     return Scaffold(
       appBar: AppBar(),
@@ -146,11 +154,15 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                       Flexible(child: Text(data.namevi.toString())),
                       IconButton(
                         onPressed: () {
-                          print('Liked');
+                          ref
+                              .read(asyncFavoriteProductProvider.notifier)
+                              .likeProduct(data.id);
                         },
-                        icon: Icon(
-                          Icons.favorite_outline,
-                        ),
+                        icon: isLiked
+                            ? Icon(Icons.favorite, color: Colors.redAccent)
+                            : Icon(
+                                Icons.favorite_outline,
+                              ),
                       ),
                     ],
                   ),

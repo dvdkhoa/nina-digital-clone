@@ -22,9 +22,10 @@ class AsyncFavoriteProduct extends _$AsyncFavoriteProduct {
     final favoriteProductRepository =
         FavoriteProductRepository(ref.watch(dioProvider));
 
-    final res = await favoriteProductRepository.fetchProducts(userInfo?.id);
+    final res = await favoriteProductRepository.fetchProducts(userInfo?.id)
+        as Map<String, dynamic>;
 
-    if (res != null) {
+    if (res != null && res.containsKey('data')) {
       final list = res['data'] as List;
       final products = list.map((item) => ProductModel.fromJson(item)).toList();
 
@@ -32,5 +33,20 @@ class AsyncFavoriteProduct extends _$AsyncFavoriteProduct {
     }
 
     return List.empty();
+  }
+
+  likeProduct(productId) async {
+    final UserModel? userInfo =
+        ref.watch(authUserProvider.select((value) => value.userLogin));
+
+    final favoriteProductRepository =
+        FavoriteProductRepository(ref.watch(dioProvider));
+
+    final res =
+        await favoriteProductRepository.likeProduct(userInfo?.id, productId);
+
+    if(res['status'] == 'success') {
+      ref.read(authUserProvider.notifier).updateCrush(productId);
+    }
   }
 }

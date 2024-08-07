@@ -8,11 +8,12 @@ import 'package:go_router/go_router.dart';
 import '../../shared/extensions/string_ext.dart';
 import '../address/models/AddressModel.dart';
 import '../address/providers/address_provider.dart';
+import 'models/ship_method.dart';
 import 'select_address_screen.dart';
 import '../cart/providers/cart_provider.dart';
 import '../payment/payment_method_screen.dart';
 import '../promotion/promotion_screen.dart';
-import '../ship_method/ship_method_screen.dart';
+import 'ship_method_screen.dart';
 import 'widgets/product_item_widget.dart';
 
 class CheckoutScreen extends ConsumerStatefulWidget {
@@ -27,6 +28,7 @@ class CheckoutScreen extends ConsumerStatefulWidget {
 
 class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   AddressModel? _chooseAddress = null;
+  ShipMethod? _shipMethod = null;
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +37,12 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
     final asyncAddressValue = ref.watch(asyncAddressNotifierProvider);
 
     final listProduct = ref.watch(cartProvider.select((value) => value.dsCart));
+
+    final tempPrice = ref.read(cartProvider.notifier).totalPrice();
+
+    final shipPrice = _shipMethod?.feeValue ?? 0;
+
+    final totalPrice = tempPrice + shipPrice;
 
     return Scaffold(
       appBar: AppBar(
@@ -164,16 +172,32 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                 style: defaultTextStyle.copyWith(fontSize: 15),
               ),
               ElevatedButton(
-                onPressed: () {
-                  context.pushNamed(ShipMethodScreen.nameRoute);
+                onPressed: () async {
+                  final returnValue =
+                      await context.pushNamed(ShipMethodScreen.nameRoute);
+                  setState(() {
+                    if (returnValue != null) {
+                      _shipMethod = returnValue as ShipMethod;
+                    } else {
+                      _shipMethod = null;
+                    }
+                  });
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Icon(Icons.fire_truck),
-                    Text(
-                      'Chọn phương thức vận chuyển',
-                      style: defaultTextStyle.copyWith(fontSize: 15),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: Text(
+                        _shipMethod == null
+                            ? 'Chọn phương thức vận chuyển'
+                            : _shipMethod?.title ?? '',
+                        style: defaultTextStyle.copyWith(fontSize: 15),
+                        textAlign: TextAlign.start,
+                      ),
                     ),
                     Icon(
                       Icons.arrow_forward_ios,
@@ -256,10 +280,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                       children: [
                         Text('Tạm tính'),
                         Text(
-                          ref
-                              .read(cartProvider.notifier)
-                              .totalPrice()
-                              .formattedVNDCustom(),
+                          tempPrice.formattedVNDCustom(),
                         )
                       ],
                     ),
@@ -271,7 +292,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                       children: [
                         Text('Vận chuyển'),
                         Text(
-                          '-',
+                          shipPrice.formattedVNDCustom(),
                         )
                       ],
                     ),
@@ -286,7 +307,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                       children: [
                         Text('Tổng'),
                         Text(
-                          '-',
+                          totalPrice.formattedVNDCustom(),
                         )
                       ],
                     ),

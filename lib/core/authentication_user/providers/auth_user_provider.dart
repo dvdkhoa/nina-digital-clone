@@ -25,8 +25,32 @@ class AuthUser extends _$AuthUser {
     await checkSignIn();
   }
 
+  updateCrush(productId) {
+    final userInfo = state.userLogin;
+    final crush = userInfo?.crush ?? '';
+
+    List<String> arr = crush.split(',');
+
+    final isExists = arr.contains(productId.toString());
+    if (isExists) {
+      arr.remove(productId.toString());
+    } else {
+      arr.add(productId.toString());
+    }
+
+    final str = arr.join(",");
+
+    final newUserInfo = userInfo?.copyWith(crush: str);
+
+    print(str);
+
+    state = state.copyWith(userLogin: newUserInfo);
+  }
+
   Future<void> checkSignIn() async {
     if (await isTokenValid()) {
+      await _signInContinue();
+    } else if (await refreshAccessToken()) {
       await _signInContinue();
     } else {
       // Đăng xuất

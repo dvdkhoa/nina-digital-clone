@@ -40,6 +40,9 @@ class ProductItemWidget extends ConsumerWidget {
                   placeholder: 'assets/images/placeholder.jpg',
                   image:
                       '${ApiUrl.resourcesURL}/upload/product/${model.photo}')),
+          SizedBox(
+            width: 10,
+          ),
           Expanded(
             flex: 2,
             child: Column(

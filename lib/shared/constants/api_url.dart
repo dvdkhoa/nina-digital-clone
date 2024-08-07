@@ -30,12 +30,14 @@ class ApiUrl {
   // Photo - API
   static const String PHOTO = '$baseUrl/photos';
 
-  // Account - API
+
   static const String ACCOUNT_ID = '67';
   static const String ACCOUNT = '$baseUrl/account';
 
-  // Address - API
   static const String ADDRESS = '$baseUrl/address';
+
+  static const String PROMOTION = '$baseUrl/promotion';
+
 
   static const String CART = '$baseUrl/cart';
 }

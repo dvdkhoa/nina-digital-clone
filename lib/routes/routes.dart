@@ -112,24 +112,32 @@ List<RouteBase> _danhsachRoute = [
     },
   ),
   GoRoute(
-    name: CheckoutScreen.nameRoute,
-    path: CheckoutScreen.pathRoute,
-    pageBuilder: (context, state) {
-      return _effectTransitionFade(context, state, CheckoutScreen());
-    },
-  ),
-  GoRoute(
-    name: SelectAddressScreen.nameRoute,
-    path: SelectAddressScreen.pathRoute,
-    pageBuilder: (context, state) {
-      return _effectTransitionFade(
-          context,
-          state,
-          SelectAddressScreen(
-            checkedAddress: state.extra as AddressModel,
-          ));
-    },
-  ),
+      name: CheckoutScreen.nameRoute,
+      path: CheckoutScreen.pathRoute,
+      pageBuilder: (context, state) {
+        return _effectTransitionFade(context, state, CheckoutScreen());
+      },
+      routes: [
+        GoRoute(
+          name: ShipMethodScreen.nameRoute,
+          path: ShipMethodScreen.pathRoute,
+          pageBuilder: (context, state) {
+            return _effectTransitionFade(context, state, ShipMethodScreen());
+          },
+        ),
+        GoRoute(
+          name: SelectAddressScreen.nameRoute,
+          path: SelectAddressScreen.pathRoute,
+          pageBuilder: (context, state) {
+            return _effectTransitionFade(
+                context,
+                state,
+                SelectAddressScreen(
+                  checkedAddress: state.extra as AddressModel,
+                ));
+          },
+        ),
+      ]),
   GoRoute(
       name: AddressScreen.nameRoute,
       path: AddressScreen.pathRoute,
@@ -159,13 +167,6 @@ List<RouteBase> _danhsachRoute = [
           },
         ),
       ]),
-  GoRoute(
-    name: ShipMethodScreen.nameRoute,
-    path: ShipMethodScreen.pathRoute,
-    pageBuilder: (context, state) {
-      return _effectTransitionFade(context, state, ShipMethodScreen());
-    },
-  ),
   GoRoute(
     name: PromotionScreen.nameRoute,
     path: PromotionScreen.pathRoute,
