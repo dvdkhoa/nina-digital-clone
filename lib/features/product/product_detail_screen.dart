@@ -117,24 +117,28 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                           });
                         },
                       ),
-                      items: data.gallery.map((item) {
-                        return Builder(
-                          builder: (BuildContext context) {
-                            return Image.network(
-                              // 'assets/images/$image',
-                              '${ApiUrl.resourcesURL}/upload/product/${item.photo}',
-                              fit: BoxFit.fitHeight,
-                            );
-                          },
-                        );
-                      }).toList(),
+                      items: [
+                        Image.network(
+                            '${ApiUrl.resourcesURL}/upload/product/${data.photo}'),
+                        ...data.gallery.map((item) {
+                          return Builder(
+                            builder: (BuildContext context) {
+                              return Image.network(
+                                // 'assets/images/$image',
+                                '${ApiUrl.resourcesURL}/upload/product/${item.photo}',
+                                fit: BoxFit.fitHeight,
+                              );
+                            },
+                          );
+                        }).toList()
+                      ],
                     ),
                   ),
                   Container(
                     margin: EdgeInsets.only(top: 20),
                     child: Center(
                       child: AnimatedSmoothIndicator(
-                        count: data.gallery.length,
+                        count: data.gallery.length + 1,
                         effect: const ExpandingDotsEffect(
                           activeDotColor: Colors.black,
                           dotColor: Colors.grey,

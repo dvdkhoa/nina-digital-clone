@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nina_digital/shared/constants/api_url.dart';
@@ -5,6 +6,7 @@ import 'package:nina_digital/shared/providers/models/product_model.dart';
 import '../../../shared/extensions/string_ext.dart';
 import '../../login/login_screen.dart';
 import '../../product/product_detail_screen.dart';
+
 
 import 'package:badges/badges.dart' as badges;
 
@@ -45,10 +47,11 @@ class BoxProductWidget extends StatelessWidget {
               children: [
                 Container(
                   padding: EdgeInsets.all(5),
-                  child: Image.network(
-                    // 'assets/images/iphone.png',
-                    '${ApiUrl.resourcesURL}/upload/product/' +
+                  child: CachedNetworkImage(
+                    imageUrl: '${ApiUrl.resourcesURL}/upload/product/' +
                         product.photo.toString(),
+                    placeholder: (context, url) => CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
                     height: 120,
                   ),
                 ),

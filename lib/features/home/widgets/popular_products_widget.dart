@@ -17,7 +17,7 @@ class PopularProductsWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    AsyncValue asyncValue = ref.watch(productListProvider);
+    final asyncProductValue = ref.watch(asyncProductNotifierProvider);
     AsyncValue asyncProductListsValue = ref.watch(productCategoryListProvider);
 
     return SectionLayoutWidget(
@@ -40,15 +40,10 @@ class PopularProductsWidget extends ConsumerWidget {
           const SizedBox(
             height: 20,
           ),
-          asyncValue.when(
+          asyncProductValue.when(
               loading: () => CircularProgressIndicator(),
-              data: (res) {
-                final data = res['data'] as List;
-
-                List<ProductModel> productList =
-                    data.map((item) => ProductModel.fromJson(item)).toList();
-
-                return ProductListWidget(products: productList);
+              data: (data) {
+                return ProductListWidget(products: data.products ?? []);
               },
               error: (Object error, StackTrace stackTrace) =>
                   Text(error.toString())),

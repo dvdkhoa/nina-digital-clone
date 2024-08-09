@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../home/home_screen.dart';
-import 'models/mock_model.dart';
+import '../payment/models/mock_model.dart';
+import 'models/order_model.dart';
+import 'providers/order_provider.dart';
 
-class PaymentMethodScreen extends StatelessWidget {
-  const PaymentMethodScreen({Key? key}) : super(key: key);
+class PaymentMethodScreen extends ConsumerWidget {
+  final OrderModel order;
+  const PaymentMethodScreen({Key? key, required this.order}) : super(key: key);
 
   static const String nameRoute = 'payment-method';
-  static const String pathRoute = '/payment-method';
+  static const String pathRoute = 'payment-method';
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final defaultTextStyle = DefaultTextStyle.of(context).style;
 
     return Scaffold(
@@ -53,6 +57,7 @@ class PaymentMethodScreen extends StatelessWidget {
             style: defaultTextStyle.copyWith(fontSize: 15, color: Colors.white),
           ),
           onPressed: () {
+            ref.read(asyncOrderNotifierProvider.notifier).createOrder(order);
             showDialog(
               context: context,
               builder: (context) {

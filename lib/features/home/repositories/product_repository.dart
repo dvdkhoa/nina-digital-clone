@@ -21,4 +21,12 @@ class ProductRepository {
       return response.data;
     }
   }
+
+  Future fetchProductsPaging(page) async {
+    final data = {'page': page};
+    final response = await dioClient.get(ApiUrl.PRODUCT, queryParameters: data);
+    if (response.statusCode == 200) {
+      return response.data;
+    }
+  }
 }

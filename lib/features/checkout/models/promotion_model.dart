@@ -1,60 +1,88 @@
 class PromotionModel {
+  final int? id;
+  final int? idUser;
+  final int? idPromotion;
+  final String? startDate;
+  final String? endDate;
+  final int? isUsed;
+  final String? name;
+  final String? type;
+  final int? percent;
+  final dynamic directReduction;
+  final String? desc;
+  final String? code;
+
   PromotionModel({
-    required this.id,
-    required this.idUser,
-    required this.idPromotion,
-    required this.startDate,
-    required this.endDate,
-    required this.isUsed,
-    required this.name,
-    required this.type,
-    required this.percent,
+    this.id,
+    this.idUser,
+    this.idPromotion,
+    this.startDate,
+    this.endDate,
+    this.isUsed,
+    this.name,
+    this.type,
+    this.percent,
     this.directReduction,
-    required this.desc,
-    required this.code,
+    this.desc,
+    this.code,
   });
-  late final int id;
-  late final int idUser;
-  late final int idPromotion;
-  late final String startDate;
-  late final String endDate;
-  late final int isUsed;
-  late final String name;
-  late final String type;
-  late final int percent;
-  late final Null directReduction;
-  late final String desc;
-  late final String code;
 
-  PromotionModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    idUser = json['id_user'];
-    idPromotion = json['id_promotion'];
-    startDate = json['start_date'];
-    endDate = json['end_date'];
-    isUsed = json['is_used'];
-    name = json['name'];
-    type = json['type'];
-    percent = json['percent'];
-    directReduction = null;
-    desc = json['desc'];
-    code = json['code'];
+  PromotionModel copyWith({
+    int? id,
+    int? idUser,
+    int? idPromotion,
+    String? startDate,
+    String? endDate,
+    int? isUsed,
+    String? name,
+    String? type,
+    int? percent,
+    dynamic directReduction,
+    String? desc,
+    String? code,
+  }) {
+    return PromotionModel(
+      id: id ?? this.id,
+      idUser: idUser ?? this.idUser,
+      idPromotion: idPromotion ?? this.idPromotion,
+      startDate: startDate ?? this.startDate,
+      endDate: endDate ?? this.endDate,
+      isUsed: isUsed ?? this.isUsed,
+      name: name ?? this.name,
+      type: type ?? this.type,
+      percent: percent ?? this.percent,
+      directReduction: directReduction ?? this.directReduction,
+      desc: desc ?? this.desc,
+      code: code ?? this.code,
+    );
   }
 
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['id'] = id;
-    _data['id_user'] = idUser;
-    _data['id_promotion'] = idPromotion;
-    _data['start_date'] = startDate;
-    _data['end_date'] = endDate;
-    _data['is_used'] = isUsed;
-    _data['name'] = name;
-    _data['type'] = type;
-    _data['percent'] = percent;
-    _data['direct_reduction'] = directReduction;
-    _data['desc'] = desc;
-    _data['code'] = code;
-    return _data;
-  }
+  PromotionModel.fromJson(Map<String, dynamic> json)
+      : id = json['id'] as int?,
+        idUser = json['id_user'] as int?,
+        idPromotion = json['id_promotion'] as int?,
+        startDate = json['start_date'] as String?,
+        endDate = json['end_date'] as String?,
+        isUsed = json['is_used'] as int?,
+        name = json['name'] as String?,
+        type = json['type'] as String?,
+        percent = json['percent'] as int?,
+        directReduction = json['direct_reduction'],
+        desc = json['desc'] as String?,
+        code = json['code'] as String?;
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'id_user': idUser,
+        'id_promotion': idPromotion,
+        'start_date': startDate,
+        'end_date': endDate,
+        'is_used': isUsed,
+        'name': name,
+        'type': type,
+        'percent': percent,
+        'direct_reduction': directReduction,
+        'desc': desc,
+        'code': code
+      };
 }

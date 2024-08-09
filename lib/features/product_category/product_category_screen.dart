@@ -17,7 +17,7 @@ class ProductCategoryScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    AsyncValue asyncValue = ref.watch(productListProvider);
+    AsyncValue asyncValue = ref.watch(asyncProductNotifierProvider);
 
     return Scaffold(
         appBar: AppBar(
@@ -37,8 +37,8 @@ class ProductCategoryScreen extends ConsumerWidget {
                 asyncValue.when(
                     loading: () => CircularProgressIndicator(),
                     data: (data) {
-                      // return ProductListWidget(products: product);
-                      return Text(data.toString());
+                      return ProductListWidget(products: data);
+                      // return Text(data.toString());
                     },
                     error: (Object error, StackTrace stackTrace) =>
                         Text(error.toString())),

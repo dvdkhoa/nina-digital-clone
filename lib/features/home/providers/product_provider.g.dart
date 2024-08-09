@@ -1,27 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'favorite_product_provider.dart';
+part of 'product_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$asyncFavoriteProductHash() =>
-    r'bddf08b1e6db61f38d51cb298206aa22bf8334f8';
+String _$asyncProductNotifierHash() =>
+    r'46d464a022369dd5bd9db897af6869b83be82e5e';
 
-/// See also [AsyncFavoriteProduct].
-@ProviderFor(AsyncFavoriteProduct)
-final asyncFavoriteProductProvider = AutoDisposeAsyncNotifierProvider<
-    AsyncFavoriteProduct, List<ProductModel>>.internal(
-  AsyncFavoriteProduct.new,
-  name: r'asyncFavoriteProductProvider',
+/// See also [AsyncProductNotifier].
+@ProviderFor(AsyncProductNotifier)
+final asyncProductNotifierProvider =
+    AsyncNotifierProvider<AsyncProductNotifier, ProductPagingState>.internal(
+  AsyncProductNotifier.new,
+  name: r'asyncProductNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$asyncFavoriteProductHash,
+      : _$asyncProductNotifierHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$AsyncFavoriteProduct = AutoDisposeAsyncNotifier<List<ProductModel>>;
+typedef _$AsyncProductNotifier = AsyncNotifier<ProductPagingState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

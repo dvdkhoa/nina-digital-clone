@@ -5,10 +5,16 @@ import 'package:nina_digital/shared/providers/models/product_model.dart';
 
 import '../../features/home/widgets/box_product_widget.dart';
 
-class ProductListWidget extends StatelessWidget {
+class ProductListWidget extends StatefulWidget {
   final List<ProductModel> products;
+
   const ProductListWidget({Key? key, required this.products}) : super(key: key);
 
+  @override
+  State<ProductListWidget> createState() => _ProductListWidgetState();
+}
+
+class _ProductListWidgetState extends State<ProductListWidget> {
   @override
   Widget build(BuildContext context) {
     return AlignedGridView.count(
@@ -17,10 +23,10 @@ class ProductListWidget extends StatelessWidget {
       crossAxisSpacing: 10,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: products.length,
+      itemCount: widget.products.length,
       itemBuilder: (context, index) {
         return BoxProductWidget(
-          product: products[index],
+          product: widget.products[index],
         );
       },
     );

@@ -68,11 +68,14 @@ class AuthUserInterceptor extends InterceptorsWrapper {
       final tempMap = data as Map;
 
       for (final entry in tempMap.entries) {
-        tempData[entry.key] = entry.value;
+        tempData[entry.key] = entry.value.toString();
       }
       payload = tempData;
     }
     payload['timeAction'] = timeAction.toString();
+
+    // print(payload);
+
     final JwtEncoder jwtEncoder = JwtEncoder(secretKey: AppConfig.secretKey);
     return jwtEncoder.encode(payload);
   }
@@ -95,12 +98,12 @@ class AuthUserInterceptor extends InterceptorsWrapper {
     }
 
     // DEBUG
-    if (AppConfig.production == false) {
-      Map<String, dynamic> debugHeaders = headers;
-      debugHeaders['url'] = url;
-      debugHeaders.remove('timeAction');
-      AppConfig.logger.d(debugHeaders);
-    }
+    // if (AppConfig.production == false) {
+    //   Map<String, dynamic> debugHeaders = headers;
+    //   debugHeaders['url'] = url;
+    //   debugHeaders.remove('timeAction');
+    //   AppConfig.logger.d(debugHeaders);
+    // }
 
     return headers;
   }

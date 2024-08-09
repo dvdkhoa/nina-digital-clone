@@ -8,9 +8,10 @@ class PromotionRepository {
 
   PromotionRepository(this.dioClient);
 
-  Future fetchAddresses(userId) async {
+  Future fetchPromotion(userId) async {
     final data = {"id_user": userId};
-    final response = await dioClient.get(ApiUrl.ADDRESS, queryParameters: data);
+    final response =
+        await dioClient.get(ApiUrl.PROMOTION, queryParameters: data);
     if (response.statusCode == 200) {
       return response.data;
     }

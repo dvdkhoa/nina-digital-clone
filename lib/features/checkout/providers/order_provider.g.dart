@@ -1,27 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'favorite_product_provider.dart';
+part of 'order_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$asyncFavoriteProductHash() =>
-    r'bddf08b1e6db61f38d51cb298206aa22bf8334f8';
+String _$asyncOrderNotifierHash() =>
+    r'a145d782e73857157f10c0be678600f833107b5c';
 
-/// See also [AsyncFavoriteProduct].
-@ProviderFor(AsyncFavoriteProduct)
-final asyncFavoriteProductProvider = AutoDisposeAsyncNotifierProvider<
-    AsyncFavoriteProduct, List<ProductModel>>.internal(
-  AsyncFavoriteProduct.new,
-  name: r'asyncFavoriteProductProvider',
+/// See also [AsyncOrderNotifier].
+@ProviderFor(AsyncOrderNotifier)
+final asyncOrderNotifierProvider =
+    AsyncNotifierProvider<AsyncOrderNotifier, List<OrderModel>>.internal(
+  AsyncOrderNotifier.new,
+  name: r'asyncOrderNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$asyncFavoriteProductHash,
+      : _$asyncOrderNotifierHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$AsyncFavoriteProduct = AutoDisposeAsyncNotifier<List<ProductModel>>;
+typedef _$AsyncOrderNotifier = AsyncNotifier<List<OrderModel>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

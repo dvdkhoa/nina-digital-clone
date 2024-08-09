@@ -5,14 +5,17 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/authentication_user/providers/auth_user_provider.dart';
 import '../../shared/extensions/string_ext.dart';
 import '../address/models/AddressModel.dart';
 import '../address/providers/address_provider.dart';
+import 'models/order_model.dart';
+import 'models/promotion_model.dart';
 import 'models/ship_method.dart';
 import 'select_address_screen.dart';
 import '../cart/providers/cart_provider.dart';
-import '../payment/payment_method_screen.dart';
-import '../promotion/promotion_screen.dart';
+import 'payment_method_screen.dart';
+import 'promotion_screen.dart';
 import 'ship_method_screen.dart';
 import 'widgets/product_item_widget.dart';
 
@@ -29,10 +32,14 @@ class CheckoutScreen extends ConsumerStatefulWidget {
 class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   AddressModel? _chooseAddress = null;
   ShipMethod? _shipMethod = null;
+  PromotionModel? _promotionModel = null;
 
   @override
   Widget build(BuildContext context) {
     final defaultTextStyle = DefaultTextStyle.of(context).style;
+
+    final userInfo =
+        ref.watch(authUserProvider.select((value) => value.userLogin));
 
     final asyncAddressValue = ref.watch(asyncAddressNotifierProvider);
 
@@ -225,23 +232,33 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
               Row(
                 children: [
                   Expanded(
-                      child: TextField(
-                    decoration: InputDecoration(
-                        contentPadding:
-                            EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                        filled: true,
-                        fillColor: Color(0xffF5F5F5),
-                        hintText: 'Nhập mã khuyến mãi',
-                        enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(25))),
-                  )),
+                      child: _promotionModel != null
+                          ? FilledButton(
+                              onPressed: () {},
+                              child: Text(_promotionModel?.name ?? ''))
+                          : TextField(
+                              decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 10),
+                                  filled: true,
+                                  fillColor: Color(0xffF5F5F5),
+                                  hintText: 'Nhập mã khuyến mãi',
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide.none,
+                                      borderRadius: BorderRadius.circular(25))),
+                            )),
                   SizedBox(
                     width: 6,
                   ),
                   IconButton(
-                    onPressed: () {
-                      context.pushNamed(PromotionScreen.nameRoute);
+                    onPressed: () async {
+                      final returnValue =
+                          await context.pushNamed(PromotionScreen.nameRoute);
+                      if (returnValue != null) {
+                        setState(() {
+                          _promotionModel = returnValue as PromotionModel;
+                        });
+                      }
                     },
                     icon: const Icon(
                       Icons.add,
@@ -325,7 +342,17 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
         padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
         child: ElevatedButton(
           onPressed: () {
-            context.pushNamed(PaymentMethodScreen.nameRoute);
+            OrderModel order = OrderModel(
+                address: _chooseAddress?.detailAddress,
+                fullname: userInfo?.fullname,
+                email: userInfo?.email,
+                phone: userInfo?.phone,
+                idUser: int.parse(userInfo?.id ?? '0'),
+                tempPrice: tempPrice,
+                totalPrice: totalPrice,
+                shipPrice: _shipMethod?.feeValue ?? 0,
+                orderStatus: 1);
+            context.pushNamed(PaymentMethodScreen.nameRoute, extra: order);
           },
           child: Text('Tiếp tục thanh toán',
               style:

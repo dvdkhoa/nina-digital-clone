@@ -119,6 +119,25 @@ List<RouteBase> _danhsachRoute = [
       },
       routes: [
         GoRoute(
+          name: PaymentMethodScreen.nameRoute,
+          path: PaymentMethodScreen.pathRoute,
+          pageBuilder: (context, state) {
+            return _effectTransitionFade(
+                context,
+                state,
+                PaymentMethodScreen(
+                  order: state.extra as OrderModel,
+                ));
+          },
+        ),
+        GoRoute(
+          name: PromotionScreen.nameRoute,
+          path: PromotionScreen.pathRoute,
+          pageBuilder: (context, state) {
+            return _effectTransitionFade(context, state, PromotionScreen());
+          },
+        ),
+        GoRoute(
           name: ShipMethodScreen.nameRoute,
           path: ShipMethodScreen.pathRoute,
           pageBuilder: (context, state) {
@@ -167,20 +186,6 @@ List<RouteBase> _danhsachRoute = [
           },
         ),
       ]),
-  GoRoute(
-    name: PromotionScreen.nameRoute,
-    path: PromotionScreen.pathRoute,
-    pageBuilder: (context, state) {
-      return _effectTransitionFade(context, state, PromotionScreen());
-    },
-  ),
-  GoRoute(
-    name: PaymentMethodScreen.nameRoute,
-    path: PaymentMethodScreen.pathRoute,
-    pageBuilder: (context, state) {
-      return _effectTransitionFade(context, state, PaymentMethodScreen());
-    },
-  ),
   GoRoute(
     name: SearchScreen.nameRoute,
     path: SearchScreen.pathRoute,
