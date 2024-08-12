@@ -65,7 +65,6 @@ class _OrderScreenState extends ConsumerState<OrderScreen> {
                             final list = dataOrders
                                 .where((order) => order.orderStatus == e.id)
                                 .toList();
-                            print('list: ${e.id} ${list.length}');
                             return OrderByTypeWidget(orders: list);
                           },
                         ).toList()

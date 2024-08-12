@@ -1,18 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-import '../checkout/widgets/product_item_widget.dart';
+import '../../shared/extensions/string_ext.dart';
+import '../checkout/models/order_model.dart';
 import 'widgets/product_order_item_widget.dart';
 
 class OrderDetailScreen extends StatelessWidget {
-  final String id;
-  const OrderDetailScreen({Key? key, required this.id}) : super(key: key);
+  final OrderModel model;
+  const OrderDetailScreen({Key? key, required this.model}) : super(key: key);
 
   static const String nameRoute = 'order-detail';
-  static const String pathRoute = ':id';
+  static const String pathRoute = 'order-detail';
 
   @override
   Widget build(BuildContext context) {
     final defaultTextStyle = DefaultTextStyle.of(context).style;
+
+    // Tạo một đối tượng DateTime từ timestamp
+    DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(model.dateCreated! *
+        1000); // Chú ý nhân với 1000 vì DateTime tính bằng milliseconds
+
+    // Định dạng datetime theo ý muốn (ví dụ: dd/MM/yyyy HH:mm:ss)
+    DateFormat formatter = DateFormat('dd/MM/yyyy HH:mm');
+    String dateCreated = formatter.format(dateTime);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Track order'),
@@ -59,7 +70,7 @@ class OrderDetailScreen extends StatelessWidget {
                                     text: 'Mã đơn hàng: ',
                                     children: [
                                       TextSpan(
-                                          text: 'SDF123123',
+                                          text: model.code,
                                           style: defaultTextStyle.copyWith(
                                               color: Colors.green.shade400,
                                               fontWeight: FontWeight.bold)),
@@ -69,7 +80,7 @@ class OrderDetailScreen extends StatelessWidget {
                                         fontWeight: FontWeight.bold)),
                               ),
                               Text(
-                                'Ngày đặt hàng: 16:24, 20-07-2024',
+                                'Ngày đặt hàng: ${dateCreated}',
                                 style: defaultTextStyle.copyWith(
                                   fontSize: 12,
                                   color: Color(0xff6B6B6B),
@@ -124,10 +135,10 @@ class OrderDetailScreen extends StatelessWidget {
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                Text('Huu Tho'),
-                                Text('0989338420'),
+                                Text(model.fullname ?? ''),
+                                Text(model.phone ?? ''),
                                 Text(
-                                  '231 Nguyen Tri Phuong, Long Thanh, Tan Chau, An Giang',
+                                  model.address ?? '',
                                 )
                               ],
                             ),
@@ -143,11 +154,11 @@ class OrderDetailScreen extends StatelessWidget {
               ),
               Container(
                 child: Column(
-                  children: [
-                    ProductOrderItemWidget(),
-                    ProductOrderItemWidget(),
-                    ProductOrderItemWidget(),
-                  ],
+                  children: model.details!
+                      .map((e) => ProductOrderItemWidget(
+                            model: e,
+                          ))
+                      .toList(),
                 ),
               ),
               SizedBox(
@@ -269,7 +280,7 @@ class OrderDetailScreen extends StatelessWidget {
                           'Tạm tính',
                           style: TextStyle(color: Colors.grey.shade800),
                         ),
-                        Text('105.000.000 đ'),
+                        Text(model.tempPrice?.formattedVNDCustom() ?? ''),
                       ],
                     ),
                     Divider(
@@ -282,7 +293,7 @@ class OrderDetailScreen extends StatelessWidget {
                           'Phí vận chuyển',
                           style: TextStyle(color: Colors.grey.shade800),
                         ),
-                        Text('+ 30.000 đ'),
+                        Text(model.shipPrice?.formattedVNDCustom() ?? ''),
                       ],
                     ),
                     Divider(
@@ -295,7 +306,7 @@ class OrderDetailScreen extends StatelessWidget {
                           'Khuyến mãi',
                           style: TextStyle(color: Colors.grey.shade800),
                         ),
-                        Text('- 1.000.000 đ'),
+                        Text(model.priceSale?.formattedVNDCustom() ?? ''),
                       ],
                     ),
                     Divider(
@@ -309,7 +320,7 @@ class OrderDetailScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
-                              '103.098.000 đ',
+                              model.totalPrice?.formattedVNDCustom() ?? '',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             Text('Đã bao gồm VAT nếu có')

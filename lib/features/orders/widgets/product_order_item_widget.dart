@@ -1,7 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+import '../../../shared/constants/api_url.dart';
+import '../../../shared/extensions/string_ext.dart';
+import '../../checkout/models/order_model.dart';
+
 class ProductOrderItemWidget extends StatelessWidget {
-  const ProductOrderItemWidget({Key? key}) : super(key: key);
+  final Details model;
+  ProductOrderItemWidget({Key? key, required this.model}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,10 +19,16 @@ class ProductOrderItemWidget extends StatelessWidget {
         children: [
           Row(
             children: [
-              Image.asset(
-                'assets/images/iphone.png',
+              CachedNetworkImage(
+                imageUrl:
+                    '${ApiUrl.resourcesURL}/upload/product/${model.photo}',
+                placeholder: (context, url) => CircularProgressIndicator(),
+                errorWidget: (context, url, error) => Icon(Icons.error),
                 width: 100,
                 fit: BoxFit.cover,
+              ),
+              SizedBox(
+                width: 10,
               ),
               Expanded(
                 child: Column(
@@ -52,7 +64,10 @@ class ProductOrderItemWidget extends StatelessWidget {
                       height: 10,
                     ),
                     Text(
-                      '58.780.000đ',
+                      double.parse(model.salePrice.toString())
+                              .formattedVNDCustom() ??
+                          double.parse(model.regularPrice.toString())
+                              .formattedVNDCustom(),
                       style: defaultTextStyle.copyWith(
                           fontSize: 13, color: Color(0xffE82727)),
                     ),

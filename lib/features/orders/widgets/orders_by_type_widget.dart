@@ -23,7 +23,7 @@ class OrderByTypeWidget extends StatelessWidget {
                 style: defaultTextStyle.copyWith(fontSize: 20)),
             Text(
               'Bạn chưa có đơn hàng nào đang đặt trong thời gian này',
-              style: defaultTextStyle.copyWith(fontSize: 13),   
+              style: defaultTextStyle.copyWith(fontSize: 13),
               textAlign: TextAlign.center,
             ),
           ],
@@ -35,7 +35,11 @@ class OrderByTypeWidget extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Column(
-          children: orders.map((order) => OrderItemWidget()).toList(),
+          children: orders
+              .map((order) => OrderItemWidget(
+                    model: order,
+                  ))
+              .toList(),
         ),
       ),
     );

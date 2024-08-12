@@ -1,19 +1,31 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
+import '../../../shared/constants/api_url.dart';
+import '../../checkout/models/order_model.dart';
 import '../order_detail_screen.dart';
 
 class OrderItemWidget extends StatelessWidget {
-  const OrderItemWidget({Key? key}) : super(key: key);
+  final OrderModel model;
+  const OrderItemWidget({Key? key, required this.model}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final defaultTextStyle = DefaultTextStyle.of(context).style;
 
+    // Tạo một đối tượng DateTime từ timestamp
+    DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(model.dateCreated! *
+        1000); // Chú ý nhân với 1000 vì DateTime tính bằng milliseconds
+
+    // Định dạng datetime theo ý muốn (ví dụ: dd/MM/yyyy HH:mm:ss)
+    DateFormat formatter = DateFormat('dd/MM/yyyy HH:mm');
+    String dateCreated = formatter.format(dateTime);
+
     return GestureDetector(
       onTap: () {
-        context.pushNamed(OrderDetailScreen.nameRoute,
-            pathParameters: {'id': 'mock-id'});
+        context.pushNamed(OrderDetailScreen.nameRoute, extra: model);
       },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 10),
@@ -36,7 +48,7 @@ class OrderItemWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(5)),
                 ),
                 Text(
-                  '20-07-2024 10h50',
+                  dateCreated,
                   style: defaultTextStyle.copyWith(fontSize: 12),
                 )
               ],
@@ -46,8 +58,13 @@ class OrderItemWidget extends StatelessWidget {
             ),
             Row(
               children: [
-                Image.asset(
-                  'assets/images/iphone.png',
+                CachedNetworkImage(
+                  imageUrl:
+                      '${ApiUrl.resourcesURL}/upload/product/${model.details?[0].photo}',
+                  progressIndicatorBuilder: (context, url, downloadProgress) =>
+                      CircularProgressIndicator(
+                          value: downloadProgress.progress),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
                   width: 100,
                   fit: BoxFit.cover,
                 ),
@@ -73,7 +90,7 @@ class OrderItemWidget extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            'Số lượng: 2',
+                            'Số lượng: ${model.details?[0].quantity}',
                             style: defaultTextStyle.copyWith(
                               fontSize: 12,
                               color: Color(0xff6B6B6B),

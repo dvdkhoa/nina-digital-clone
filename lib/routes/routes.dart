@@ -220,7 +220,7 @@ List<RouteBase> _danhsachRoute = [
                 context,
                 state,
                 OrderDetailScreen(
-                  id: state.pathParameters['id'].toString(),
+                  model: state.extra as OrderModel,
                 ));
           },
         ),
