@@ -245,7 +245,7 @@ List<RouteBase> _danhsachRoute = [
         return _effectTransitionFade(
           context,
           state,
-          ReviewScreen(),
+          ReviewScreen(productId: int.parse(state.uri.queryParameters['id_product'].toString()),),
         );
       },
       routes: [
@@ -256,7 +256,7 @@ List<RouteBase> _danhsachRoute = [
             return _effectTransitionFade(
               context,
               state,
-              AddReviewScreen(),
+              AddReviewScreen(productId: int.parse(state.uri.queryParameters['id_product'].toString()),),
             );
           },
         ),

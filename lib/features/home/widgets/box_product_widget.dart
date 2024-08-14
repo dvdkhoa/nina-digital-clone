@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nina_digital/shared/constants/api_url.dart';
 import 'package:nina_digital/shared/providers/models/product_model.dart';
@@ -10,12 +11,14 @@ import '../../product/product_detail_screen.dart';
 
 import 'package:badges/badges.dart' as badges;
 
-class BoxProductWidget extends StatelessWidget {
+import '../../product/providers/review_provider.dart';
+
+class BoxProductWidget extends ConsumerWidget {
   final ProductModel product;
   const BoxProductWidget({Key? key, required this.product}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final defaultTextStyle = DefaultTextStyle.of(context).style;
 
     return InkWell(

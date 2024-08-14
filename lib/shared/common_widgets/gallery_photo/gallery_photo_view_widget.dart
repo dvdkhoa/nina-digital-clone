@@ -1,7 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
+import 'package:video_player/video_player.dart';
+
+import '../../constants/api_url.dart';
+import '../video_player_widget.dart';
 
 part 'gallery_item.dart';
 
@@ -96,15 +101,18 @@ class _GalleryPhotoViewWidgetState extends State<GalleryPhotoViewWidget> {
 
   PhotoViewGalleryPageOptions _buildItem(BuildContext context, int index) {
     final GalleryItem item = widget.galleryItems[index];
-    return item.isSvg
+    print('${item.isVideo} ${item.resource}');
+    return item.isVideo
         ? PhotoViewGalleryPageOptions.customChild(
             child: SizedBox(
               width: 300,
               height: 300,
-              child: SvgPicture.asset(
-                item.resource,
-                height: 200.0,
-              ),
+              // child: SvgPicture.asset(
+              //   item.resource,
+              //   height: 200.0,
+              // ),
+              // child: Text('nhớ đổi thành video player'),
+              child: VideoPlayerWidget(resource: '${ApiUrl.domain}/uploads/reviews/videos/${item.resource}',),
             ),
             childSize: const Size(300, 300),
             initialScale: PhotoViewComputedScale.contained,
@@ -113,7 +121,8 @@ class _GalleryPhotoViewWidgetState extends State<GalleryPhotoViewWidget> {
             heroAttributes: PhotoViewHeroAttributes(tag: item.id),
           )
         : PhotoViewGalleryPageOptions(
-            imageProvider: AssetImage(item.resource),
+            // imageProvider: AssetImage(item.resource),
+            imageProvider: NetworkImage('${ApiUrl.domain}/uploads/reviews/photos/${item.resource}'),
             initialScale: PhotoViewComputedScale.contained,
             minScale: PhotoViewComputedScale.contained * (0.5 + index / 10),
             maxScale: PhotoViewComputedScale.covered * 4.1,

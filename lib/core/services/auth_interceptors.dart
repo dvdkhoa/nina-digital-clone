@@ -13,6 +13,7 @@ class AuthUserInterceptor extends InterceptorsWrapper {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     String accessToken = _ref.read(authUserProvider.notifier).getAccessToken();
+
     final cusHeaders = _customHeaders(
         url: options.path, data: options.data, accessToken: accessToken);
 
@@ -47,7 +48,7 @@ class AuthUserInterceptor extends InterceptorsWrapper {
 
       if (accessToken.isNotEmpty && accessToken != '') {
         newOptions.headers?['Authorization'] =
-            'Bearer ${accessToken.toString()}';
+        'Bearer ${accessToken.toString()}';
       }
 
       try {
@@ -61,20 +62,27 @@ class AuthUserInterceptor extends InterceptorsWrapper {
     }
   }
 
-  String _getAPIToken({required timeAction, required dynamic data}) {
+  String _getAPIToken({required timeAction, required dynamic dataPayload}) {
     Map<String, dynamic> payload = {};
-    if (data != null && data != '') {
-      Map<String, dynamic> tempData = {};
-      final tempMap = data as Map;
 
-      for (final entry in tempMap.entries) {
-        tempData[entry.key] = entry.value.toString();
+    if (dataPayload != null && dataPayload != '') {
+      Map<String, dynamic> tempData = {};
+
+      if ((dataPayload is FormData) == false) {
+        final tempMap = dataPayload as Map;
+        for (final entry in tempMap.entries) {
+          tempData[entry.key] = entry.value.toString();
+        }
+      } else {
+        final FormData tempFormData = dataPayload;
+        for (final entry in tempFormData.fields) {
+          tempData[entry.key] = entry.value.toString();
+        }
       }
+
       payload = tempData;
     }
     payload['timeAction'] = timeAction.toString();
-
-    // print(payload);
 
     final JwtEncoder jwtEncoder = JwtEncoder(secretKey: AppConfig.secretKey);
     return jwtEncoder.encode(payload);
@@ -85,10 +93,12 @@ class AuthUserInterceptor extends InterceptorsWrapper {
     int timeNow = DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000;
 
     // Authentication API
-    String apiToken = _getAPIToken(timeAction: timeNow, data: data);
+    String apiToken = _getAPIToken(timeAction: timeNow, dataPayload: data);
 
     // Headers
     Map<String, dynamic> headers = {
+      'Content-Type':
+      (data is FormData) ? 'multipart/form-data' : 'application/json',
       'timeAction': timeNow,
       'API-Token': apiToken,
     };
@@ -98,12 +108,12 @@ class AuthUserInterceptor extends InterceptorsWrapper {
     }
 
     // DEBUG
-    // if (AppConfig.production == false) {
-    //   Map<String, dynamic> debugHeaders = headers;
-    //   debugHeaders['url'] = url;
-    //   debugHeaders.remove('timeAction');
-    //   AppConfig.logger.d(debugHeaders);
-    // }
+    if (AppConfig.production == false) {
+      Map<String, dynamic> debugHeaders = headers;
+      debugHeaders['url'] = url;
+      debugHeaders.remove('timeAction');
+      AppConfig.logger.d(debugHeaders);
+    }
 
     return headers;
   }

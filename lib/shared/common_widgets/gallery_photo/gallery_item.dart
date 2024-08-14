@@ -5,11 +5,11 @@ class GalleryItem {
     required this.id,
     this.name,
     required this.resource,
-    this.isSvg = false,
+    this.isVideo = false,
   });
 
   final String id;
   final String? name;
   final String resource;
-  final bool isSvg;
+  final bool isVideo;
 }

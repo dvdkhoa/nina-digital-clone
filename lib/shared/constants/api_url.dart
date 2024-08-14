@@ -42,4 +42,8 @@ class ApiUrl {
   static const String ORDER_STATUS = '$baseUrl/orders/status';
 
   static const String CART = '$baseUrl/cart';
+
+  static const String REVIEW = '$baseUrl/review';
+  static const String CREATE_REVIEW = '$baseUrl/review/create';
+
 }

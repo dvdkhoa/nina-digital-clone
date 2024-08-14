@@ -1,10 +1,16 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nina_digital/shared/mixins/ui_mixins.dart';
 import 'package:nina_digital/shared/utils/helper.dart';
 import 'package:iconoir_flutter/iconoir_flutter.dart' as icons;
 
 import '../../shared/common_widgets/gallery_photo/gallery_photo_view_widget.dart';
+import '../../shared/common_widgets/video_thumbnail_widget.dart';
+import '../../shared/constants/api_url.dart';
+import '../product/models/ReviewModel.dart';
+import '../product/providers/review_provider.dart';
 import 'add_review_screen.dart';
 
 part 'widgets/review_section_widget.dart';
@@ -13,13 +19,16 @@ part 'widgets/assets_review_widged.dart';
 part 'widgets/review_filter_list_widget.dart';
 
 class ReviewScreen extends StatelessWidget {
-  const ReviewScreen({Key? key}) : super(key: key);
+  final int productId;
+  const ReviewScreen({Key? key, required this.productId}) : super(key: key);
 
   static const String nameRoute = 'review';
   static const String pathRoute = '/review';
 
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Đánh giá'),
@@ -30,7 +39,7 @@ class ReviewScreen extends StatelessWidget {
           child: Column(
             children: [
               _ReviewFilterListWidget(),
-              _ReviewSectionWidget(),
+              _ReviewSectionWidget(productId: productId,),
             ],
           ),
         ),
@@ -39,7 +48,7 @@ class ReviewScreen extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
         child: ElevatedButton(
           onPressed: () {
-            context.pushNamed(AddReviewScreen.nameRoute);
+            context.pushNamed(AddReviewScreen.nameRoute, queryParameters: { 'id_product': productId.toString() } );
           },
           child: Text('Viết đánh giá',
               style: TextStyle(color: Colors.white, fontSize: 15)),

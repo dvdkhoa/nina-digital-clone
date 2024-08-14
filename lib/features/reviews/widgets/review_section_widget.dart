@@ -1,19 +1,25 @@
 part of '../review_screen.dart';
 
-class _ReviewSectionWidget extends StatelessWidget {
-  const _ReviewSectionWidget({Key? key}) : super(key: key);
+class _ReviewSectionWidget extends ConsumerWidget {
+  final int productId;
+  const _ReviewSectionWidget({Key? key, required this.productId}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return ListView.separated(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        itemBuilder: (context, index) {
-          return _ReviewItemWidget();
-        },
-        separatorBuilder: (context, index) => Divider(
-              height: 20,
-            ),
-        itemCount: 5);
+  Widget build(BuildContext context, WidgetRef ref) {
+
+    final asyncReviewValue = ref.watch(asyncReviewNotifierProvider(productId));
+
+    return asyncReviewValue.when(data: (data) {
+      return ListView.separated(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) {
+            return _ReviewItemWidget(model: data[index],);
+          },
+          separatorBuilder: (context, index) => Divider(
+            height: 20,
+          ),
+          itemCount: data.length);
+    }, error: (error, stackTrace) => Center(child: Text(error.toString()),), loading: () => Center(child: CircularProgressIndicator(),),);
   }
 }

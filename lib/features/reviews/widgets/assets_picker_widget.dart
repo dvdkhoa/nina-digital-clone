@@ -1,14 +1,21 @@
 part of '../add_review_screen.dart';
 
 class _AssetsPickerWidget extends StatefulWidget {
-  const _AssetsPickerWidget({Key? key}) : super(key: key);
+  List<File> images;
+  _AssetsPickerWidget({Key? key, required this.images}) : super(key: key);
 
   @override
   State<_AssetsPickerWidget> createState() => _AssetsPickerWidgetState();
 }
 
 class _AssetsPickerWidgetState extends State<_AssetsPickerWidget> {
-  List<File> _images = [];
+    List<File> _images = [];
+
+    @override
+  void initState() {
+    super.initState();
+    _images = widget.images;
+  }
 
   _pickImage() async {
     final defaultTextStyle = DefaultTextStyle.of(context).style;

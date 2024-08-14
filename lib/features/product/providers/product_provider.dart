@@ -12,3 +12,5 @@ final detailProduct = FutureProvider.autoDispose
 
   return ProductDetailModel.fromJson(res['data']);
 });
+
+

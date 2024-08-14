@@ -1,9 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:go_router/go_router.dart';
+import 'package:isar/isar.dart';
 import 'package:nina_digital/features/reviews/review_screen.dart';
 // import 'package:nina_digital/shared/common_widgets/gallery_item_view_widget.dart';
 import 'package:nina_digital/shared/constants/api_url.dart';
@@ -17,8 +19,10 @@ import '../../shared/extensions/string_ext.dart';
 import '../../shared/mixins/ui_mixins.dart';
 import '../cart/providers/cart_provider.dart';
 import '../favorite/providers/favorite_product_provider.dart';
+import 'models/ReviewModel.dart';
 import 'models/product_detail_model.dart';
 import 'providers/product_provider.dart';
+import 'providers/review_provider.dart';
 
 part './widgets/review_section_widget.dart';
 part './widgets/review_item_widget.dart';
@@ -84,8 +88,16 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
     return list;
   }
 
+
+  // Future<void> _init() async{
+  //   Future.delayed(const Duration(milliseconds: 0), (){
+  //     ref.read(asyncReViewNotifierProvider.notifier).getReviewByProduct(widget.productId);
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
+
     final userInfo = ref.watch(authUserProvider.select(
       (value) => value.userLogin,
     ));
@@ -258,7 +270,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                           TextSpan(text: '(7:30 - 22:00)')
                         ])),
                   ),
-                  _ReviewSectionWidget(),
+                  _ReviewSectionWidget(productId: data.id),
                 ],
               );
             },

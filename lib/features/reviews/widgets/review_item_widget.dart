@@ -1,10 +1,21 @@
 part of '../review_screen.dart';
 
 class _ReviewItemWidget extends StatelessWidget with UiMixins {
-  const _ReviewItemWidget({Key? key}) : super(key: key);
+  final ReviewModel model;
+  const _ReviewItemWidget({Key? key, required this.model}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
+    List<GalleryItem> galleries = [];
+
+    final photoGalleries =  model.photos?.map((photo) => GalleryItem(id: photo.id.toString(), resource: photo.photo.toString())).toList();
+    final videoGalleries =  model.videos?.map((video) => GalleryItem(id: video.id.toString(), resource: video.video.toString(), isVideo: true)).toList();
+
+    galleries.addAll(photoGalleries!);
+    galleries.addAll(videoGalleries!);
+
+
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -26,30 +37,30 @@ class _ReviewItemWidget extends StatelessWidget with UiMixins {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Nguyễn Văn A',
+                    model.fullname.toString(),
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  showStar(number: 5, size: 16)
+                  showStar(number: model.star ?? 0, size: 16)
                 ],
               )
             ],
           ),
           Text(
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus leo nunc, vehicula a pellentesque nec, consequat eget leo. Mauris quis erat elit. Suspendisse in pellentesque magna. Vivamus a ex ullamcorper, congue augue at, condimentum dui. Donec sodales, ex eu faucibus tempor, nisi lectus mattis magna, sit amet commodo neque est eleifend augue. Suspendisse facilisis imperdiet velit, ac commodo urna interdum ac. Ut at consectetur orci. Duis lobortis convallis feugiat. Nunc sed dignissim arcu. Nulla facilisi. In tincidunt mattis bibendum. Praesent nisl justo, facilisis at tempus ut, volutpat a velit. Sed nisl elit, consectetur id auctor vel, tincidunt at odio. Morbi pellentesque, risus in vestibulum pulvinar, massa sapien pellentesque sapien, ac dapibus leo est eget mi. Interdum et malesuada fames ac ante ipsum primis in faucibus. ',
+            model.title.toString(),
             style: TextStyle(
                 overflow: TextOverflow.ellipsis,
                 fontSize: 12,
                 color: Colors.grey.shade700),
             maxLines: 5,
           ),
-          _AssetsReviewWidget(),
+          _AssetsReviewWidget(galleries: galleries),
           SizedBox(
             height: 5,
           ),
           Text(
-            '25-07-2024',
+            DateTime.fromMillisecondsSinceEpoch(model.datePosted ?? 0 * 1000).toString(),
             style: TextStyle(fontSize: 12, color: Colors.grey),
           ),
         ],
@@ -57,3 +68,5 @@ class _ReviewItemWidget extends StatelessWidget with UiMixins {
     );
   }
 }
+
+
