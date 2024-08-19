@@ -1,35 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:isar/isar.dart';
 
-import '../../features/search/models/category_model.dart';
+import '../models/mock_model.dart';
+import '../providers/filter_provider.dart';
+import '../providers/filter_state.dart';
 
-class ListFilterWidget extends StatefulWidget {
-  final List<CategoryModel> list;
-  final List<int> selectedIds;
-  final Function onChange;
-  const ListFilterWidget(
-      {Key? key, required this.list, required this.selectedIds, required this.onChange})
+
+class OrderbyWidget extends ConsumerWidget {
+
+  const OrderbyWidget(
+      {Key? key})
       : super(key: key);
 
   @override
-  State<ListFilterWidget> createState() => _ListFilterWidgetState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
 
-class _ListFilterWidgetState extends State<ListFilterWidget> {
+    final selectedItem = ref.watch(filterNotifierProvider.select((value) => value.orderBy));
 
-  @override
-  Widget build(BuildContext context) {
+    final orderBy = OrderBy.values;
+
+    final orderByLabel = orderBy.map((e) {
+      switch(e.index){
+        case 0:
+          return 'Mới nhất';
+        case 1:
+          return 'Giá thấp tới cao';
+        case 2:
+          return 'Giá cao tới thấp';
+      }
+    }).toList();
+
     return Container(
       height: 50,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
-          final item = widget.list[index];
-          final isSelected = widget.selectedIds.contains(item.id);
+          final isSelected = orderBy[index] == selectedItem;
           return Container(
             margin: const EdgeInsets.symmetric(horizontal: 5),
             child: FilterChip(
               label: Text(
-                item.namevi.toString(),
+                orderByLabel[index].toString(),
                 style: DefaultTextStyle.of(context).style.copyWith(
                     color: isSelected ? Colors.white : Colors.black,
                     fontSize: 13),
@@ -40,20 +52,20 @@ class _ListFilterWidgetState extends State<ListFilterWidget> {
               side: isSelected
                   ? BorderSide.none
                   : const BorderSide(
-                      color: Colors.black,
-                    ),
+                color: Colors.black,
+              ),
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(
                   Radius.circular(20),
                 ),
               ),
               onSelected: (bool value) {
-                widget.onChange(item.id);
+                ref.read(filterNotifierProvider.notifier).changeOrderBy(orderBy[index]);
               },
             ),
           );
         },
-        itemCount: widget.list.length,
+        itemCount: orderBy.length,
       ),
     );
   }

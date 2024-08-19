@@ -17,6 +17,11 @@ class AuthUserInterceptor extends InterceptorsWrapper {
     final cusHeaders = _customHeaders(
         url: options.path, data: options.data, accessToken: accessToken);
 
+    if(options.data is FormData){
+      print((options.data as FormData).files);
+    }
+
+
     options.headers = cusHeaders;
 
     previousOptions = options;
@@ -97,8 +102,8 @@ class AuthUserInterceptor extends InterceptorsWrapper {
 
     // Headers
     Map<String, dynamic> headers = {
-      'Content-Type':
-      (data is FormData) ? 'multipart/form-data' : 'application/json',
+      // 'Content-Type':
+      // (data is FormData) ? 'multipart/form-data' : 'application/json',
       'timeAction': timeNow,
       'API-Token': apiToken,
     };

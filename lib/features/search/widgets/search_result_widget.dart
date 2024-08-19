@@ -16,6 +16,7 @@ class SearchResultWidget extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          Divider(height: 25,),
           if (searchProvider.isLoading) ...[
             Center(
               child: CircularProgressIndicator(),

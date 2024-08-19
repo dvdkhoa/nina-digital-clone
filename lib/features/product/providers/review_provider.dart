@@ -26,12 +26,21 @@ class AsyncReviewNotifier extends _$AsyncReviewNotifier {
     return List.empty();
   }
 
+  Future refresh(productId) async {
+    state = AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      final list = await fetchReviews(productId);
+      return list;
+    },);
+  }
+
   Future<bool> createReview(ReviewModel model, List<File> files) async {
     final reviewRepository = ReviewRepository(ref.watch(dioProvider));
 
     final res = await reviewRepository.createReview(model, files);
 
     if(res != null && res['data'] != null) {
+      this.refresh(model.idVariant);
       return true;
     }
     return false;

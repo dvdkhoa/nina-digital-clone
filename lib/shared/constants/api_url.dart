@@ -46,4 +46,9 @@ class ApiUrl {
   static const String REVIEW = '$baseUrl/review';
   static const String CREATE_REVIEW = '$baseUrl/review/create';
 
+  static const String CITY = '$baseUrl/place/cities';
+  static const String DISTRICTS = '$baseUrl/place/districts';
+  static const String BRANCHES = '$baseUrl/branchs';
+  static const String QUANTITY_BRANCHES = '$baseUrl/branchs/quantity';
+
 }

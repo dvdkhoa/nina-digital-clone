@@ -9,8 +9,33 @@ class OldSearchListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Column(
-        children:
-            _oldSearchs.map((item) => SearchItemWidget(title: item)).toList(),
+        children: [
+          SizedBox(
+            height: 20,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Hôm nay',
+                style: TextStyle(fontSize: 15),
+              ),
+              InkWell(
+                onTap: () {
+                  print('Xóa');
+                  // ref.read(filterNotifierProvider.notifier).changeSearchKeyWord(null);
+                  // setState(() {});
+                },
+                child: Text(
+                  'Xóa tất cả',
+                  style: TextStyle(fontSize: 13),
+                ),
+              ),
+            ],
+          ),
+          Divider(height: 15,),
+          ..._oldSearchs.map((item) => SearchItemWidget(title: item)).toList()
+        ] ,
       ),
     );
   }

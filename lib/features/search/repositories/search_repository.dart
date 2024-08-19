@@ -14,4 +14,11 @@ class SearchRepository {
       return response.data;
     }
   }
+
+  Future filterProducts(data) async {
+    final response = await dioClient.get(ApiUrl.PRODUCT, queryParameters: data);
+    if (response.statusCode == 200) {
+      return response.data;
+    }
+  }
 }

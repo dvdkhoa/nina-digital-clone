@@ -34,7 +34,7 @@ class ProductDetailScreen extends ConsumerStatefulWidget {
   ProductDetailScreen({Key? key, required this.productId}) : super(key: key);
 
   static const String nameRoute = 'product-detail';
-  static const String pathRoute = 'product/:id';
+  static const String pathRoute = '/product-detail/:id';
 
   @override
   ConsumerState<ProductDetailScreen> createState() =>

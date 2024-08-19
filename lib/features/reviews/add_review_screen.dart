@@ -1,12 +1,19 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:badges/badges.dart' as badges;
+import 'package:mime_type/mime_type.dart' as mine;
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 import '../../core/authentication_user/providers/auth_user_provider.dart';
+import '../../shared/common_widgets/video_thumbnail_widget.dart';
+import '../../shared/constants/api_url.dart';
 import '../../shared/utils/helper.dart';
 import '../product/models/ReviewModel.dart';
 import '../product/product_detail_screen.dart';
@@ -104,8 +111,9 @@ class _AddReviewScreenState extends ConsumerState<AddReviewScreen> {
     final userInfo = ref.read(authUserProvider.select((value)=>value.userLogin));
     ReviewModel model = ReviewModel(
       fullname: userInfo?.fullname,
-    email: userInfo?.email,
-    idVariant: widget.productId,
+      email: userInfo?.email,
+      idVariant: widget.productId,
+      type: 'san-pham',
       phone: userInfo?.phone,
       title: contentEditController.text,
       content: contentEditController.text,

@@ -1,6 +1,21 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+import '../../shared/constants/api_url.dart';
+import '../../shared/utils/helper.dart';
+import 'models/district_model.dart';
 import 'models/mock_model.dart';
+import 'providers/branch_provider.dart';
+import 'providers/city_provider.dart';
+import 'providers/district_provider.dart';
+import 'providers/quantity_branch_provider.dart';
+
+part 'widgets/city_select_widget.dart';
+part 'widgets/district_select_widget.dart';
+part 'widgets/branch_result_widget.dart';
+part 'widgets/custom_list_tile_widget.dart';
 
 class BranchScreen extends StatefulWidget {
   const BranchScreen({Key? key}) : super(key: key);
@@ -14,6 +29,7 @@ class BranchScreen extends StatefulWidget {
 
 class _BranchScreenState extends State<BranchScreen> {
   List branches = [];
+
 
   @override
   Widget build(BuildContext context) {
@@ -124,113 +140,9 @@ class _BranchScreenState extends State<BranchScreen> {
                           padding: EdgeInsets.symmetric(vertical: 10)),
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 10),
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: DropdownButtonFormField(
-                      value: -1,
-                      style: DefaultTextStyle.of(context)
-                          .style
-                          .copyWith(fontSize: 13),
-                      items: [
-                        DropdownMenuItem(
-                          child: Text(
-                            'Tỉnh / Thành phố',
-                          ),
-                          value: -1,
-                        ),
-                        ...citys
-                            .map((city) => DropdownMenuItem(
-                                  child: Text(
-                                    city['title'].toString(),
-                                  ),
-                                  value: city['id'].toString(),
-                                ))
-                            .toList()
-                      ],
-                      onChanged: (value) {
-                        print('Tỉnh/Thành phố: $value');
-                        setState(() {
-                          if (value != -1)
-                            branches = branchsByCity;
-                          else
-                            branches = [];
-                        });
-                      },
-                      decoration: const InputDecoration(
-                        // filled: true,
-                        // fillColor: Color(0xFFF4F4F4),
-                        focusedBorder: _normalInputBorder,
-                        enabledBorder: _enableInputBorder,
-                        contentPadding: EdgeInsets.symmetric(
-                          vertical: 5,
-                          horizontal: 15,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: DropdownButtonFormField(
-                      value: -1,
-                      style: DefaultTextStyle.of(context)
-                          .style
-                          .copyWith(fontSize: 13),
-                      items: const [
-                        DropdownMenuItem(
-                          child: Text(
-                            'Quận huyện',
-                          ),
-                          value: -1,
-                        ),
-                      ],
-                      onChanged: (value) {
-                        print('Quận huyện: $value');
-                      },
-                      decoration: const InputDecoration(
-                        // filled: true,
-                        // fillColor: Color(0xFFF4F4F4),
-                        focusedBorder: _normalInputBorder,
-                        enabledBorder: _enableInputBorder,
-                        contentPadding: EdgeInsets.symmetric(
-                          vertical: 5,
-                          horizontal: 15,
-                        ),
-                      ),
-                    ),
-                  ),
-                  (branches.length == 0)
-                      ? Column(
-                          children: [
-                            ...ListTile.divideTiles(
-                                context: context,
-                                color: Color(0xffEDEDED),
-                                tiles: citys
-                                    .map((city) => ListTile(
-                                          title: Text(city['title'].toString() +
-                                              ' (${city['count'].toString()})'),
-                                        ))
-                                    .toList())
-                          ],
-                        )
-                      : Container(
-                          margin: EdgeInsets.symmetric(vertical: 20),
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child: Column(
-                            children: [
-                              ...ListTile.divideTiles(
-                                  color: Color(0xffEDEDED),
-                                  context: context,
-                                  tiles: [
-                                    ...branches
-                                        .map((branch) => _customListTile(
-                                            image: branch['image'],
-                                            desc: branch['desc']))
-                                        .toList()
-                                  ]),
-                            ],
-                          ),
-                        ),
+                  CitySelectWidget(),
+                  DistrictSelectWidget(),
+                  BranchResultWidget()
                 ],
               ),
             ),
@@ -249,81 +161,6 @@ const _enableInputBorder = OutlineInputBorder(
     borderSide: BorderSide(color: Color(0xff3C3C3C)),
     borderRadius: BorderRadius.all(Radius.circular(8)));
 
-class _customListTile extends StatelessWidget {
-  final String image;
-  final String desc;
-
-  _customListTile(
-      {Key? key, required String this.image, required String this.desc})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final defaultTextStyle = DefaultTextStyle.of(context).style;
-
-    return Container(
-        padding: EdgeInsets.symmetric(vertical: 5),
-        margin: EdgeInsets.symmetric(vertical: 10),
-        child: Column(children: [
-          Row(
-            children: [
-              Image.asset(
-                'assets/images/${image}',
-                width: 70,
-              ),
-              SizedBox(
-                width: 18,
-              ),
-              Expanded(child: Text(desc))
-            ],
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Row(
-            children: [
-              TextButton.icon(
-                onPressed: () {},
-                label: Text(
-                  'Hotline',
-                  style: defaultTextStyle.copyWith(
-                      fontSize: 13, color: Colors.black),
-                ),
-                icon: Icon(
-                  Icons.phone,
-                  color: Colors.black,
-                ),
-                style: TextButton.styleFrom(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    shape: RoundedRectangleBorder(
-                        side: BorderSide(width: 1, color: Colors.black),
-                        borderRadius: BorderRadius.circular(6))),
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              TextButton.icon(
-                onPressed: () {},
-                label: Text(
-                  'Chỉ đường',
-                  style: defaultTextStyle.copyWith(
-                      fontSize: 13, color: Colors.black),
-                ),
-                icon: Icon(
-                  Icons.navigation,
-                  color: Colors.black,
-                ),
-                style: TextButton.styleFrom(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    shape: RoundedRectangleBorder(
-                        side: BorderSide(width: 1, color: Colors.black),
-                        borderRadius: BorderRadius.circular(6))),
-              )
-            ],
-          )
-        ]));
-  }
-}
 
 
 

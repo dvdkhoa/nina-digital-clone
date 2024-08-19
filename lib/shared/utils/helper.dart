@@ -7,7 +7,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:crypto/crypto.dart';
 import 'package:map_launcher/map_launcher.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:video_player/video_player.dart';
+import 'package:mime/mime.dart';
 
 import '../common_widgets/gallery_photo/gallery_photo_view_widget.dart';
 
@@ -24,10 +27,38 @@ class Helper {
     }
   }
 
-  static Future<List<XFile>?> pickMultiImage(ImageSource source) async {
+  static Future<List<XFile>?> pickMultiImage(
+      ImageSource source, BuildContext context) async {
     final picker = ImagePicker();
-    List<XFile> pickedFiles = await picker.pickMultiImage();
+    List<XFile> pickedFiles = await picker.pickMultipleMedia();
+        for (final file in pickedFiles) {
+      final size = await file.length();
+      if (size > 104857600) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Vui lòng chọn file dưới 100MB')));
+        return null;
+      }
+      final mine = lookupMimeType(file.path);
+      if(mine?.startsWith('video') ?? false) {
+        VideoPlayerController videoController =  VideoPlayerController.file(File(file.path));
 
+        await videoController.initialize();
+
+        final seconds = videoController.value.duration.inSeconds;
+
+        videoController.dispose();
+
+        print('seconds: $seconds');
+
+        if(seconds > 20) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Video không đựược dài quá 20 giây')));
+          return null;
+        }
+      }
+    }
+
+    print(pickedFiles);
     if (pickedFiles.isNotEmpty) {
       return pickedFiles;
     } else {
@@ -134,6 +165,14 @@ class Helper {
       coords: Coords(latitude, longitude),
       title: title,
     );
+  }
+
+  static void openGoogleMap(String link) async {
+    if (await canLaunchUrlString(link)) {
+      await launchUrlString(link);
+    } else {
+      throw Exception('Could not launch $link');
+    }
   }
 }
 

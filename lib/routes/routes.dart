@@ -194,6 +194,17 @@ List<RouteBase> _danhsachRoute = [
     },
   ),
   GoRoute(
+    name: ProductDetailScreen.nameRoute,
+    path: ProductDetailScreen.pathRoute,
+    pageBuilder: (context, state) {
+      return _effectTransitionFade(
+          context,
+          state,
+          ProductDetailScreen(
+              productId: state.pathParameters['id']!));
+    },
+  ),
+  GoRoute(
     name: NewsDetailScreen.nameRoute,
     path: NewsDetailScreen.pathRoute,
     pageBuilder: (context, state) {
@@ -301,17 +312,7 @@ ShellRouteBase addShellRouterMain() {
                     return const PopularScreen();
                   },
                 ),
-                GoRoute(
-                  name: ProductDetailScreen.nameRoute,
-                  path: ProductDetailScreen.pathRoute,
-                  pageBuilder: (context, state) {
-                    return _effectTransitionFade(
-                        context,
-                        state,
-                        ProductDetailScreen(
-                            productId: state.pathParameters['id']!));
-                  },
-                ),
+
               ]),
         ],
       ),

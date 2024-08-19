@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:nina_digital/features/search/models/product_model.dart';
-import 'package:nina_digital/features/home/widgets/category_list_filter_widget.dart';
-import 'package:nina_digital/shared/common_widgets/list_filter_widget.dart';
 
-import 'models/mock_model.dart';
+import '../../shared/extensions/string_ext.dart';
+import '../../shared/utils/helper.dart';
+import 'providers/filter_provider.dart';
 import 'providers/search_provider.dart';
 import 'widgets/old_search_list_widget.dart';
+import 'widgets/orderby_widget.dart';
+import 'widgets/procat_widget.dart';
+import 'widgets/prolist_widget.dart';
 import 'widgets/search_result_widget.dart';
 
 part 'widgets/filter_modal_widget.dart';
+part 'widgets/result_section_widget.dart';
 
 class SearchScreen extends ConsumerStatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -23,11 +26,19 @@ class SearchScreen extends ConsumerStatefulWidget {
 }
 
 class _SearchScreenState extends ConsumerState<SearchScreen> {
-  String _searchKey = '';
+  bool isFilter = false;
   final searchController = TextEditingController();
+
+  void setFilter(bool value) {
+    setState(() {
+      isFilter = value;
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
+    print('rebuild search');
     final defaultTextStyle = DefaultTextStyle.of(context).style;
     return Scaffold(
       appBar: AppBar(
@@ -41,23 +52,49 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
             children: [
               TextField(
                 controller: searchController,
-                onSubmitted: (value) async {
-                  await ref
-                      .read(searchNotifierProvider.notifier)
-                      .searchProducts(value);
-                  setState(() {
-                    _searchKey = value;
-                  });
+                onChanged: (value) {
+                  ref.read(filterNotifierProvider.notifier).changeSearchKeyWord(value);
                 },
                 style: TextStyle(fontSize: 14),
                 decoration: InputDecoration(
                     filled: true,
                     fillColor: Color(0xffF5F5F5),
-                    prefixIcon: Icon(Icons.search, color: Colors.grey.shade500),
+                    prefixIcon: IconButton(
+                      icon: Icon(Icons.search, color: Colors.grey.shade500),
+                      onPressed: () {
+                        _onSubmit();
+                      },
+                    ),
                     suffixIcon: GestureDetector(
                       child: Icon(Icons.tune),
                       onTap: () {
-                        _showFilterModal(context, defaultTextStyle);
+                        showModalBottomSheet(
+                          useSafeArea: true,
+                          isScrollControlled: true,
+                          enableDrag: true,
+                          isDismissible: true,
+                          showDragHandle: true,
+                          context: context,
+                          builder: (context) {
+                            return Padding(
+                              padding: EdgeInsets.only(
+                                  bottom:
+                                      MediaQuery.of(context).viewInsets.bottom),
+                              child: FilterModelBottomSheet(
+                                onFilter: () {
+                                  setFilter(true);
+                                },
+                                onReset: () {
+                                  setFilter(false);
+                                  ref
+                                      .read(filterNotifierProvider.notifier)
+                                      .reset();
+                                 searchController.text = '';
+                                },
+                              ),
+                            );
+                          },
+                        );
                       },
                     ),
                     hintText: 'Nhập nội dung tìm kiếm',
@@ -65,43 +102,47 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                     enabledBorder: _enableBorder,
                     focusedBorder: _focusBorder),
               ),
-              SizedBox(
-                height: 30,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Hôm nay',
-                    style: TextStyle(fontSize: 15),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      searchController.text = '';
-                      setState(() {
-                        _searchKey = '';
-                      });
-                    },
-                    child: Text(
-                      'Xóa tất cả',
-                      style: TextStyle(fontSize: 13),
-                    ),
-                  ),
-                ],
-              ),
-              Divider(
-                height: 15,
-              ),
-              _searchKey.isEmpty
-                  ? OldSearchListWidget()
-                  : SearchResultWidget(
-                      keyword: _searchKey,
-                    ),
+              // SizedBox(
+              //   height: 20,
+              // ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: [
+              //     Text(
+              //       'Hôm nay',
+              //       style: TextStyle(fontSize: 15),
+              //     ),
+              //     InkWell(
+              //       onTap: () {
+              //         print('Xóa');
+              //         // ref.read(filterNotifierProvider.notifier).changeSearchKeyWord(null);
+              //         // setState(() {});
+              //       },
+              //       child: Text(
+              //         'Xóa tất cả',
+              //         style: TextStyle(fontSize: 13),
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // Divider(
+              //   height: 15,
+              // ),
+              ResultSectionWidget(isFilter: isFilter,)
             ],
           ),
         ),
       ),
     );
+  }
+
+  void _onSubmit() async {
+    final keyword = ref.read(filterNotifierProvider.select((value)=>value.keyword));
+    await ref
+        .read(searchNotifierProvider.notifier)
+        .searchProducts(keyword);
+    setState(() {
+    });
   }
 }
 

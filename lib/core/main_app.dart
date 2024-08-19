@@ -9,6 +9,8 @@ import '../shared/theme/app_theme.dart';
 import 'app_providers/internet_provider.dart';
 import 'app_setttings/app_setting_provider.dart';
 
+final GlobalKey keyMainSca = GlobalKey();
+
 class MainApp extends ConsumerWidget {
   const MainApp({super.key});
 
@@ -41,6 +43,7 @@ class MainApp extends ConsumerWidget {
       routerConfig: router,
       builder: (context, child) {
         return Scaffold(
+          key: keyMainSca,
           resizeToAvoidBottomInset: false,
           body: Stack(
             children: [
