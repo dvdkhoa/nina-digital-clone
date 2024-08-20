@@ -1,8 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nina_digital/features/home/providers/product_category.dart';
 
+import '../../../shared/constants/api_url.dart';
 import '../../../shared/extensions/string_ext.dart';
 import '../../product_category/product_category_screen.dart';
 import '../models/mock_model.dart';
@@ -42,11 +44,18 @@ class CategoryListWidget extends ConsumerWidget {
                       width: 100,
                       child: Column(
                         children: [
-                          Image.asset(
-                            'assets/images/swatch_cat.png',
-                            fit: BoxFit.cover,
-                            width: 80,
-                            height: 80,
+                          ClipOval(
+                            child: Container(
+                              color: Colors.lightBlueAccent.shade100,
+                              child: CachedNetworkImage(
+                                imageUrl: '${ApiUrl.resourcesURL}/upload/product/${item.icon}',
+                                placeholder: (context, url) => Image.asset('assets/images/placeholder.jpg'),
+                                errorWidget: (context, url, error) => Image.asset('assets/images/error.png'),
+                                fit: BoxFit.scaleDown,
+                                width: 80,
+                                height: 80,
+                              ),
+                            ),
                           ),
                           Text(
                             item.namevi.capitalize(),

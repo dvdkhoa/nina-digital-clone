@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../core/app_setttings/app_setting_provider.dart';
+import '../../../../core/app_setttings/app_setting_provider.dart';
+
+
 
 class LanguageScreen extends ConsumerStatefulWidget {
   LanguageScreen({Key? key}) : super(key: key);

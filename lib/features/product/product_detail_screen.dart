@@ -5,9 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:go_router/go_router.dart';
-import 'package:isar/isar.dart';
 import 'package:nina_digital/features/reviews/review_screen.dart';
-// import 'package:nina_digital/shared/common_widgets/gallery_item_view_widget.dart';
 import 'package:nina_digital/shared/constants/api_url.dart';
 import 'package:nina_digital/shared/utils/helper.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -17,6 +15,7 @@ import '../../core/authentication_user/providers/auth_user_provider.dart';
 import '../../shared/common_widgets/gallery_photo/gallery_photo_view_widget.dart';
 import '../../shared/extensions/string_ext.dart';
 import '../../shared/mixins/ui_mixins.dart';
+import '../cart/cart_screen.dart';
 import '../cart/providers/cart_provider.dart';
 import '../favorite/providers/favorite_product_provider.dart';
 import 'models/ReviewModel.dart';
@@ -25,12 +24,16 @@ import 'providers/product_provider.dart';
 import 'providers/review_provider.dart';
 
 part './widgets/review_section_widget.dart';
+
 part './widgets/review_item_widget.dart';
+
 part './widgets/assets_review_widget.dart';
+
 part './widgets/product_desc_widget.dart';
 
 class ProductDetailScreen extends ConsumerStatefulWidget {
   final String productId;
+
   ProductDetailScreen({Key? key, required this.productId}) : super(key: key);
 
   static const String nameRoute = 'product-detail';
@@ -54,7 +57,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
     });
   }
 
-  _showCusDialog() {
+  _showSuccessDialog() {
     AwesomeDialog(
       context: context,
       dialogType: DialogType.success,
@@ -62,9 +65,22 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
       title: 'Thông báo',
       desc: 'Thêm sản phẩm vào giỏ hàng thành công',
       btnCancelOnPress: () {},
-      btnOkOnPress: () {},
+      btnOkOnPress: () {
+        context.pushNamed(CartScreen.nameRoute);
+      },
       btnOkText: 'Giỏ hàng',
       btnCancelText: 'Hủy bỏ',
+    )..show();
+  }
+
+  _showFailDialog() {
+    AwesomeDialog(
+      context: context,
+      dialogType: DialogType.error,
+      animType: AnimType.rightSlide,
+      title: 'Thông báo',
+      desc: 'Thêm sản phẩm vào giỏ hàng thất bại',
+      btnCancelOnPress: () {},
     )..show();
   }
 
@@ -88,16 +104,8 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
     return list;
   }
 
-
-  // Future<void> _init() async{
-  //   Future.delayed(const Duration(milliseconds: 0), (){
-  //     ref.read(asyncReViewNotifierProvider.notifier).getReviewByProduct(widget.productId);
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
-
     final userInfo = ref.watch(authUserProvider.select(
       (value) => value.userLogin,
     ));
@@ -361,16 +369,9 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                       await loading.stop();
 
                       if (result) {
-                        _showCusDialog();
+                        _showSuccessDialog();
                       } else {
-                        AwesomeDialog(
-                          context: context,
-                          dialogType: DialogType.error,
-                          animType: AnimType.rightSlide,
-                          title: 'Thông báo',
-                          desc: 'Thêm sản phẩm vào giỏ hàng thất bại',
-                          btnCancelOnPress: () {},
-                        )..show();
+                        _showFailDialog();
                       }
                     },
                     label: Text('Thêm vào giỏ hàng',

@@ -1,9 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nina_digital/features/home/providers/product_category.dart';
 
+import '../../../shared/constants/api_url.dart';
 import '../../../shared/extensions/string_ext.dart';
 import '../../product/product_detail_screen.dart';
 import '../../product_category/product_category_screen.dart';
@@ -51,8 +54,19 @@ class CategoryScreen extends ConsumerWidget {
                   child: Container(
                     child: Column(
                       children: [
-                        Image.asset('assets/images/swatch_cat.png',
-                            height: 80, width: 80),
+                        ClipOval(
+                          child: Container(
+                            color: Colors.lightBlueAccent.shade100,
+                            child: CachedNetworkImage(
+                                imageUrl: '${ApiUrl.resourcesURL}/upload/product/${data[index].icon}',
+                                placeholder: (context, url) => const Center(child: SpinKitCircle(size: 30, color: Colors.red,),),
+                                errorWidget: (context, url, error) => Center(child: Image.asset('assets/images/error.png'),),
+                                height: 80,
+                                width: 80,
+                                fit: BoxFit.scaleDown,
+                            ),
+                          ),
+                        ),
                         Text(data[index].namevi.capitalize()),
                         SizedBox(
                           height: 30,

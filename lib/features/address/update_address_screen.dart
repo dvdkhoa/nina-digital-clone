@@ -40,7 +40,7 @@ class _UpdateAddressScreenState extends ConsumerState<UpdateAddressScreen> {
 
     final address = AddressModel(
         id: widget.model.id,
-        idUser: int.parse(userInfo?.id ?? ''),
+        idUser: int.parse(userInfo?.id.toString() ?? ''),
         nameAddress: addressNameController.text,
         nameRecipient: recipientNameController.text,
         phoneRecipient: phoneAddressController.text,

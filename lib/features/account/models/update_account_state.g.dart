@@ -1,35 +1,31 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user_model.dart';
+part of 'update_account_state.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$UserModelImpl _$$UserModelImplFromJson(Map<String, dynamic> json) =>
-    _$UserModelImpl(
+_$UpdateAccountStateImpl _$$UpdateAccountStateImplFromJson(
+        Map<String, dynamic> json) =>
+    _$UpdateAccountStateImpl(
       id: (json['id'] as num?)?.toInt(),
       username: json['username'] as String?,
-      avatar: json['avatar'] as String?,
       fullname: json['fullname'] as String?,
       phone: json['phone'] as String?,
       email: json['email'] as String?,
-      address: json['address'] as String?,
       gender: (json['gender'] as num?)?.toInt(),
       birthday: (json['birthday'] as num?)?.toInt(),
-      crush: json['crush'] as String?,
     );
 
-Map<String, dynamic> _$$UserModelImplToJson(_$UserModelImpl instance) =>
+Map<String, dynamic> _$$UpdateAccountStateImplToJson(
+        _$UpdateAccountStateImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'username': instance.username,
-      'avatar': instance.avatar,
       'fullname': instance.fullname,
       'phone': instance.phone,
       'email': instance.email,
-      'address': instance.address,
       'gender': instance.gender,
       'birthday': instance.birthday,
-      'crush': instance.crush,
     };

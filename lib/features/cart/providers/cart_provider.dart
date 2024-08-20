@@ -85,7 +85,7 @@ class CartNotifier extends Notifier<CartState> {
     final cartRepository = CartRepository(ref.watch(dioProvider));
 
     final addToCartModel = AddToCartModel(
-        userId: int.parse(_userInfo?.id ?? ''),
+        userId: int.parse(_userInfo?.id.toString() ?? ''),
         productId: productId,
         quantity: quantity);
 

@@ -347,7 +347,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                 fullname: userInfo?.fullname,
                 email: userInfo?.email,
                 phone: userInfo?.phone,
-                idUser: int.parse(userInfo?.id ?? '0'),
+                idUser: int.parse(userInfo?.id.toString() ?? '0'),
                 tempPrice: tempPrice,
                 totalPrice: totalPrice,
                 shipPrice: _shipMethod?.feeValue ?? 0,

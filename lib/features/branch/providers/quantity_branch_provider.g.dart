@@ -7,7 +7,7 @@ part of 'quantity_branch_provider.dart';
 // **************************************************************************
 
 String _$quantityBranchNotifierHash() =>
-    r'72382196c26c349be06bc7ff92c30d5a6a0108cb';
+    r'57a184d87abe553695d9fa65a4ac5952e0b6ca65';
 
 /// See also [QuantityBranchNotifier].
 @ProviderFor(QuantityBranchNotifier)

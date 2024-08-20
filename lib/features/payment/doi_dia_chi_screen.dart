@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../shared/mixins/form_mixin.dart';
-import '../account/address/address_detail_screen.dart';
+import '../account/screens/address/address_detail_screen.dart';
 
 class DoiDiaChiScreen extends ConsumerStatefulWidget {
   const DoiDiaChiScreen({super.key});

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nina_digital/shared/constants/api_url.dart';
 import 'package:nina_digital/shared/providers/models/product_model.dart';
@@ -53,7 +54,7 @@ class BoxProductWidget extends ConsumerWidget {
                   child: CachedNetworkImage(
                     imageUrl: '${ApiUrl.resourcesURL}/upload/product/' +
                         product.photo.toString(),
-                    placeholder: (context, url) => CircularProgressIndicator(),
+                    placeholder: (context, url) => Center(child: SpinKitCircle(size: 20, color: Colors.red,),),
                     errorWidget: (context, url, error) => Icon(Icons.error),
                     height: 120,
                   ),

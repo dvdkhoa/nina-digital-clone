@@ -7,7 +7,7 @@ import 'package:nina_digital/features/forgot_password/screens/reset_password_scr
 
 import '../core/app_setttings/app_setting_provider.dart';
 import '../features/account/acount_screen.dart';
-import '../features/account/language/language_screen.dart';
+import '../features/account/screens/language/language_screen.dart';
 import '../features/address/add_address_screen.dart';
 import '../features/address/address_screen.dart';
 import '../features/address/models/AddressModel.dart';
@@ -35,7 +35,7 @@ import '../features/orders/order_screen.dart';
 import '../features/checkout/payment_method_screen.dart';
 import '../features/product/product_detail_screen.dart';
 import '../features/product_category/product_category_screen.dart';
-import '../features/profile/profile_screen.dart';
+import '../features/account/screens/profile/profile_screen.dart';
 import '../features/checkout/promotion_screen.dart';
 import '../features/register/register_screen.dart';
 import '../features/reviews/add_review_screen.dart';
@@ -48,14 +48,9 @@ import '../shared/app_config.dart';
 import '../shared/common_widgets/error_404_widget.dart';
 import '../features/login/login_screen.dart';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 import '../core/authentication_user/providers/auth_user_provider.dart';
-import '../features/forgot_password/forgot_password_screen.dart';
 import '../features/sign_up/sign_up_screen.dart';
-import '../shared/app_config.dart';
 
 part 'routes.dart';
 part 'app_router_notifier.dart';

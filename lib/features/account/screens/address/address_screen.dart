@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../shared/extensions/context_ext.dart';
-import '../../../shared/mixins/form_mixin.dart';
+import '../../../../shared/extensions/context_ext.dart';
+import '../../../../shared/mixins/form_mixin.dart';
 import 'address_detail_screen.dart';
 
 class AddressScreen extends StatelessWidget with FormMixins {

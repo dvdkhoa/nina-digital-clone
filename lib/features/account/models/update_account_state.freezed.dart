@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'user_model.dart';
+part of 'update_account_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,51 +14,46 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-UserModel _$UserModelFromJson(Map<String, dynamic> json) {
-  return _UserModel.fromJson(json);
+UpdateAccountState _$UpdateAccountStateFromJson(Map<String, dynamic> json) {
+  return _UpdateAccountState.fromJson(json);
 }
 
 /// @nodoc
-mixin _$UserModel {
+mixin _$UpdateAccountState {
   int? get id => throw _privateConstructorUsedError;
   String? get username => throw _privateConstructorUsedError;
-  String? get avatar => throw _privateConstructorUsedError;
   String? get fullname => throw _privateConstructorUsedError;
   String? get phone => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
-  String? get address => throw _privateConstructorUsedError;
   int? get gender => throw _privateConstructorUsedError;
   int? get birthday => throw _privateConstructorUsedError;
-  String? get crush => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $UserModelCopyWith<UserModel> get copyWith =>
+  $UpdateAccountStateCopyWith<UpdateAccountState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $UserModelCopyWith<$Res> {
-  factory $UserModelCopyWith(UserModel value, $Res Function(UserModel) then) =
-      _$UserModelCopyWithImpl<$Res, UserModel>;
+abstract class $UpdateAccountStateCopyWith<$Res> {
+  factory $UpdateAccountStateCopyWith(
+          UpdateAccountState value, $Res Function(UpdateAccountState) then) =
+      _$UpdateAccountStateCopyWithImpl<$Res, UpdateAccountState>;
   @useResult
   $Res call(
       {int? id,
       String? username,
-      String? avatar,
       String? fullname,
       String? phone,
       String? email,
-      String? address,
       int? gender,
-      int? birthday,
-      String? crush});
+      int? birthday});
 }
 
 /// @nodoc
-class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
-    implements $UserModelCopyWith<$Res> {
-  _$UserModelCopyWithImpl(this._value, this._then);
+class _$UpdateAccountStateCopyWithImpl<$Res, $Val extends UpdateAccountState>
+    implements $UpdateAccountStateCopyWith<$Res> {
+  _$UpdateAccountStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -70,14 +65,11 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
   $Res call({
     Object? id = freezed,
     Object? username = freezed,
-    Object? avatar = freezed,
     Object? fullname = freezed,
     Object? phone = freezed,
     Object? email = freezed,
-    Object? address = freezed,
     Object? gender = freezed,
     Object? birthday = freezed,
-    Object? crush = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -88,10 +80,6 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
               as String?,
-      avatar: freezed == avatar
-          ? _value.avatar
-          : avatar // ignore: cast_nullable_to_non_nullable
-              as String?,
       fullname: freezed == fullname
           ? _value.fullname
           : fullname // ignore: cast_nullable_to_non_nullable
@@ -104,10 +92,6 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String?,
-      address: freezed == address
-          ? _value.address
-          : address // ignore: cast_nullable_to_non_nullable
-              as String?,
       gender: freezed == gender
           ? _value.gender
           : gender // ignore: cast_nullable_to_non_nullable
@@ -116,41 +100,34 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.birthday
           : birthday // ignore: cast_nullable_to_non_nullable
               as int?,
-      crush: freezed == crush
-          ? _value.crush
-          : crush // ignore: cast_nullable_to_non_nullable
-              as String?,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$UserModelImplCopyWith<$Res>
-    implements $UserModelCopyWith<$Res> {
-  factory _$$UserModelImplCopyWith(
-          _$UserModelImpl value, $Res Function(_$UserModelImpl) then) =
-      __$$UserModelImplCopyWithImpl<$Res>;
+abstract class _$$UpdateAccountStateImplCopyWith<$Res>
+    implements $UpdateAccountStateCopyWith<$Res> {
+  factory _$$UpdateAccountStateImplCopyWith(_$UpdateAccountStateImpl value,
+          $Res Function(_$UpdateAccountStateImpl) then) =
+      __$$UpdateAccountStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {int? id,
       String? username,
-      String? avatar,
       String? fullname,
       String? phone,
       String? email,
-      String? address,
       int? gender,
-      int? birthday,
-      String? crush});
+      int? birthday});
 }
 
 /// @nodoc
-class __$$UserModelImplCopyWithImpl<$Res>
-    extends _$UserModelCopyWithImpl<$Res, _$UserModelImpl>
-    implements _$$UserModelImplCopyWith<$Res> {
-  __$$UserModelImplCopyWithImpl(
-      _$UserModelImpl _value, $Res Function(_$UserModelImpl) _then)
+class __$$UpdateAccountStateImplCopyWithImpl<$Res>
+    extends _$UpdateAccountStateCopyWithImpl<$Res, _$UpdateAccountStateImpl>
+    implements _$$UpdateAccountStateImplCopyWith<$Res> {
+  __$$UpdateAccountStateImplCopyWithImpl(_$UpdateAccountStateImpl _value,
+      $Res Function(_$UpdateAccountStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -158,16 +135,13 @@ class __$$UserModelImplCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? username = freezed,
-    Object? avatar = freezed,
     Object? fullname = freezed,
     Object? phone = freezed,
     Object? email = freezed,
-    Object? address = freezed,
     Object? gender = freezed,
     Object? birthday = freezed,
-    Object? crush = freezed,
   }) {
-    return _then(_$UserModelImpl(
+    return _then(_$UpdateAccountStateImpl(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -176,10 +150,6 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
               as String?,
-      avatar: freezed == avatar
-          ? _value.avatar
-          : avatar // ignore: cast_nullable_to_non_nullable
-              as String?,
       fullname: freezed == fullname
           ? _value.fullname
           : fullname // ignore: cast_nullable_to_non_nullable
@@ -192,10 +162,6 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String?,
-      address: freezed == address
-          ? _value.address
-          : address // ignore: cast_nullable_to_non_nullable
-              as String?,
       gender: freezed == gender
           ? _value.gender
           : gender // ignore: cast_nullable_to_non_nullable
@@ -204,38 +170,29 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value.birthday
           : birthday // ignore: cast_nullable_to_non_nullable
               as int?,
-      crush: freezed == crush
-          ? _value.crush
-          : crush // ignore: cast_nullable_to_non_nullable
-              as String?,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$UserModelImpl implements _UserModel {
-  const _$UserModelImpl(
+class _$UpdateAccountStateImpl implements _UpdateAccountState {
+  const _$UpdateAccountStateImpl(
       {this.id,
       this.username,
-      this.avatar,
       this.fullname,
       this.phone,
       this.email,
-      this.address,
       this.gender,
-      this.birthday,
-      this.crush});
+      this.birthday});
 
-  factory _$UserModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$UserModelImplFromJson(json);
+  factory _$UpdateAccountStateImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UpdateAccountStateImplFromJson(json);
 
   @override
   final int? id;
   @override
   final String? username;
-  @override
-  final String? avatar;
   @override
   final String? fullname;
   @override
@@ -243,80 +200,69 @@ class _$UserModelImpl implements _UserModel {
   @override
   final String? email;
   @override
-  final String? address;
-  @override
   final int? gender;
   @override
   final int? birthday;
-  @override
-  final String? crush;
 
   @override
   String toString() {
-    return 'UserModel(id: $id, username: $username, avatar: $avatar, fullname: $fullname, phone: $phone, email: $email, address: $address, gender: $gender, birthday: $birthday, crush: $crush)';
+    return 'UpdateAccountState(id: $id, username: $username, fullname: $fullname, phone: $phone, email: $email, gender: $gender, birthday: $birthday)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UserModelImpl &&
+            other is _$UpdateAccountStateImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.username, username) ||
                 other.username == username) &&
-            (identical(other.avatar, avatar) || other.avatar == avatar) &&
             (identical(other.fullname, fullname) ||
                 other.fullname == fullname) &&
             (identical(other.phone, phone) || other.phone == phone) &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.address, address) || other.address == address) &&
             (identical(other.gender, gender) || other.gender == gender) &&
             (identical(other.birthday, birthday) ||
-                other.birthday == birthday) &&
-            (identical(other.crush, crush) || other.crush == crush));
+                other.birthday == birthday));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, username, avatar, fullname,
-      phone, email, address, gender, birthday, crush);
+  int get hashCode => Object.hash(
+      runtimeType, id, username, fullname, phone, email, gender, birthday);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UserModelImplCopyWith<_$UserModelImpl> get copyWith =>
-      __$$UserModelImplCopyWithImpl<_$UserModelImpl>(this, _$identity);
+  _$$UpdateAccountStateImplCopyWith<_$UpdateAccountStateImpl> get copyWith =>
+      __$$UpdateAccountStateImplCopyWithImpl<_$UpdateAccountStateImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UserModelImplToJson(
+    return _$$UpdateAccountStateImplToJson(
       this,
     );
   }
 }
 
-abstract class _UserModel implements UserModel {
-  const factory _UserModel(
+abstract class _UpdateAccountState implements UpdateAccountState {
+  const factory _UpdateAccountState(
       {final int? id,
       final String? username,
-      final String? avatar,
       final String? fullname,
       final String? phone,
       final String? email,
-      final String? address,
       final int? gender,
-      final int? birthday,
-      final String? crush}) = _$UserModelImpl;
+      final int? birthday}) = _$UpdateAccountStateImpl;
 
-  factory _UserModel.fromJson(Map<String, dynamic> json) =
-      _$UserModelImpl.fromJson;
+  factory _UpdateAccountState.fromJson(Map<String, dynamic> json) =
+      _$UpdateAccountStateImpl.fromJson;
 
   @override
   int? get id;
   @override
   String? get username;
-  @override
-  String? get avatar;
   @override
   String? get fullname;
   @override
@@ -324,15 +270,11 @@ abstract class _UserModel implements UserModel {
   @override
   String? get email;
   @override
-  String? get address;
-  @override
   int? get gender;
   @override
   int? get birthday;
   @override
-  String? get crush;
-  @override
   @JsonKey(ignore: true)
-  _$$UserModelImplCopyWith<_$UserModelImpl> get copyWith =>
+  _$$UpdateAccountStateImplCopyWith<_$UpdateAccountStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

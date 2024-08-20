@@ -2,22 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nina_digital/features/home/providers/product_category.dart';
-import 'package:nina_digital/features/home/providers/product_provider.dart';
-import 'package:nina_digital/shared/providers/models/product_model.dart';
 
 import '../../../shared/common_widgets/product_list_widget.dart';
-import '../models/mock_model.dart';
+import '../providers/product_homepage_provider.dart';
 import '../screens/popular_screen.dart';
 import 'category_list_filter_widget.dart';
-import 'category_list_widget.dart';
 import 'section_layout_widget.dart';
 
 class PopularProductsWidget extends ConsumerWidget {
-  const PopularProductsWidget({Key? key}) : super(key: key);
+  const  PopularProductsWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final asyncProductValue = ref.watch(asyncProductNotifierProvider);
+    final asyncProducHomePagetValue = ref.watch(asyncProductHomePageProvider);
     AsyncValue asyncProductListsValue = ref.watch(productCategoryListProvider);
 
     return SectionLayoutWidget(
@@ -40,10 +37,10 @@ class PopularProductsWidget extends ConsumerWidget {
           const SizedBox(
             height: 20,
           ),
-          asyncProductValue.when(
+          asyncProducHomePagetValue.when(
               loading: () => CircularProgressIndicator(),
               data: (data) {
-                return ProductListWidget(products: data.products ?? []);
+                return ProductListWidget(products: data);
               },
               error: (Object error, StackTrace stackTrace) =>
                   Text(error.toString())),

@@ -76,13 +76,7 @@ List<RouteBase> _danhsachRoute = [
         return _effectTransitionFade(
             context, state, const NotificationScreen());
       }),
-  GoRoute(
-    name: ProfileScreen.nameRoute,
-    path: ProfileScreen.pathRoute,
-    pageBuilder: (context, state) {
-      return _effectTransitionFade(context, state, ProfileScreen());
-    },
-  ),
+
   GoRoute(
     name: HelpCenterScreen.nameRoute,
     path: HelpCenterScreen.pathRoute,
@@ -363,6 +357,13 @@ ShellRouteBase addShellRouterMain() {
                   path: LanguageScreen.pathRoute,
                   builder: (context, state) {
                     return LanguageScreen();
+                  },
+                ),
+                GoRoute(
+                  name: ProfileScreen.nameRoute,
+                  path: ProfileScreen.pathRoute,
+                  pageBuilder: (context, state) {
+                    return _effectTransitionFade(context, state, ProfileScreen());
                   },
                 ),
               ]),

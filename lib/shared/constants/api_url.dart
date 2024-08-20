@@ -33,6 +33,9 @@ class ApiUrl {
   static const String ACCOUNT_ID = '67';
   static const String ACCOUNT = '$baseUrl/account';
 
+  static const String CHANGE_AVATAR  = '$baseUrl/upload/change-avatar';
+
+
   static const String ADDRESS = '$baseUrl/address';
 
   static const String PROMOTION = '$baseUrl/promotion';

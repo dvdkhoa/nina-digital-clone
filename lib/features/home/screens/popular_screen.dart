@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'package:nina_digital/features/home/providers/product_category.dart';
-import 'package:nina_digital/shared/providers/models/product_model.dart';
 
 import '../../../shared/common_widgets/product_list_widget.dart';
 import '../../search/search_screen.dart';
@@ -38,7 +37,6 @@ class _PopularScreenState extends ConsumerState<PopularScreen> {
         _isLoading = true;
       });
 
-      await Future.delayed(Duration(seconds: 2));
       await ref.read(asyncProductNotifierProvider.notifier).loadMoreProduct();
 
       setState(() {
@@ -95,10 +93,6 @@ class _PopularScreenState extends ConsumerState<PopularScreen> {
               SizedBox(
                 height: 10,
               ),
-              // SpinKitWave(
-              //   color: Colors.red,
-              //   // size: 50.0,
-              // )
               _isLoading
                   ? SpinKitWave(
                       color: Colors.lightBlueAccent.shade200,

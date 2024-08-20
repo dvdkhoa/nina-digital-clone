@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../../core/services/dio_client.dart';
-import '../../../../shared/constants/api_url.dart';
+import '../../../../../core/services/dio_client.dart';
+import '../../../../../shared/constants/api_url.dart';
 
 part 'address_provider.g.dart';
 

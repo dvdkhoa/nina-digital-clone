@@ -36,7 +36,7 @@ class _AddAddressScreenState extends ConsumerState<AddAddressScreen> {
         ref.watch(authUserProvider.select((value) => value.userLogin));
 
     final address = AddressModel(
-        idUser: int.parse(userInfo?.id ?? ''),
+        idUser: int.parse(userInfo?.id.toString() ?? ''),
         nameAddress: addressNameController.text,
         nameRecipient: recipientNameController.text,
         phoneRecipient: phoneAddressController.text,

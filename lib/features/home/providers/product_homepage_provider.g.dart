@@ -1,26 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'filter_provider.dart';
+part of 'product_homepage_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$filterNotifierHash() => r'71bf9757811ae2acf78bb82471e09573f79b630b';
+String _$asyncProductHomePageHash() =>
+    r'67e3fbf5688ec17101bb0ef7742ea425662f52e5';
 
-/// See also [FilterNotifier].
-@ProviderFor(FilterNotifier)
-final filterNotifierProvider =
-    NotifierProvider<FilterNotifier, FilterState>.internal(
-  FilterNotifier.new,
-  name: r'filterNotifierProvider',
+/// See also [AsyncProductHomePage].
+@ProviderFor(AsyncProductHomePage)
+final asyncProductHomePageProvider =
+    AsyncNotifierProvider<AsyncProductHomePage, List<ProductModel>>.internal(
+  AsyncProductHomePage.new,
+  name: r'asyncProductHomePageProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$filterNotifierHash,
+      : _$asyncProductHomePageHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$FilterNotifier = Notifier<FilterState>;
+typedef _$AsyncProductHomePage = AsyncNotifier<List<ProductModel>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
