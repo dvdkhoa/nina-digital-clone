@@ -1,13 +1,14 @@
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
 
-class JwtEncoder {
+class JwtHandler {
   final String secretKey;
 
-  JwtEncoder({required this.secretKey});
+  JwtHandler({required this.secretKey});
 
   String encode(Map<String, dynamic> payload) {
     Map<String, String> headers = {'alg': 'HS256', 'typ': 'JWT'};
+
     String headersEncoded = _base64UrlEncode(jsonEncode(headers));
     String payloadEncoded =
         _base64UrlEncode(jsonEncode(payload, toEncodable: (value) => value));

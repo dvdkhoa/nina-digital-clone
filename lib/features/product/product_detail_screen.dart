@@ -2,9 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:nina_digital/features/reviews/review_screen.dart';
 import 'package:nina_digital/shared/constants/api_url.dart';
 import 'package:nina_digital/shared/utils/helper.dart';
@@ -112,6 +114,13 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
 
     final asyncProductDetail = ref.watch(detailProduct(widget.productId));
 
+    final asyncReviewValue =
+        ref.watch(asyncReviewNotifierProvider(int.parse(widget.productId)));
+
+    final averageStar = ref
+        .read(asyncReviewNotifierProvider(int.parse(widget.productId)).notifier)
+        .getAverageStar();
+
     final isLiked = userInfo?.crush?.contains(widget.productId) ?? false;
 
     return Scaffold(
@@ -176,18 +185,21 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Flexible(child: Text(data.namevi.toString())),
-                      IconButton(
-                        onPressed: () {
-                          ref
-                              .read(asyncFavoriteProductProvider.notifier)
-                              .likeProduct(data.id);
-                        },
-                        icon: isLiked
-                            ? Icon(Icons.favorite, color: Colors.redAccent)
-                            : Icon(
-                                Icons.favorite_outline,
-                              ),
-                      ),
+                      userInfo != null
+                          ? IconButton(
+                              onPressed: () {
+                                ref
+                                    .read(asyncFavoriteProductProvider.notifier)
+                                    .likeProduct(data.id);
+                              },
+                              icon: isLiked
+                                  ? Icon(Icons.favorite,
+                                      color: Colors.redAccent)
+                                  : Icon(
+                                      Icons.favorite_outline,
+                                    ),
+                            )
+                          : SizedBox(),
                     ],
                   ),
                   const SizedBox(
@@ -196,9 +208,27 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                   Row(
                     children: [
                       SvgPicture.asset('assets/icons/star.svg'),
-                      const Text(
-                        '4.5 |',
-                        style: TextStyle(fontSize: 13),
+                      asyncReviewValue.when(
+                        data: (data) {
+                          final averageStar = ref
+                              .read(asyncReviewNotifierProvider(
+                                      int.parse(widget.productId))
+                                  .notifier)
+                              .getAverageStar();
+                          return Text(
+                            '${averageStar.toString()} |',
+                            style: TextStyle(fontSize: 13),
+                          );
+                        },
+                        error: (error, stackTrace) => const Center(
+                          child: Icon(Icons.error),
+                        ),
+                        loading: () => const Center(
+                          child: SpinKitCircle(
+                            size: 10,
+                            color: Colors.red,
+                          ),
+                        ),
                       ),
                       Container(
                         margin: const EdgeInsets.only(left: 8),
@@ -291,7 +321,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: Container(
+      bottomNavigationBar: userInfo != null ? Container(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         color: Colors.white,
         child: Column(
@@ -388,7 +418,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
             ),
           ],
         ),
-      ),
+      ) : const SizedBox(),
     );
   }
 }

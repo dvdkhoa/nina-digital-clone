@@ -18,11 +18,6 @@ class CartScreen extends ConsumerStatefulWidget {
 }
 
 class _CartScreenState extends ConsumerState<CartScreen> {
-  // @override
-  // void initState() {
-  //   ref.read(cartProvider.notifier).getCart();
-  // }
-
   @override
   Widget build(BuildContext context) {
     List<CartItemModel> list =
@@ -41,16 +36,35 @@ class _CartScreenState extends ConsumerState<CartScreen> {
         backgroundColor: Colors.white,
       ),
       backgroundColor: Color(0xffFDFDFD),
-      body: SingleChildScrollView(
-        child: Container(
-          margin: EdgeInsets.only(bottom: 80),
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          child: Column(
-            children: list.map((item) => CartItemWidget(model: item)).toList(),
-          ),
-        ),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          print(constraints.maxHeight);
+          return SingleChildScrollView(
+            child: Container(
+              constraints: BoxConstraints(
+                minHeight: constraints.maxHeight
+              ),
+              margin: EdgeInsets.only(bottom: 80),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: list.length > 0
+                  ? Column(
+                      children: list
+                          .map((item) => CartItemWidget(model: item))
+                          .toList(),
+                    )
+                  : Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Center(child: Text('Giỏ hàng chưa có sản phẩm')),
+                      ],
+                    ),
+            ),
+          );
+        },
       ),
-      bottomNavigationBar: Wrap(
+      bottomNavigationBar: list.length > 0 ? Wrap(
         children: [
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -93,7 +107,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
             ),
           ),
         ],
-      ),
+      ) : SizedBox(),
     );
   }
 }

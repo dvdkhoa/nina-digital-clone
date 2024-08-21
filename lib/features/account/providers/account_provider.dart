@@ -3,10 +3,11 @@ import 'dart:io';
 
 import 'package:mime_type/mime_type.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import '../../../core/authentication_user/auth_user_storage/auth_user_storage.dart';
 import '../../../core/authentication_user/model/user_model.dart';
 import '../../../core/authentication_user/providers/auth_user_provider.dart';
 import '../../../local_storage/local_storage.dart';
-import '../../../local_storage/schema/user_token.dart';
+import '../../../local_storage/schema/user_login.dart';
 import '../../../shared/utils/helper.dart';
 import '../repositories/account_repository.dart';
 
@@ -95,11 +96,11 @@ class AsyncAccount extends _$AsyncAccount {
   }
 
   Future<void> _updateUserStorage({required Map<String, dynamic> data}) async {
-    final userToken = _localStorage.userTokens.getSync(1);
+    final userLogin = _localStorage.userLogins.getSync(1);
 
-    userToken?.userLogin = jsonEncode(data);
+    userLogin?.dataUser = jsonEncode(data);
 
     await _localStorage
-        .writeTxn(() => _localStorage.userTokens.put(userToken!));
+        .writeTxn(() => _localStorage.userLogins.put(userLogin!));
   }
 }

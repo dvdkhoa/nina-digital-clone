@@ -19,11 +19,6 @@ class OrderScreen extends ConsumerStatefulWidget {
 class _OrderScreenState extends ConsumerState<OrderScreen> {
   late TabController _tabController;
 
-  // @override
-  // void initState() {
-  //    TabController(length: _tabs.length, vsync: this)
-  // }
-
   @override
   Widget build(BuildContext context) {
     final asyncOrderStatusValue = ref.watch(orderStatusProvider);

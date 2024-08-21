@@ -2,7 +2,10 @@ part of '../product_detail_screen.dart';
 
 class _ReviewItemWidget extends StatelessWidget with UiMixins {
   final ReviewModel model;
-  const _ReviewItemWidget({Key? key, required this.model}) : super(key: key);
+  _ReviewItemWidget({Key? key, required this.model}) : super(key: key);
+
+  final dateFormat = DateFormat.yMMMMEEEEd('vi');
+
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +63,7 @@ class _ReviewItemWidget extends StatelessWidget with UiMixins {
             height: 5,
           ),
           Text(
-            DateTime.fromMillisecondsSinceEpoch(model.datePosted ?? 0 * 1000).toString(),
+            dateFormat.format(DateTime.fromMillisecondsSinceEpoch(model.datePosted! * 1000)),
             style: TextStyle(fontSize: 12, color: Colors.grey),
           ),
         ],

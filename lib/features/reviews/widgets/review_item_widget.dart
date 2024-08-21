@@ -2,7 +2,9 @@ part of '../review_screen.dart';
 
 class _ReviewItemWidget extends StatelessWidget with UiMixins {
   final ReviewModel model;
-  const _ReviewItemWidget({Key? key, required this.model}) : super(key: key);
+  _ReviewItemWidget({Key? key, required this.model}) : super(key: key);
+
+  final dateFormat = DateFormat.yMMMMEEEEd('vi');
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +25,13 @@ class _ReviewItemWidget extends StatelessWidget with UiMixins {
         children: [
           Row(
             children: [
-              CircleAvatar(
-                child: Image.asset(
-                  'assets/images/boy.png',
+              ClipOval(
+                child: CachedNetworkImage(
+                  imageUrl: '${ApiUrl.domain}/uploads/users/${model.poster}',
+                  placeholder: (context, url) => Image.asset('assets/images/placeholder.jpg'),
+                  errorWidget: (context, url, error) => Image.asset('assets/images/boy.png'),
                   width: 40,
+                  height: 40,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -60,7 +65,8 @@ class _ReviewItemWidget extends StatelessWidget with UiMixins {
             height: 5,
           ),
           Text(
-            DateTime.fromMillisecondsSinceEpoch(model.datePosted ?? 0 * 1000).toString(),
+            // dateFormat.format(DateTime.fromMillisecondsSinceEpoch(model.datePosted ?? 0 * 1000)),
+            dateFormat.format(DateTime.fromMillisecondsSinceEpoch(model.datePosted! * 1000)),
             style: TextStyle(fontSize: 12, color: Colors.grey),
           ),
         ],

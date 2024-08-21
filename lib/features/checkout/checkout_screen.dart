@@ -31,6 +31,7 @@ class CheckoutScreen extends ConsumerStatefulWidget {
 
 class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   AddressModel? _chooseAddress = null;
+  AddressModel? _defaultAddress = null;
   ShipMethod? _shipMethod = null;
   PromotionModel? _promotionModel = null;
 
@@ -67,6 +68,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                 data: (data) {
                   final defaultAddress =
                       data.firstWhere((item) => item.isDefault == 1);
+                  _defaultAddress = defaultAddress;
                   return InkWell(
                     onTap: () async {
                       final data = _chooseAddress ?? defaultAddress;
@@ -342,8 +344,18 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
         padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
         child: ElevatedButton(
           onPressed: () {
+            
+            if(_shipMethod == null) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Chưa chọn phương thức vận chuyển')));
+              return;
+            }
+            if(_chooseAddress == null && _defaultAddress == null) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Chưa chọn địa chỉ giao hàng')));
+              return;
+            }
+            
             OrderModel order = OrderModel(
-                address: _chooseAddress?.detailAddress,
+                address: _chooseAddress?.detailAddress ?? _defaultAddress?.detailAddress,
                 fullname: userInfo?.fullname,
                 email: userInfo?.email,
                 phone: userInfo?.phone,

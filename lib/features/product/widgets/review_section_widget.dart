@@ -10,7 +10,9 @@ class _ReviewSectionWidget extends ConsumerWidget with UiMixins {
     final asyncReviewValue  = ref.watch(asyncReviewNotifierProvider(productId));
 
     return asyncReviewValue.when(data: (data) {
-      print('data: ${data.length}');
+
+      final averageStar = ref.read(asyncReviewNotifierProvider(productId).notifier).getAverageStar();
+
       return Container(
         child: Column(
           children: [
@@ -37,17 +39,17 @@ class _ReviewSectionWidget extends ConsumerWidget with UiMixins {
             ),
             Row(
               children: [
-                showStar(number: 4, size: 20),
+                showStar(number: averageStar.ceil(), size: 20),
                 SizedBox(
                   width: 10,
                 ),
-                Text('4.5',
+                Text(averageStar.toString(),
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
                 SizedBox(
                   width: 10,
                 ),
                 Text(
-                  '(5 nhận xét)',
+                  '(${data.length} nhận xét)',
                   style: TextStyle(fontSize: 12, color: Colors.grey),
                 )
               ],

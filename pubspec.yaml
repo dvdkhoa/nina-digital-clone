@@ -77,6 +77,7 @@ dependencies:
   video_thumbnail: ^0.5.3
   mime_type: ^1.0.0
   scroll_date_picker: ^3.8.0
+  chewie: ^1.8.3
 
 
 

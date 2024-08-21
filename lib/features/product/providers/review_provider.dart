@@ -18,9 +18,9 @@ class AsyncReviewNotifier extends _$AsyncReviewNotifier {
     final reviewRepository = ReviewRepository(ref.watch(dioProvider));
 
     final res = await reviewRepository.getAllReviewByProductId(productId);
-    if(res['data'] != null) {
+    if (res['data'] != null) {
       final list = res['data'] as List;
-      final reviews = list.map((item)=>ReviewModel.fromJson(item)).toList();
+      final reviews = list.map((item) => ReviewModel.fromJson(item)).toList();
       return reviews;
     }
     return List.empty();
@@ -28,10 +28,12 @@ class AsyncReviewNotifier extends _$AsyncReviewNotifier {
 
   Future refresh(productId) async {
     state = AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
-      final list = await fetchReviews(productId);
-      return list;
-    },);
+    state = await AsyncValue.guard(
+      () async {
+        final list = await fetchReviews(productId);
+        return list;
+      },
+    );
   }
 
   Future<bool> createReview(ReviewModel model, List<File> files) async {
@@ -39,11 +41,26 @@ class AsyncReviewNotifier extends _$AsyncReviewNotifier {
 
     final res = await reviewRepository.createReview(model, files);
 
-    if(res != null && res['data'] != null) {
+    if (res != null && res['data'] != null) {
       this.refresh(model.idVariant);
       return true;
     }
     return false;
   }
-}
 
+  double getAverageStar() {
+
+    double sum = 0;
+    state.value?.forEach((element) {
+      sum += element.star!;
+    },);
+
+    if(sum > 0) {
+      final average = sum / state.value!.length ?? 0;
+      double roundedNumber = (average * 10).round() / 10;
+
+      return roundedNumber;
+    }
+    return 0;
+  }
+}

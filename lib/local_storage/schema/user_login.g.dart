@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user_token.dart';
+part of 'user_login.dart';
 
 // **************************************************************************
 // IsarCollectionGenerator
@@ -9,46 +9,46 @@ part of 'user_token.dart';
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
 
-extension GetUserTokenCollection on Isar {
-  IsarCollection<UserToken> get userTokens => this.collection();
+extension GetUserLoginCollection on Isar {
+  IsarCollection<UserLogin> get userLogins => this.collection();
 }
 
-const UserTokenSchema = CollectionSchema(
-  name: r'UserToken',
-  id: 235405265685291616,
+const UserLoginSchema = CollectionSchema(
+  name: r'UserLogin',
+  id: 6527295130569383317,
   properties: {
     r'accessToken': PropertySchema(
       id: 0,
       name: r'accessToken',
       type: IsarType.string,
     ),
-    r'refreshToken': PropertySchema(
+    r'dataUser': PropertySchema(
       id: 1,
-      name: r'refreshToken',
+      name: r'dataUser',
       type: IsarType.string,
     ),
-    r'userLogin': PropertySchema(
+    r'refreshToken': PropertySchema(
       id: 2,
-      name: r'userLogin',
+      name: r'refreshToken',
       type: IsarType.string,
     )
   },
-  estimateSize: _userTokenEstimateSize,
-  serialize: _userTokenSerialize,
-  deserialize: _userTokenDeserialize,
-  deserializeProp: _userTokenDeserializeProp,
+  estimateSize: _userLoginEstimateSize,
+  serialize: _userLoginSerialize,
+  deserialize: _userLoginDeserialize,
+  deserializeProp: _userLoginDeserializeProp,
   idName: r'id',
   indexes: {},
   links: {},
   embeddedSchemas: {},
-  getId: _userTokenGetId,
-  getLinks: _userTokenGetLinks,
-  attach: _userTokenAttach,
+  getId: _userLoginGetId,
+  getLinks: _userLoginGetLinks,
+  attach: _userLoginAttach,
   version: '3.1.0+1',
 );
 
-int _userTokenEstimateSize(
-  UserToken object,
+int _userLoginEstimateSize(
+  UserLogin object,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
@@ -60,13 +60,13 @@ int _userTokenEstimateSize(
     }
   }
   {
-    final value = object.refreshToken;
+    final value = object.dataUser;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
     }
   }
   {
-    final value = object.userLogin;
+    final value = object.refreshToken;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
     }
@@ -74,32 +74,32 @@ int _userTokenEstimateSize(
   return bytesCount;
 }
 
-void _userTokenSerialize(
-  UserToken object,
+void _userLoginSerialize(
+  UserLogin object,
   IsarWriter writer,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.accessToken);
-  writer.writeString(offsets[1], object.refreshToken);
-  writer.writeString(offsets[2], object.userLogin);
+  writer.writeString(offsets[1], object.dataUser);
+  writer.writeString(offsets[2], object.refreshToken);
 }
 
-UserToken _userTokenDeserialize(
+UserLogin _userLoginDeserialize(
   Id id,
   IsarReader reader,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = UserToken();
+  final object = UserLogin();
   object.accessToken = reader.readStringOrNull(offsets[0]);
+  object.dataUser = reader.readStringOrNull(offsets[1]);
   object.id = id;
-  object.refreshToken = reader.readStringOrNull(offsets[1]);
-  object.userLogin = reader.readStringOrNull(offsets[2]);
+  object.refreshToken = reader.readStringOrNull(offsets[2]);
   return object;
 }
 
-P _userTokenDeserializeProp<P>(
+P _userLoginDeserializeProp<P>(
   IsarReader reader,
   int propertyId,
   int offset,
@@ -117,30 +117,30 @@ P _userTokenDeserializeProp<P>(
   }
 }
 
-Id _userTokenGetId(UserToken object) {
+Id _userLoginGetId(UserLogin object) {
   return object.id;
 }
 
-List<IsarLinkBase<dynamic>> _userTokenGetLinks(UserToken object) {
+List<IsarLinkBase<dynamic>> _userLoginGetLinks(UserLogin object) {
   return [];
 }
 
-void _userTokenAttach(IsarCollection<dynamic> col, Id id, UserToken object) {
+void _userLoginAttach(IsarCollection<dynamic> col, Id id, UserLogin object) {
   object.id = id;
 }
 
-extension UserTokenQueryWhereSort
-    on QueryBuilder<UserToken, UserToken, QWhere> {
-  QueryBuilder<UserToken, UserToken, QAfterWhere> anyId() {
+extension UserLoginQueryWhereSort
+    on QueryBuilder<UserLogin, UserLogin, QWhere> {
+  QueryBuilder<UserLogin, UserLogin, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
   }
 }
 
-extension UserTokenQueryWhere
-    on QueryBuilder<UserToken, UserToken, QWhereClause> {
-  QueryBuilder<UserToken, UserToken, QAfterWhereClause> idEqualTo(Id id) {
+extension UserLoginQueryWhere
+    on QueryBuilder<UserLogin, UserLogin, QWhereClause> {
+  QueryBuilder<UserLogin, UserLogin, QAfterWhereClause> idEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
         lower: id,
@@ -149,7 +149,7 @@ extension UserTokenQueryWhere
     });
   }
 
-  QueryBuilder<UserToken, UserToken, QAfterWhereClause> idNotEqualTo(Id id) {
+  QueryBuilder<UserLogin, UserLogin, QAfterWhereClause> idNotEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -171,7 +171,7 @@ extension UserTokenQueryWhere
     });
   }
 
-  QueryBuilder<UserToken, UserToken, QAfterWhereClause> idGreaterThan(Id id,
+  QueryBuilder<UserLogin, UserLogin, QAfterWhereClause> idGreaterThan(Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -180,7 +180,7 @@ extension UserTokenQueryWhere
     });
   }
 
-  QueryBuilder<UserToken, UserToken, QAfterWhereClause> idLessThan(Id id,
+  QueryBuilder<UserLogin, UserLogin, QAfterWhereClause> idLessThan(Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -189,7 +189,7 @@ extension UserTokenQueryWhere
     });
   }
 
-  QueryBuilder<UserToken, UserToken, QAfterWhereClause> idBetween(
+  QueryBuilder<UserLogin, UserLogin, QAfterWhereClause> idBetween(
     Id lowerId,
     Id upperId, {
     bool includeLower = true,
@@ -206,9 +206,9 @@ extension UserTokenQueryWhere
   }
 }
 
-extension UserTokenQueryFilter
-    on QueryBuilder<UserToken, UserToken, QFilterCondition> {
-  QueryBuilder<UserToken, UserToken, QAfterFilterCondition>
+extension UserLoginQueryFilter
+    on QueryBuilder<UserLogin, UserLogin, QFilterCondition> {
+  QueryBuilder<UserLogin, UserLogin, QAfterFilterCondition>
       accessTokenIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -217,7 +217,7 @@ extension UserTokenQueryFilter
     });
   }
 
-  QueryBuilder<UserToken, UserToken, QAfterFilterCondition>
+  QueryBuilder<UserLogin, UserLogin, QAfterFilterCondition>
       accessTokenIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -226,7 +226,7 @@ extension UserTokenQueryFilter
     });
   }
 
-  QueryBuilder<UserToken, UserToken, QAfterFilterCondition> accessTokenEqualTo(
+  QueryBuilder<UserLogin, UserLogin, QAfterFilterCondition> accessTokenEqualTo(
     String? value, {
     bool caseSensitive = true,
   }) {
@@ -239,7 +239,7 @@ extension UserTokenQueryFilter
     });
   }
 
-  QueryBuilder<UserToken, UserToken, QAfterFilterCondition>
+  QueryBuilder<UserLogin, UserLogin, QAfterFilterCondition>
       accessTokenGreaterThan(
     String? value, {
     bool include = false,
@@ -255,7 +255,7 @@ extension UserTokenQueryFilter
     });
   }
 
-  QueryBuilder<UserToken, UserToken, QAfterFilterCondition> accessTokenLessThan(
+  QueryBuilder<UserLogin, UserLogin, QAfterFilterCondition> accessTokenLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -270,7 +270,7 @@ extension UserTokenQueryFilter
     });
   }
 
-  QueryBuilder<UserToken, UserToken, QAfterFilterCondition> accessTokenBetween(
+  QueryBuilder<UserLogin, UserLogin, QAfterFilterCondition> accessTokenBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -289,7 +289,7 @@ extension UserTokenQueryFilter
     });
   }
 
-  QueryBuilder<UserToken, UserToken, QAfterFilterCondition>
+  QueryBuilder<UserLogin, UserLogin, QAfterFilterCondition>
       accessTokenStartsWith(
     String value, {
     bool caseSensitive = true,
@@ -303,7 +303,7 @@ extension UserTokenQueryFilter
     });
   }
 
-  QueryBuilder<UserToken, UserToken, QAfterFilterCondition> accessTokenEndsWith(
+  QueryBuilder<UserLogin, UserLogin, QAfterFilterCondition> accessTokenEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -316,7 +316,7 @@ extension UserTokenQueryFilter
     });
   }
 
-  QueryBuilder<UserToken, UserToken, QAfterFilterCondition> accessTokenContains(
+  QueryBuilder<UserLogin, UserLogin, QAfterFilterCondition> accessTokenContains(
       String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -328,7 +328,7 @@ extension UserTokenQueryFilter
     });
   }
 
-  QueryBuilder<UserToken, UserToken, QAfterFilterCondition> accessTokenMatches(
+  QueryBuilder<UserLogin, UserLogin, QAfterFilterCondition> accessTokenMatches(
       String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -340,7 +340,7 @@ extension UserTokenQueryFilter
     });
   }
 
-  QueryBuilder<UserToken, UserToken, QAfterFilterCondition>
+  QueryBuilder<UserLogin, UserLogin, QAfterFilterCondition>
       accessTokenIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -350,7 +350,7 @@ extension UserTokenQueryFilter
     });
   }
 
-  QueryBuilder<UserToken, UserToken, QAfterFilterCondition>
+  QueryBuilder<UserLogin, UserLogin, QAfterFilterCondition>
       accessTokenIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
@@ -360,7 +360,155 @@ extension UserTokenQueryFilter
     });
   }
 
-  QueryBuilder<UserToken, UserToken, QAfterFilterCondition> idEqualTo(
+  QueryBuilder<UserLogin, UserLogin, QAfterFilterCondition> dataUserIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'dataUser',
+      ));
+    });
+  }
+
+  QueryBuilder<UserLogin, UserLogin, QAfterFilterCondition>
+      dataUserIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'dataUser',
+      ));
+    });
+  }
+
+  QueryBuilder<UserLogin, UserLogin, QAfterFilterCondition> dataUserEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'dataUser',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<UserLogin, UserLogin, QAfterFilterCondition> dataUserGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'dataUser',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<UserLogin, UserLogin, QAfterFilterCondition> dataUserLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'dataUser',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<UserLogin, UserLogin, QAfterFilterCondition> dataUserBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'dataUser',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<UserLogin, UserLogin, QAfterFilterCondition> dataUserStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'dataUser',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<UserLogin, UserLogin, QAfterFilterCondition> dataUserEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'dataUser',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<UserLogin, UserLogin, QAfterFilterCondition> dataUserContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'dataUser',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<UserLogin, UserLogin, QAfterFilterCondition> dataUserMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'dataUser',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<UserLogin, UserLogin, QAfterFilterCondition> dataUserIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'dataUser',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<UserLogin, UserLogin, QAfterFilterCondition>
+      dataUserIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'dataUser',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<UserLogin, UserLogin, QAfterFilterCondition> idEqualTo(
       Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -370,7 +518,7 @@ extension UserTokenQueryFilter
     });
   }
 
-  QueryBuilder<UserToken, UserToken, QAfterFilterCondition> idGreaterThan(
+  QueryBuilder<UserLogin, UserLogin, QAfterFilterCondition> idGreaterThan(
     Id value, {
     bool include = false,
   }) {
@@ -383,7 +531,7 @@ extension UserTokenQueryFilter
     });
   }
 
-  QueryBuilder<UserToken, UserToken, QAfterFilterCondition> idLessThan(
+  QueryBuilder<UserLogin, UserLogin, QAfterFilterCondition> idLessThan(
     Id value, {
     bool include = false,
   }) {
@@ -396,7 +544,7 @@ extension UserTokenQueryFilter
     });
   }
 
-  QueryBuilder<UserToken, UserToken, QAfterFilterCondition> idBetween(
+  QueryBuilder<UserLogin, UserLogin, QAfterFilterCondition> idBetween(
     Id lower,
     Id upper, {
     bool includeLower = true,
@@ -413,7 +561,7 @@ extension UserTokenQueryFilter
     });
   }
 
-  QueryBuilder<UserToken, UserToken, QAfterFilterCondition>
+  QueryBuilder<UserLogin, UserLogin, QAfterFilterCondition>
       refreshTokenIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -422,7 +570,7 @@ extension UserTokenQueryFilter
     });
   }
 
-  QueryBuilder<UserToken, UserToken, QAfterFilterCondition>
+  QueryBuilder<UserLogin, UserLogin, QAfterFilterCondition>
       refreshTokenIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -431,7 +579,7 @@ extension UserTokenQueryFilter
     });
   }
 
-  QueryBuilder<UserToken, UserToken, QAfterFilterCondition> refreshTokenEqualTo(
+  QueryBuilder<UserLogin, UserLogin, QAfterFilterCondition> refreshTokenEqualTo(
     String? value, {
     bool caseSensitive = true,
   }) {
@@ -444,7 +592,7 @@ extension UserTokenQueryFilter
     });
   }
 
-  QueryBuilder<UserToken, UserToken, QAfterFilterCondition>
+  QueryBuilder<UserLogin, UserLogin, QAfterFilterCondition>
       refreshTokenGreaterThan(
     String? value, {
     bool include = false,
@@ -460,7 +608,7 @@ extension UserTokenQueryFilter
     });
   }
 
-  QueryBuilder<UserToken, UserToken, QAfterFilterCondition>
+  QueryBuilder<UserLogin, UserLogin, QAfterFilterCondition>
       refreshTokenLessThan(
     String? value, {
     bool include = false,
@@ -476,7 +624,7 @@ extension UserTokenQueryFilter
     });
   }
 
-  QueryBuilder<UserToken, UserToken, QAfterFilterCondition> refreshTokenBetween(
+  QueryBuilder<UserLogin, UserLogin, QAfterFilterCondition> refreshTokenBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -495,7 +643,7 @@ extension UserTokenQueryFilter
     });
   }
 
-  QueryBuilder<UserToken, UserToken, QAfterFilterCondition>
+  QueryBuilder<UserLogin, UserLogin, QAfterFilterCondition>
       refreshTokenStartsWith(
     String value, {
     bool caseSensitive = true,
@@ -509,7 +657,7 @@ extension UserTokenQueryFilter
     });
   }
 
-  QueryBuilder<UserToken, UserToken, QAfterFilterCondition>
+  QueryBuilder<UserLogin, UserLogin, QAfterFilterCondition>
       refreshTokenEndsWith(
     String value, {
     bool caseSensitive = true,
@@ -523,7 +671,7 @@ extension UserTokenQueryFilter
     });
   }
 
-  QueryBuilder<UserToken, UserToken, QAfterFilterCondition>
+  QueryBuilder<UserLogin, UserLogin, QAfterFilterCondition>
       refreshTokenContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
@@ -534,7 +682,7 @@ extension UserTokenQueryFilter
     });
   }
 
-  QueryBuilder<UserToken, UserToken, QAfterFilterCondition> refreshTokenMatches(
+  QueryBuilder<UserLogin, UserLogin, QAfterFilterCondition> refreshTokenMatches(
       String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -546,7 +694,7 @@ extension UserTokenQueryFilter
     });
   }
 
-  QueryBuilder<UserToken, UserToken, QAfterFilterCondition>
+  QueryBuilder<UserLogin, UserLogin, QAfterFilterCondition>
       refreshTokenIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -556,7 +704,7 @@ extension UserTokenQueryFilter
     });
   }
 
-  QueryBuilder<UserToken, UserToken, QAfterFilterCondition>
+  QueryBuilder<UserLogin, UserLogin, QAfterFilterCondition>
       refreshTokenIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
@@ -565,299 +713,150 @@ extension UserTokenQueryFilter
       ));
     });
   }
-
-  QueryBuilder<UserToken, UserToken, QAfterFilterCondition> userLoginIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'userLogin',
-      ));
-    });
-  }
-
-  QueryBuilder<UserToken, UserToken, QAfterFilterCondition>
-      userLoginIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'userLogin',
-      ));
-    });
-  }
-
-  QueryBuilder<UserToken, UserToken, QAfterFilterCondition> userLoginEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'userLogin',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<UserToken, UserToken, QAfterFilterCondition>
-      userLoginGreaterThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'userLogin',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<UserToken, UserToken, QAfterFilterCondition> userLoginLessThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'userLogin',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<UserToken, UserToken, QAfterFilterCondition> userLoginBetween(
-    String? lower,
-    String? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'userLogin',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<UserToken, UserToken, QAfterFilterCondition> userLoginStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'userLogin',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<UserToken, UserToken, QAfterFilterCondition> userLoginEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'userLogin',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<UserToken, UserToken, QAfterFilterCondition> userLoginContains(
-      String value,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'userLogin',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<UserToken, UserToken, QAfterFilterCondition> userLoginMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'userLogin',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<UserToken, UserToken, QAfterFilterCondition> userLoginIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'userLogin',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<UserToken, UserToken, QAfterFilterCondition>
-      userLoginIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'userLogin',
-        value: '',
-      ));
-    });
-  }
 }
 
-extension UserTokenQueryObject
-    on QueryBuilder<UserToken, UserToken, QFilterCondition> {}
+extension UserLoginQueryObject
+    on QueryBuilder<UserLogin, UserLogin, QFilterCondition> {}
 
-extension UserTokenQueryLinks
-    on QueryBuilder<UserToken, UserToken, QFilterCondition> {}
+extension UserLoginQueryLinks
+    on QueryBuilder<UserLogin, UserLogin, QFilterCondition> {}
 
-extension UserTokenQuerySortBy on QueryBuilder<UserToken, UserToken, QSortBy> {
-  QueryBuilder<UserToken, UserToken, QAfterSortBy> sortByAccessToken() {
+extension UserLoginQuerySortBy on QueryBuilder<UserLogin, UserLogin, QSortBy> {
+  QueryBuilder<UserLogin, UserLogin, QAfterSortBy> sortByAccessToken() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'accessToken', Sort.asc);
     });
   }
 
-  QueryBuilder<UserToken, UserToken, QAfterSortBy> sortByAccessTokenDesc() {
+  QueryBuilder<UserLogin, UserLogin, QAfterSortBy> sortByAccessTokenDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'accessToken', Sort.desc);
     });
   }
 
-  QueryBuilder<UserToken, UserToken, QAfterSortBy> sortByRefreshToken() {
+  QueryBuilder<UserLogin, UserLogin, QAfterSortBy> sortByDataUser() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dataUser', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserLogin, UserLogin, QAfterSortBy> sortByDataUserDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dataUser', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserLogin, UserLogin, QAfterSortBy> sortByRefreshToken() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'refreshToken', Sort.asc);
     });
   }
 
-  QueryBuilder<UserToken, UserToken, QAfterSortBy> sortByRefreshTokenDesc() {
+  QueryBuilder<UserLogin, UserLogin, QAfterSortBy> sortByRefreshTokenDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'refreshToken', Sort.desc);
     });
   }
-
-  QueryBuilder<UserToken, UserToken, QAfterSortBy> sortByUserLogin() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'userLogin', Sort.asc);
-    });
-  }
-
-  QueryBuilder<UserToken, UserToken, QAfterSortBy> sortByUserLoginDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'userLogin', Sort.desc);
-    });
-  }
 }
 
-extension UserTokenQuerySortThenBy
-    on QueryBuilder<UserToken, UserToken, QSortThenBy> {
-  QueryBuilder<UserToken, UserToken, QAfterSortBy> thenByAccessToken() {
+extension UserLoginQuerySortThenBy
+    on QueryBuilder<UserLogin, UserLogin, QSortThenBy> {
+  QueryBuilder<UserLogin, UserLogin, QAfterSortBy> thenByAccessToken() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'accessToken', Sort.asc);
     });
   }
 
-  QueryBuilder<UserToken, UserToken, QAfterSortBy> thenByAccessTokenDesc() {
+  QueryBuilder<UserLogin, UserLogin, QAfterSortBy> thenByAccessTokenDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'accessToken', Sort.desc);
     });
   }
 
-  QueryBuilder<UserToken, UserToken, QAfterSortBy> thenById() {
+  QueryBuilder<UserLogin, UserLogin, QAfterSortBy> thenByDataUser() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dataUser', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserLogin, UserLogin, QAfterSortBy> thenByDataUserDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dataUser', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserLogin, UserLogin, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
     });
   }
 
-  QueryBuilder<UserToken, UserToken, QAfterSortBy> thenByIdDesc() {
+  QueryBuilder<UserLogin, UserLogin, QAfterSortBy> thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
     });
   }
 
-  QueryBuilder<UserToken, UserToken, QAfterSortBy> thenByRefreshToken() {
+  QueryBuilder<UserLogin, UserLogin, QAfterSortBy> thenByRefreshToken() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'refreshToken', Sort.asc);
     });
   }
 
-  QueryBuilder<UserToken, UserToken, QAfterSortBy> thenByRefreshTokenDesc() {
+  QueryBuilder<UserLogin, UserLogin, QAfterSortBy> thenByRefreshTokenDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'refreshToken', Sort.desc);
     });
   }
-
-  QueryBuilder<UserToken, UserToken, QAfterSortBy> thenByUserLogin() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'userLogin', Sort.asc);
-    });
-  }
-
-  QueryBuilder<UserToken, UserToken, QAfterSortBy> thenByUserLoginDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'userLogin', Sort.desc);
-    });
-  }
 }
 
-extension UserTokenQueryWhereDistinct
-    on QueryBuilder<UserToken, UserToken, QDistinct> {
-  QueryBuilder<UserToken, UserToken, QDistinct> distinctByAccessToken(
+extension UserLoginQueryWhereDistinct
+    on QueryBuilder<UserLogin, UserLogin, QDistinct> {
+  QueryBuilder<UserLogin, UserLogin, QDistinct> distinctByAccessToken(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'accessToken', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<UserToken, UserToken, QDistinct> distinctByRefreshToken(
+  QueryBuilder<UserLogin, UserLogin, QDistinct> distinctByDataUser(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'dataUser', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<UserLogin, UserLogin, QDistinct> distinctByRefreshToken(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'refreshToken', caseSensitive: caseSensitive);
     });
   }
-
-  QueryBuilder<UserToken, UserToken, QDistinct> distinctByUserLogin(
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'userLogin', caseSensitive: caseSensitive);
-    });
-  }
 }
 
-extension UserTokenQueryProperty
-    on QueryBuilder<UserToken, UserToken, QQueryProperty> {
-  QueryBuilder<UserToken, int, QQueryOperations> idProperty() {
+extension UserLoginQueryProperty
+    on QueryBuilder<UserLogin, UserLogin, QQueryProperty> {
+  QueryBuilder<UserLogin, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
     });
   }
 
-  QueryBuilder<UserToken, String?, QQueryOperations> accessTokenProperty() {
+  QueryBuilder<UserLogin, String?, QQueryOperations> accessTokenProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'accessToken');
     });
   }
 
-  QueryBuilder<UserToken, String?, QQueryOperations> refreshTokenProperty() {
+  QueryBuilder<UserLogin, String?, QQueryOperations> dataUserProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'refreshToken');
+      return query.addPropertyName(r'dataUser');
     });
   }
 
-  QueryBuilder<UserToken, String?, QQueryOperations> userLoginProperty() {
+  QueryBuilder<UserLogin, String?, QQueryOperations> refreshTokenProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'userLogin');
+      return query.addPropertyName(r'refreshToken');
     });
   }
 }

@@ -26,9 +26,9 @@ class _FilterModelBottomSheetState
     final filterValue = ref.read(filterNotifierProvider);
 
     basePriceEditController =
-        TextEditingController(text: filterValue.basePrice?.toString());
+        TextEditingController(text: filterValue.basePrice?.formattedVNDCustom());
     upPriceEditController =
-        TextEditingController(text: filterValue.upPrice?.toString());
+        TextEditingController(text: filterValue.upPrice?.formattedVNDCustom());
   }
 
   @override
@@ -82,9 +82,15 @@ class _FilterModelBottomSheetState
                   Expanded(
                     child: TextField(
                       controller: basePriceEditController,
-                      // onChanged: (value){
-                      //   ref.read(filterNotifierProvider.notifier).onChangeBasePrice(value);
-                      // },
+                      onChanged: (value){
+                        if(!Helper.isNull(value)){
+                          value = value.replaceAll('.', '');
+                          basePriceEditController.text = int.parse(value).formattedVNDCustom();
+                        }
+                        setState(() {
+                          _priceChoice = null;
+                        });
+                      },
                       keyboardType: TextInputType.number,
                       style: defaultTextStyle.copyWith(fontSize: 14),
                       decoration: _priceInputDecoration('Từ'),
@@ -97,9 +103,15 @@ class _FilterModelBottomSheetState
                   Expanded(
                     child: TextField(
                       controller: upPriceEditController,
-                      // onChanged: (value) {
-                      //   ref.read(filterNotifierProvider.notifier).onChangeUpPrice(value);
-                      // },
+                      onChanged: (value) {
+                        if(!Helper.isNull(value)){
+                          value = value.replaceAll('.', '');
+                          upPriceEditController.text = int.parse(value).formattedVNDCustom();
+                        }
+                        setState(() {
+                          _priceChoice = null;
+                        });
+                      },
                       keyboardType: TextInputType.number,
                       style: defaultTextStyle.copyWith(fontSize: 14),
                       decoration: _priceInputDecoration('Đến'),
@@ -127,8 +139,8 @@ class _FilterModelBottomSheetState
                       ),
                       selected: selected,
                       onSelected: (bool selected) {
-                        basePriceEditController.text = selected ? item['base_price'].toString() : '';
-                        upPriceEditController.text = selected ? item['up_price'].toString() : '';
+                        basePriceEditController.text = selected ? int.parse(item['base_price'].toString()).formattedVNDCustom() : '';
+                        upPriceEditController.text = selected ? int.parse(item['up_price'].toString()).formattedVNDCustom() : '';
 
                         // ref.read(filterNotifierProvider.notifier).onChangeBasePrice(basePriceEditController.text);
                         // ref.read(filterNotifierProvider.notifier).onChangeUpPrice(upPriceEditController.text);
@@ -185,16 +197,20 @@ class _FilterModelBottomSheetState
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () {
+                          final basePrice = basePriceEditController.text.replaceAll('.', '');
+                          final upPrice = upPriceEditController.text.replaceAll('.', '');
+
                           ref
                               .read(filterNotifierProvider.notifier)
-                              .onChangeBasePrice(basePriceEditController.text);
+                              .onChangeBasePrice(basePrice);
                           ref
                               .read(filterNotifierProvider.notifier)
-                              .onChangeUpPrice(upPriceEditController.text);
+                              .onChangeUpPrice(upPrice);
 
                           ref
                               .read(searchNotifierProvider.notifier)
                               .filterProducts();
+
                           this.widget.onFilter();
                           context.pop();
                         },

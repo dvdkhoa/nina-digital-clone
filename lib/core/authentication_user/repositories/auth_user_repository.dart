@@ -1,12 +1,13 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/services/dio_client.dart';
 import '../../../shared/constants/api_url.dart';
+import '../../../shared/extensions/response_ext.dart';
 import '../../../shared/utils/helper.dart';
-import '../../services/dio_client.dart';
 import '../auth_user_storage/auth_user_storage.dart';
-import '../../../local_storage/schema/user_token.dart';
 import '../model/user_model.dart';
 
 final authUserRepositoryProvider = Provider<AuthUserRepository>((ref) {
@@ -17,42 +18,33 @@ class AuthUserRepository {
   final AuthUserStorage _authUserStorage = AuthUserStorage();
   final DioClient _dioClient;
 
-  String? _accessToken;
-  String? _refreshToken;
-  String? _userLogin;
-
   AuthUserRepository(this._dioClient);
 
-  String? get accessToken => _accessToken;
-  String? get refreshToken => _refreshToken;
-  String? get userLogin => _userLogin;
+  String? get accessToken => _authUserStorage.accessToken;
+  String? get refreshToken => _authUserStorage.refreshToken;
+  String? get dataUser => _authUserStorage.dataUser;
 
   Future<void> initData() async {
-    _accessToken = await _authUserStorage.getAccessToken();
-    _refreshToken = await _authUserStorage.getRefreshToken();
-    _userLogin = await _authUserStorage.getUserLogin();
+    _authUserStorage.init();
   }
 
-  void _clearData() {
-    _accessToken = '';
-    _refreshToken = '';
-    _userLogin = '';
+  Future<void> clearData() async {
+    await _authUserStorage.clearData();
   }
 
-  Future<void> _saveToken(
-      {String? accessToken, String? refreshToken, String? userLogin}) async {
-    final UserToken userToken = UserToken();
-    userToken
-      ..accessToken = accessToken ?? this.accessToken
-      ..refreshToken = refreshToken ?? this.refreshToken
-      ..userLogin = userLogin ?? this.userLogin;
-    await _authUserStorage.saveToken(userToken: userToken);
+  Future<void> _saveData(
+      {String? accessToken, String? refreshToken, String? dataUser}) async {
+    await _authUserStorage.saveData(
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+        dataUser: dataUser);
+
+    // reInit (refresh)
     await initData();
   }
 
-  Future<void> clearToken() async {
-    _clearData();
-    await _authUserStorage.saveToken(userToken: UserToken());
+  Future<void> saveDataUser({required String dataUser}) async {
+    await _authUserStorage.saveData(dataUser: dataUser);
   }
 
   Future<Map<String, dynamic>> signIn(
@@ -61,7 +53,7 @@ class AuthUserRepository {
 
     String accessToken = '';
     String refreshToken = '';
-    String userLogin = '';
+    String dataUser = '';
 
     final response = await _dioClient.post(ApiUrl.signIn, data: data);
     if (response.statusCode == 200) {
@@ -70,7 +62,7 @@ class AuthUserRepository {
         final userModel = UserModel.fromJson(data['data']);
         accessToken = data['accessToken'];
         refreshToken = data['refreshToken'];
-        userLogin = jsonEncode(userModel.toJson());
+        dataUser = jsonEncode(userModel.toJson());
 
         result = {
           'status': response.data['status'],
@@ -85,17 +77,12 @@ class AuthUserRepository {
         };
       }
     } else {
-      result = {
-        'status': 'error',
-        'data': {},
-        'message': response.data['message'] ?? 'Không thể truy cập',
-      };
+      result = response.toMapError();
     }
-
-    await _saveToken(
+    await _saveData(
         accessToken: accessToken,
         refreshToken: refreshToken,
-        userLogin: userLogin);
+        dataUser: dataUser);
     return result;
   }
 
@@ -109,29 +96,53 @@ class AuthUserRepository {
     return false;
   }
 
-  Future<dynamic> refreshAccessToken(String? refreshToken,
-      {bool typeString = false}) async {
-    if (Helper.isNull(refreshToken)) return false;
+  Future<String> refreshAccessToken(String? refreshToken) async {
+    if (Helper.isNull(refreshToken)) return '';
     final response = await _dioClient
         .post(ApiUrl.refreshToken, data: {'token': refreshToken});
     String newAccessToken = '';
 
     if (response.statusCode == 200) {
       final data = response.data['data'];
-      print('2: ${response.data}');
-      print('refresh data: $data');
       final newAccessToken = data['accessToken'];
       final newRefreshToken = data['refreshToken'];
-      await _saveToken(
+      await _saveData(
           accessToken: newAccessToken, refreshToken: newRefreshToken);
-      if (typeString) {
-        return newAccessToken;
-      }
-      return true;
-    }
-    if (typeString) {
       return newAccessToken;
     }
-    return false;
+    return newAccessToken;
+  }
+
+  Future<Map> updateDatabaseUser({required Map data}) async {
+    Map result = {};
+    if (!Helper.isNull(dataUser)) {
+      final user = jsonDecode(dataUser!);
+      final Response response = await _dioClient
+          .put('${ApiUrl.accountUpdate}/${user['id']}', data: data);
+      if (response.statusCode == 200) {
+        result = response.data;
+      } else {
+        result = {
+          'status': 'error',
+          'message': response.statusMessage,
+        };
+      }
+    }
+    return result;
+  }
+
+  Future<Map> getInfoUser({required int id}) async {
+    Map result = {};
+    final Response response =
+        await _dioClient.get('${ApiUrl.accountUpdate}/$id');
+    if (response.statusCode == 200) {
+      result = response.data;
+    } else {
+      result = {
+        'status': 'error',
+        'message': response.data['message'],
+      };
+    }
+    return result;
   }
 }

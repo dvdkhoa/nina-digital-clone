@@ -12,6 +12,7 @@ import '../providers/cart_provider.dart';
 class CartItemWidget extends ConsumerWidget {
   final CartItemModel model;
   final bool allowDelete;
+
   const CartItemWidget({Key? key, required this.model, this.allowDelete = true})
       : super(key: key);
 
@@ -127,7 +128,6 @@ class CartItemWidget extends ConsumerWidget {
                                                                 color: Colors
                                                                     .white)),
                                                     onPressed: () async {
-                                                  
                                                       final loading =
                                                           Loading(context);
                                                       loading.start();
@@ -148,8 +148,12 @@ class CartItemWidget extends ConsumerWidget {
                                                         title: 'Thông báo',
                                                         desc:
                                                             'Xóa sản phẩm khỏi giỏ hàng thành công',
-                                                        btnCancelOnPress: () {},
-                                                        btnOkOnPress: () {},
+                                                        btnCancelOnPress: () {
+                                                          context.pop();
+                                                        },
+                                                        btnOkOnPress: () {
+                                                          context.pop();
+                                                        },
                                                       )..show();
                                                     },
                                                     style: ElevatedButton

@@ -12,13 +12,9 @@ import 'package:mime_type/mime_type.dart' as mine;
 import 'package:video_thumbnail/video_thumbnail.dart';
 
 import '../../core/authentication_user/providers/auth_user_provider.dart';
-import '../../shared/common_widgets/video_thumbnail_widget.dart';
-import '../../shared/constants/api_url.dart';
 import '../../shared/utils/helper.dart';
 import '../product/models/ReviewModel.dart';
-import '../product/product_detail_screen.dart';
 import '../product/providers/review_provider.dart';
-import 'providers/review_provider.dart';
 
 part 'widgets/assets_picker_widget.dart';
 
@@ -108,6 +104,12 @@ class _AddReviewScreenState extends ConsumerState<AddReviewScreen> {
   }
 
   void _submit() async {
+
+    if(Helper.isNull(contentEditController.text)) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Vui lòng nhập cảm nhận trước khi gửi đánh giá')));
+      return;
+    }
+
     final userInfo = ref.read(authUserProvider.select((value)=>value.userLogin));
     ReviewModel model = ReviewModel(
       fullname: userInfo?.fullname,
@@ -119,7 +121,6 @@ class _AddReviewScreenState extends ConsumerState<AddReviewScreen> {
       content: contentEditController.text,
       star: _rating,
       poster: userInfo?.avatar,
-      datePosted: DateTime.now().microsecondsSinceEpoch
     );
 
     ref.read(asyncReviewNotifierProvider(widget.productId).notifier).createReview(model, _images);

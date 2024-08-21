@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
@@ -39,6 +40,6 @@ class _VideoThumbnailWidgetState extends State<VideoThumbnailWidget> {
     print(fileName);
     return fileName != null
         ? Image.file(File(fileName!))
-        : CircularProgressIndicator();
+        : Center(child: SpinKitCircle(size: 30, color: Colors.red,));
   }
 }

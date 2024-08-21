@@ -107,17 +107,16 @@ extension IntUtil on int {
     // Format VND with default locale settings (may not be optimal for Vietnam)
     final vndFormatter = NumberFormat.currency(locale: 'vi_VN');
     String formattedVND =
-    vndFormatter.format(1234567.89); // Outputs: ₫1.234.567,89
+        vndFormatter.format(1234567.89); // Outputs: ₫1.234.567,89
 
 // For better formatting, customize with thousands separator (,) and no decimal separator
     final customVNDFormatter = NumberFormat.currency(
       locale: 'vi_VN',
       customPattern:
-      '#,###', // Uses comma as thousand separator and adds "₫" symbol
+          '#,###', // Uses comma as thousand separator and adds "₫" symbol
       decimalDigits: 0, // No decimal places for VND typically
     );
     String formattedVNDCustom = customVNDFormatter.format(this);
     return formattedVNDCustom;
   }
 }
-

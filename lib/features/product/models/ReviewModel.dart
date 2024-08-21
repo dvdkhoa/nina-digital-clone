@@ -63,7 +63,6 @@ class ReviewModel {
     'poster' : poster,
     // 'status' : status,
     'type' : type,
-    'date_posted' : datePosted,
   };
 }
 

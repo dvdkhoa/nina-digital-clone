@@ -107,11 +107,6 @@ class _GalleryPhotoViewWidgetState extends State<GalleryPhotoViewWidget> {
             child: SizedBox(
               width: 300,
               height: 300,
-              // child: SvgPicture.asset(
-              //   item.resource,
-              //   height: 200.0,
-              // ),
-              // child: Text('nhớ đổi thành video player'),
               child: VideoPlayerWidget(resource: '${ApiUrl.domain}/uploads/reviews/videos/${item.resource}',),
             ),
             childSize: const Size(300, 300),

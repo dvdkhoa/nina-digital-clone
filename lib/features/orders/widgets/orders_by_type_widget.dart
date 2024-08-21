@@ -4,6 +4,7 @@ import 'order_item_widget.dart';
 
 class OrderByTypeWidget extends StatelessWidget {
   final List<OrderModel> orders;
+
   const OrderByTypeWidget({Key? key, required this.orders}) : super(key: key);
 
   @override

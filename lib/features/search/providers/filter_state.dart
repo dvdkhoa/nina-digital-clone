@@ -15,8 +15,8 @@ class FilterState {
   List<int>? id_subs = [];
   bool hot;
   String? keyword;
-  double? basePrice;
-  double? upPrice;
+  int? basePrice;
+  int? upPrice;
   OrderBy orderBy;
 
   FilterState({ this.id_lists, this.id_cats, this.id_items, this.id_subs, this.hot = true, this.basePrice, this.upPrice, this.keyword, this.orderBy = OrderBy.New });

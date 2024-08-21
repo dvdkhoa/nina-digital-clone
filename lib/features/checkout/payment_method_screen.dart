@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../home/home_screen.dart';
+import '../orders/order_screen.dart';
 import '../payment/models/mock_model.dart';
 import 'models/order_model.dart';
 import 'providers/order_provider.dart';
@@ -180,7 +181,9 @@ class CustomDialogWidget extends StatelessWidget {
             Container(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.pushNamed(OrderScreen.nameRoute);
+                },
                 child: Text(
                   'Xem đơn hàng',
                   style: defaultTextStyle.copyWith(

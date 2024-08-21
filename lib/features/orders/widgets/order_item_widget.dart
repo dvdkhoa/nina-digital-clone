@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../../../shared/constants/api_url.dart';
+import '../../../shared/extensions/string_ext.dart';
 import '../../checkout/models/order_model.dart';
 import '../order_detail_screen.dart';
 
@@ -62,12 +64,12 @@ class OrderItemWidget extends StatelessWidget {
                   imageUrl:
                       '${ApiUrl.resourcesURL}/upload/product/${model.details?[0].photo}',
                   progressIndicatorBuilder: (context, url, downloadProgress) =>
-                      CircularProgressIndicator(
-                          value: downloadProgress.progress),
+                      SpinKitCircle(size: 20, color: Colors.red,),
                   errorWidget: (context, url, error) => Icon(Icons.error),
                   width: 100,
                   fit: BoxFit.cover,
                 ),
+                SizedBox(width: 10,),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -82,13 +84,13 @@ class OrderItemWidget extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            'Màu sắc: Gold',
-                            style: defaultTextStyle.copyWith(
-                              fontSize: 12,
-                              color: Color(0xff6B6B6B),
-                            ),
-                          ),
+                          // Text(
+                          //   'Màu sắc: Gold',
+                          //   style: defaultTextStyle.copyWith(
+                          //     fontSize: 12,
+                          //     color: Color(0xff6B6B6B),
+                          //   ),
+                          // ),
                           Text(
                             'Số lượng: ${model.details?[0].quantity}',
                             style: defaultTextStyle.copyWith(
@@ -102,7 +104,7 @@ class OrderItemWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            '58.780.000đ',
+                            model.totalPrice?.formattedVNDCustom() ?? '',
                             style: defaultTextStyle.copyWith(
                                 fontSize: 13, color: Color(0xffE82727)),
                           ),

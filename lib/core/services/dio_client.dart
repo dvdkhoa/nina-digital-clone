@@ -3,28 +3,29 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../shared/app_config.dart';
 import '../../shared/constants/api_url.dart';
+import '../../shared/utils/helper.dart';
 import '../authentication_user/providers/auth_user_provider.dart';
-import 'jwt_encoder.dart';
+import 'jwt_handler.dart';
 
-part 'auth_interceptors.dart';
+part 'auth_interceptor.dart';
 part 'dio_exceptions.dart';
 
 final dioProvider = Provider<DioClient>((ref) {
-  return DioClient(Dio(), ref);
+  return DioClient(ref);
 });
 
 class DioClient {
-  final Dio _dio; // dio instance
+  final Dio _dio = Dio(); // dio instance
   final Ref _ref;
 
   // injecting dio instance
-  DioClient(this._dio, this._ref) {
+  DioClient(this._ref) {
     _dio
       ..options.baseUrl = ApiUrl.baseUrl
       ..options.connectTimeout = const Duration(seconds: 30)
       ..options.receiveTimeout = const Duration(seconds: 30)
       ..options.responseType = ResponseType.json
-      ..interceptors.add(AuthUserInterceptor(_dio, _ref));
+      ..interceptors.add(AuthUserInterceptor(_ref));
   }
 
   // Get:-----------------------------------------------------------------------
@@ -43,11 +44,7 @@ class DioClient {
       );
       return response;
     } on DioException catch (e) {
-      final errorMessage = DioExceptions.fromDioError(e).toString();
-      return _responseError(
-          statusCode: e.response?.statusCode,
-          statusMessage: errorMessage,
-          data: e.response?.data);
+      return _responseError(e);
     }
   }
 
@@ -71,11 +68,7 @@ class DioClient {
       );
       return response;
     } on DioException catch (e) {
-      final errorMessage = DioExceptions.fromDioError(e).toString();
-      return _responseError(
-          statusCode: e.response?.statusCode,
-          statusMessage: errorMessage,
-          data: e.response?.data);
+      return _responseError(e);
     }
   }
 
@@ -99,11 +92,7 @@ class DioClient {
       );
       return response;
     } on DioException catch (e) {
-      final errorMessage = DioExceptions.fromDioError(e).toString();
-      return _responseError(
-          statusCode: e.response?.statusCode,
-          statusMessage: errorMessage,
-          data: e.response?.data);
+      return _responseError(e);
     }
   }
 
@@ -123,22 +112,35 @@ class DioClient {
         queryParameters: queryParameters,
         cancelToken: cancelToken,
       );
-      return response.data;
+      return response;
     } on DioException catch (e) {
-      final errorMessage = DioExceptions.fromDioError(e).toString();
-      return _responseError(
-          statusCode: e.response?.statusCode,
-          statusMessage: errorMessage,
-          data: e.response?.data);
+      return _responseError(e);
     }
   }
 
-  Response _responseError(
-      {int? statusCode, String? statusMessage, dynamic data}) {
+  Future<Response> downloadFile(
+      {required String url,
+      required String savePath,
+      Function(int received, int total)? onReceiveProgress}) async {
+    try {
+      final Response response = await _dio.download(
+        url,
+        savePath,
+        onReceiveProgress: onReceiveProgress,
+      );
+      return response;
+    } on DioException catch (e) {
+      return _responseError(e);
+    }
+  }
+
+  Response _responseError(DioException err) {
+    final errorMessage = DioExceptions.fromDioError(err).toString();
     return Response(
-        statusCode: statusCode,
-        statusMessage: statusMessage,
-        data: data,
-        requestOptions: RequestOptions());
+      statusCode: err.response?.statusCode,
+      statusMessage: errorMessage,
+      data: (err.response != null) ? err.response?.data : null,
+      requestOptions: err.requestOptions,
+    );
   }
 }

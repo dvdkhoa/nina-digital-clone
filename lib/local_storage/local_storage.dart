@@ -3,7 +3,7 @@ import 'package:path_provider/path_provider.dart'
     show getApplicationDocumentsDirectory;
 
 import 'schema/settings.dart';
-import 'schema/user_token.dart';
+import 'schema/user_login.dart';
 
 class LocalStorage {
   static late final Isar isarDB;
@@ -11,7 +11,7 @@ class LocalStorage {
   static Future<void> init() async {
     final dir = await getApplicationDocumentsDirectory();
     isarDB = await Isar.open(
-      [SettingsSchema, UserTokenSchema],
+      [SettingsSchema, UserLoginSchema],
       directory: dir.path,
       inspector: true,
     );

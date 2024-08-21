@@ -19,6 +19,8 @@ class ApiUrl {
   static const String signUp = '$baseUrl/account/sign-up';
   static const String forgotPassword = '$baseUrl/account/forgot-password';
 
+  static const String accountUpdate = '$baseUrl/account';
+
   // PRODUCT - API
   static const String PRODUCT = '$baseUrl/product';
   static const String PRODUCT_CATEGORY = '$baseUrl/product/categories';

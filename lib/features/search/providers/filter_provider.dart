@@ -51,14 +51,14 @@ class FilterNotifier extends _$FilterNotifier {
 
   void onChangeUpPrice(String value) {
     if(!Helper.isNull(value)) {
-      state = state.copyWith(upPrice: double.parse(value));
+      state = state.copyWith(upPrice: int.parse(value));
     } else{
       state = state.copyWith(upPrice: null);
     }
   }
   void onChangeBasePrice(String value) {
     if(!Helper.isNull(value)) {
-      state = state.copyWith(basePrice: double.parse(value));
+      state = state.copyWith(basePrice: int.parse(value));
     } else{
       state = state.copyWith(basePrice: null);
     }

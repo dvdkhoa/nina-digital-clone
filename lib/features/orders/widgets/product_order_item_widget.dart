@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../../shared/constants/api_url.dart';
 import '../../../shared/extensions/string_ext.dart';
@@ -22,7 +23,7 @@ class ProductOrderItemWidget extends StatelessWidget {
               CachedNetworkImage(
                 imageUrl:
                     '${ApiUrl.resourcesURL}/upload/product/${model.photo}',
-                placeholder: (context, url) => CircularProgressIndicator(),
+                placeholder: (context, url) => SpinKitCircle(size: 20, color: Colors.red,),
                 errorWidget: (context, url, error) => Icon(Icons.error),
                 width: 100,
                 fit: BoxFit.cover,
@@ -44,13 +45,13 @@ class ProductOrderItemWidget extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          'Màu sắc: Gold',
-                          style: defaultTextStyle.copyWith(
-                            fontSize: 12,
-                            color: Color(0xff6B6B6B),
-                          ),
-                        ),
+                        // Text(
+                        //   'Màu sắc: Gold',
+                        //   style: defaultTextStyle.copyWith(
+                        //     fontSize: 12,
+                        //     color: Color(0xff6B6B6B),
+                        //   ),
+                        // ),
                         Text(
                           'Số lượng: 2',
                           style: defaultTextStyle.copyWith(

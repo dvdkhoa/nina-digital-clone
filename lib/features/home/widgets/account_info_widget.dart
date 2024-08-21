@@ -25,7 +25,7 @@ class AccountInfoWidget extends ConsumerWidget implements PreferredSizeWidget{
                 child: CachedNetworkImage(
                   imageUrl: '${ApiUrl.domain}/uploads/users/${data?.avatar}',
                   placeholder: (context, url) => Center(child: SpinKitCircle(size: 20, color: Colors.red,),),
-                  errorWidget: (context, url, error) => Image.asset('assets/images/error.png'),
+                  errorWidget: (context, url, error) => Image.asset('assets/images/boy.png'),
                   width: 40,
                   fit: BoxFit.cover,
                 ),
