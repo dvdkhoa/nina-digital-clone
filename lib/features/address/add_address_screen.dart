@@ -6,6 +6,7 @@ import '../../core/authentication_user/model/user_model.dart';
 import '../../core/authentication_user/providers/auth_user_provider.dart';
 import '../../shared/common_widgets/text_input_widget.dart';
 import '../../shared/constants/api_url.dart';
+import '../../shared/utils/helper.dart';
 import 'models/AddressModel.dart';
 import 'providers/address_provider.dart';
 import 'widgets/label_and_input_widget.dart';
@@ -35,6 +36,8 @@ class _AddAddressScreenState extends ConsumerState<AddAddressScreen> {
     final UserModel? userInfo =
         ref.watch(authUserProvider.select((value) => value.userLogin));
 
+    final loading = Loading(context)..start();
+
     final address = AddressModel(
         idUser: int.parse(userInfo?.id.toString() ?? ''),
         nameAddress: addressNameController.text,
@@ -45,7 +48,11 @@ class _AddAddressScreenState extends ConsumerState<AddAddressScreen> {
         idWard: 0,
         detailAddress: detailAddressController.text,
         isDefault: _isDefault ? 1 : 0);
-    ref.read(asyncAddressNotifierProvider.notifier).addAddress(address);
+
+    await ref.read(asyncAddressNotifierProvider.notifier).addAddress(address);
+
+    await loading.stop();
+
     context.pop();
   }
 

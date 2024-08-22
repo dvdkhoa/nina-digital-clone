@@ -22,7 +22,7 @@ class AccountInfoWidget extends ConsumerWidget {
               _showCustomModelBottomSheet(context: context, ref: ref);
             },
             badgeStyle: badges.BadgeStyle(badgeColor: Colors.grey.shade300),
-            child: CircleAvatar(
+            child: ClipOval(
               child: CachedNetworkImage(
                 imageUrl: '${ApiUrl.domain}/uploads/users/${data?.avatar}',
                 placeholder: (context, url) =>
@@ -31,6 +31,7 @@ class AccountInfoWidget extends ConsumerWidget {
                 errorWidget: (context, url, error) =>
                     Image.asset('assets/images/boy.png'),
                 width: 50,
+                height: 50,
                 fit: BoxFit.cover,
               ),
             ),

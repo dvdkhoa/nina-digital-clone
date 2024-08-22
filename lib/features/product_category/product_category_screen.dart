@@ -6,7 +6,7 @@ import 'package:nina_digital/features/home/providers/product_provider.dart';
 
 import '../../shared/common_widgets/product_list_widget.dart';
 
-part './models/mock_models.dart';
+
 
 class ProductCategoryScreen extends ConsumerWidget {
   final String titleCategory;

@@ -1,4 +1,4 @@
-package com.vmc.vmc_core
+package com.example.nina_digital_clone
 
 import io.flutter.embedding.android.FlutterActivity
 

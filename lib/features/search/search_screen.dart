@@ -16,7 +16,8 @@ part 'widgets/filter_modal_widget.dart';
 part 'widgets/result_section_widget.dart';
 
 class SearchScreen extends ConsumerStatefulWidget {
-  const SearchScreen({Key? key}) : super(key: key);
+  final int? idList;
+  const SearchScreen({Key? key, this.idList}) : super(key: key);
 
   static const String nameRoute = 'search';
   static const String pathRoute = '/search';
@@ -33,6 +34,14 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     setState(() {
       isFilter = value;
     });
+  }
+
+  @override
+  void initState() {
+    if(widget.idList != null) {
+      isFilter = true;
+    }
+    super.initState();
   }
 
 

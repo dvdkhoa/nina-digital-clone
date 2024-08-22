@@ -37,17 +37,10 @@ class CategoryListFilterWidget extends StatelessWidget {
             onSelected: (bool value) {},
           ),
         ),
-        itemCount: _categories.length,
+        itemCount: list.length,
       ),
     );
   }
 }
 
-List<Map<String, dynamic>> _categories = [
-  {'title': 'Điện thoại', 'image': 'phone_cat.png'},
-  {'title': 'Smartwatch', 'image': 'swatch_cat.png'},
-  {'title': 'Smart TV', 'image': 'tv_cat.png'},
-  {'title': 'Màn LED', 'image': 'led_cat.png'},
-  {'title': 'Laptop', 'image': 'laptop_cat.png'},
-  {'title': 'Loa - Tai nghe', 'image': 'mphone_cat.png'},
-];
+

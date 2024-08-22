@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../checkout/providers/order_provider.dart';
 import 'providers/order_status_provider.dart';
@@ -83,7 +84,7 @@ class _OrderScreenState extends ConsumerState<OrderScreen> {
               child: Text(error.toString() + stackTrace.toString()),
             ),
             loading: () => const Center(
-              child: CircularProgressIndicator(),
+              child: SpinKitCircle(size: 20, color: Colors.red,),
             ),
           );
         },
@@ -91,7 +92,7 @@ class _OrderScreenState extends ConsumerState<OrderScreen> {
           child: Text(error.toString() + stackTrace.toString()),
         ),
         loading: () => const Center(
-          child: CircularProgressIndicator(),
+          child: SpinKitCircle(size: 30, color: Colors.red,),
         ),
       ),
     );

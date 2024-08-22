@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -7,6 +9,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/authentication_user/providers/auth_user_provider.dart';
 import '../../shared/extensions/string_ext.dart';
+import '../../shared/utils/helper.dart';
+import '../account/screens/address/address_screen.dart';
 import '../address/models/AddressModel.dart';
 import '../address/providers/address_provider.dart';
 import 'models/order_model.dart';
@@ -66,12 +70,20 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                   style: defaultTextStyle.copyWith(fontSize: 15)),
               asyncAddressValue.when(
                 data: (data) {
-                  final defaultAddress =
-                      data.firstWhere((item) => item.isDefault == 1);
-                  _defaultAddress = defaultAddress;
-                  return InkWell(
+                  if(data.isNotEmpty) {
+                    AddressModel? defaultAddress =
+                        data.where((item) => item.isDefault == 1).firstOrNull;
+                    _defaultAddress = defaultAddress;
+                    if(!data.contains(_chooseAddress)) {
+                      _chooseAddress = null;
+                    }
+                  } else {
+                    _defaultAddress = null;
+                  }
+
+                  return (!Helper.isNull(_chooseAddress) || !Helper.isNull(_defaultAddress)) ? InkWell(
                     onTap: () async {
-                      final data = _chooseAddress ?? defaultAddress;
+                      final data = _chooseAddress ?? _defaultAddress;
 
                       final returnValue = await context.pushNamed(
                           SelectAddressScreen.nameRoute,
@@ -82,6 +94,10 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                             returnValue as AddressModel;
                         setState(() {
                           _chooseAddress = returnAddress;
+                        });
+                      } else {
+                        setState(() {
+                          _chooseAddress == null;
                         });
                       }
                     },
@@ -134,12 +150,12 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                               children: [
                                 Text(
                                     _chooseAddress?.nameAddress ??
-                                        defaultAddress.nameAddress,
+                                        _defaultAddress?.nameAddress ?? '',
                                     style: defaultTextStyle.copyWith(
                                         fontSize: 15)),
                                 Text(
                                     _chooseAddress?.detailAddress ??
-                                        defaultAddress.detailAddress,
+                                        _defaultAddress?.detailAddress ?? '',
                                     style: defaultTextStyle.copyWith(
                                         fontSize: 10,
                                         color: const Color(0xff686868)))
@@ -147,10 +163,25 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                             ),
                           ),
                           IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                context.pushNamed(AddressScreen.nameRoute);
+                              },
                               icon: Icon(Icons.border_color_outlined))
                         ],
                       ),
+                    ),
+                  ) : Container(
+                    margin: EdgeInsets.only(top: 10),
+                    width: double.infinity,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Chưa có địa chỉ mặc định'),
+                        FilledButton(onPressed: () {
+                          context.pushNamed(AddressScreen.nameRoute);
+                        },  child: Text('Quản lý địa chỉ')),
+                      ],
                     ),
                   );
                 },
@@ -344,18 +375,20 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
         padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
         child: ElevatedButton(
           onPressed: () {
-            
-            if(_shipMethod == null) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Chưa chọn phương thức vận chuyển')));
+            if (_shipMethod == null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Chưa chọn phương thức vận chuyển')));
               return;
             }
-            if(_chooseAddress == null && _defaultAddress == null) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Chưa chọn địa chỉ giao hàng')));
+            if (_chooseAddress == null && _defaultAddress == null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Chưa chọn địa chỉ giao hàng')));
               return;
             }
-            
+
             OrderModel order = OrderModel(
-                address: _chooseAddress?.detailAddress ?? _defaultAddress?.detailAddress,
+                address: _chooseAddress?.detailAddress ??
+                    _defaultAddress?.detailAddress,
                 fullname: userInfo?.fullname,
                 email: userInfo?.email,
                 phone: userInfo?.phone,

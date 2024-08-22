@@ -1,13 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nina_digital/features/home/providers/product_category.dart';
 
 import '../../../shared/constants/api_url.dart';
 import '../../../shared/extensions/string_ext.dart';
-import '../../product_category/product_category_screen.dart';
-import '../models/mock_model.dart';
+import '../../search/providers/filter_provider.dart';
+import '../../search/providers/search_provider.dart';
+import '../../search/search_screen.dart';
 import '../screens/category_screen.dart';
 import 'section_layout_widget.dart';
 
@@ -37,8 +39,13 @@ class CategoryListWidget extends ConsumerWidget {
                 (item) {
                   return InkWell(
                     onTap: () {
-                      context.pushNamed(ProductCategoryScreen.nameRoute,
-                          queryParameters: {'title': item.namevi});
+                      ref
+                          .read(filterNotifierProvider.notifier)
+                          .changeProLists(item.id);
+                      ref
+                          .read(searchNotifierProvider.notifier)
+                          .filterProducts();
+                      context.pushNamed(SearchScreen.nameRoute, queryParameters: { 'id_list': item.id.toString() });
                     },
                     child: Container(
                       width: 100,
@@ -48,9 +55,12 @@ class CategoryListWidget extends ConsumerWidget {
                             child: Container(
                               color: Colors.lightBlueAccent.shade100,
                               child: CachedNetworkImage(
-                                imageUrl: '${ApiUrl.resourcesURL}/upload/product/${item.icon}',
-                                placeholder: (context, url) => Image.asset('assets/images/placeholder.jpg'),
-                                errorWidget: (context, url, error) => Image.asset('assets/images/error.png'),
+                                imageUrl:
+                                    '${ApiUrl.resourcesURL}/upload/product/${item.icon}',
+                                placeholder: (context, url) => Image.asset(
+                                    'assets/images/placeholder.jpg'),
+                                errorWidget: (context, url, error) =>
+                                    Image.asset('assets/images/error.png'),
                                 fit: BoxFit.scaleDown,
                                 width: 80,
                                 height: 80,
@@ -76,7 +86,10 @@ class CategoryListWidget extends ConsumerWidget {
             child: Text(error.toString() + stackTrace.toString()),
           ),
           loading: () => const Center(
-            child: CircularProgressIndicator(),
+            child: SpinKitCircle(
+              size: 20,
+              color: Colors.red,
+            ),
           ),
         ),
       ),

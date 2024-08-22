@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:nina_digital/features/home/models/product_model.dart';
 import 'package:nina_digital/features/home/providers/product_category.dart';
-import 'package:nina_digital/features/home/providers/product_provider.dart';
-import 'package:nina_digital/features/home/widgets/category_list_filter_widget.dart';
 
 import '../../shared/common_widgets/product_list_widget.dart';
-import '../home/models/mock_model.dart';
-import '../home/widgets/popular_products_widget.dart';
+import '../home/widgets/category_list_filter_widget.dart';
 import 'providers/favorite_product_provider.dart';
 
 class FavoriteScreen extends ConsumerWidget {
@@ -49,7 +46,7 @@ class FavoriteScreen extends ConsumerWidget {
                   );
                 },
                 loading: () => Center(
-                  child: CircularProgressIndicator(),
+                  child: SpinKitCircle(size: 20, color: Colors.red,),
                 ),
                 error: (error, stackTrace) => Center(
                   child: Text(error.toString()),
@@ -59,7 +56,7 @@ class FavoriteScreen extends ConsumerWidget {
                 height: 20,
               ),
               asyncFavoriteProductsValue.when(
-                  loading: () => CircularProgressIndicator(),
+                  loading: () => SpinKitCircle(size: 20, color:  Colors.red,),
                   data: (data) {
                     return ProductListWidget(products: data);
                   },

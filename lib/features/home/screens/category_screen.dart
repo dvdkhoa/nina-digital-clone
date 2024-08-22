@@ -46,10 +46,7 @@ class CategoryScreen extends ConsumerWidget {
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () {
-                    context.pushNamed(ProductCategoryScreen.nameRoute,
-                        queryParameters: {
-                          'title': data[index].namevi.capitalize()
-                        });
+                    print('danh sach san pham theo danh muc');
                   },
                   child: Container(
                     child: Column(

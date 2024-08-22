@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nina_digital/features/home/providers/slide_provider.dart';
 import '../../../shared/constants/api_url.dart';
@@ -44,7 +45,7 @@ class SpecialOfferWidget extends ConsumerWidget {
           child: Text(error.toString()),
         ),
         loading: () => Center(
-          child: CircularProgressIndicator(),
+          child: SpinKitCircle(size: 20, color: Colors.red,),
         ),
       ),
       onButtonClick: () {

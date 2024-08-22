@@ -21,7 +21,7 @@ class AccountInfoWidget extends ConsumerWidget implements PreferredSizeWidget{
             margin: const EdgeInsets.only(left: 20),
             child: Container(
               width: double.infinity,
-              child: CircleAvatar(
+              child: ClipOval(
                 child: CachedNetworkImage(
                   imageUrl: '${ApiUrl.domain}/uploads/users/${data?.avatar}',
                   placeholder: (context, url) => Center(child: SpinKitCircle(size: 20, color: Colors.red,),),

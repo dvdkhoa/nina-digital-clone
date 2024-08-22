@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 
 import '../address/models/mock_model.dart';
@@ -51,7 +52,7 @@ class AddressScreen extends ConsumerWidget {
                   child: Text('${error.toString()}: ${stackTrace.toString()}'),
                 ),
                 loading: () => Center(
-                  child: CircularProgressIndicator(),
+                  child: SpinKitCircle(size: 30, color: Colors.red,),
                 ),
               )),
         ),

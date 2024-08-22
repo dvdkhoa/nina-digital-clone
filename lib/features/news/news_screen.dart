@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
@@ -8,7 +9,7 @@ import 'package:nina_digital/features/news/providers/news_provider.dart';
 import '../../shared/constants/api_url.dart';
 import 'news_detail_screen.dart';
 
-// final DateFormat formatter = DateFormat('dd/MM/yyyy');
+final DateFormat dateFormat = DateFormat.yMd('vi');
 
 class NewsScreen extends ConsumerWidget {
   const NewsScreen({super.key});
@@ -80,7 +81,7 @@ class NewsScreen extends ConsumerWidget {
               child: Text(error.toString() + stackTrace.toString()),
             ),
             loading: () => Center(
-              child: CircularProgressIndicator(),
+              child: SpinKitCircle(size: 30, color: Colors.red,),
             ),
           ),
         ),
@@ -90,7 +91,6 @@ class NewsScreen extends ConsumerWidget {
 }
 
 List<Widget> _subNewsList(BuildContext context, List<NewsModel> news) {
-  final dateFormat = DateFormat('dd/MM/yyyy');
   final List<Widget> list = [];
   for (int i = 1; i < news.length; i++) {
     final item = InkWell(
@@ -119,7 +119,7 @@ List<Widget> _subNewsList(BuildContext context, List<NewsModel> news) {
                     style: TextStyle(fontSize: 14),
                   ),
                   Text(
-                    'Ngày đăng: ${dateFormat.format(DateTime(news[i].dateCreated))}',
+                    'Ngày đăng: ${dateFormat.format(DateTime.fromMillisecondsSinceEpoch(news[i].dateCreated * 1000))}',
                     style: TextStyle(fontSize: 12, color: Color(0xff5B5B5B)),
                   )
                 ],

@@ -184,7 +184,9 @@ List<RouteBase> _danhsachRoute = [
     name: SearchScreen.nameRoute,
     path: SearchScreen.pathRoute,
     pageBuilder: (context, state) {
-      return _effectTransitionFade(context, state, SearchScreen());
+      final id_list = state.uri.queryParameters['id_list'];
+      return _effectTransitionFade(context, state, SearchScreen(idList: id_list != null ? int.parse(id_list) : null ));
+      // return _effectTransitionFade(context, state, SearchScreen());
     },
   ),
   GoRoute(

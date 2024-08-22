@@ -41,7 +41,7 @@ class AddressRepository {
   Future<bool> deleteAddress(id) async {
     final response = await dioClient.delete('${ApiUrl.ADDRESS}/$id');
 
-    if (response['code'] == 200) {
+    if (response.statusCode == 200) {
       return true;
     }
     return false;
