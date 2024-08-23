@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/authentication_user/providers/auth_user_provider.dart';
 import '../../shared/extensions/string_ext.dart';
 import '../../shared/utils/helper.dart';
 import 'providers/filter_provider.dart';
+import 'providers/old_keyword_provider.dart';
 import 'providers/search_provider.dart';
 import 'widgets/old_search_list_widget.dart';
 import 'widgets/orderby_widget.dart';
@@ -150,6 +152,11 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     await ref
         .read(searchNotifierProvider.notifier)
         .searchProducts(keyword);
+
+    final userId = ref.read(authUserProvider.select((value) => value.userLogin?.id,));
+
+    await ref.read(asyncOldKeywordProvider(userId).notifier).createSearch(keyword!);
+
     setState(() {
     });
   }

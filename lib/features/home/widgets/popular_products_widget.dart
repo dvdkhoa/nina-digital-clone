@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nina_digital/features/home/providers/product_category.dart';
 
@@ -30,8 +31,8 @@ class PopularProductsWidget extends ConsumerWidget {
             error: (error, stackTrace) => Center(
               child: Text(error.toString()),
             ),
-            loading: () => Center(
-              child: CircularProgressIndicator(),
+            loading: () => const Center(
+              child: SpinKitCircle(size: 20, color: Colors.red,),
             ),
           ),
           const SizedBox(

@@ -51,6 +51,7 @@ import '../features/login/login_screen.dart';
 
 import '../core/authentication_user/providers/auth_user_provider.dart';
 import '../features/sign_up/sign_up_screen.dart';
+import 'navigator_key.dart';
 
 part 'routes.dart';
 part 'app_router_notifier.dart';
@@ -64,7 +65,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       ref.watch(appSettingProvider.select((value) => value.onboarding));
 
   return GoRouter(
-    navigatorKey: _routerKey,
+    navigatorKey: navigatorKey,
     debugLogDiagnostics: AppConfig.debugLogDiagnostics,
     initialLocation: AppConfig.initialPath,
     // initialLocation:

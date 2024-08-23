@@ -7,7 +7,7 @@ part of 'review_provider.dart';
 // **************************************************************************
 
 String _$asyncReviewNotifierHash() =>
-    r'7bb2eb9292a273db02461049a90096c8ae8cbe70';
+    r'99ebb6ca00dd1a91ffac0622fc7bc9141e875a7b';
 
 /// Copied from Dart SDK
 class _SystemHash {

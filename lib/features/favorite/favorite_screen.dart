@@ -26,37 +26,33 @@ class FavoriteScreen extends ConsumerWidget {
             margin: EdgeInsets.only(left: 25),
             child: Image.asset('assets/images/g22.png')),
         title: Text('Danh sách yêu thích'),
-        actions: [
-          IconButton(
-              onPressed: () {
-                print('search');
-              },
-              icon: SvgPicture.asset('assets/icons/search.svg'))
-        ],
       ),
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: Column(
             children: [
-              asyncProductListsValue.when(
-                data: (data) {
-                  return CategoryListFilterWidget(
-                    list: data,
-                  );
-                },
-                loading: () => Center(
-                  child: SpinKitCircle(size: 20, color: Colors.red,),
-                ),
-                error: (error, stackTrace) => Center(
-                  child: Text(error.toString()),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
+              // asyncProductListsValue.when(
+              //   data: (data) {
+              //     return CategoryListFilterWidget(
+              //       list: data,
+              //     );
+              //   },
+              //   loading: () => Center(
+              //     child: SpinKitCircle(size: 20, color: Colors.red,),
+              //   ),
+              //   error: (error, stackTrace) => Center(
+              //     child: Text(error.toString()),
+              //   ),
+              // ),
+              // const SizedBox(
+              //   height: 20,
+              // ),
               asyncFavoriteProductsValue.when(
-                  loading: () => SpinKitCircle(size: 20, color:  Colors.red,),
+                  loading: () => SpinKitCircle(
+                        size: 20,
+                        color: Colors.red,
+                      ),
                   data: (data) {
                     return ProductListWidget(products: data);
                   },

@@ -81,12 +81,13 @@ class CartNotifier extends Notifier<CartState> {
     }
   }
 
-  Future<bool> addToCart(int productId, int quantity) async {
+  Future<bool> addToCart(int productId, int? colorId, int quantity) async {
     final cartRepository = CartRepository(ref.watch(dioProvider));
 
     final addToCartModel = AddToCartModel(
         userId: int.parse(_userInfo?.id.toString() ?? ''),
         productId: productId,
+        colorId: colorId,
         quantity: quantity);
 
     final res = await cartRepository.addToCart(addToCartModel);

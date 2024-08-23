@@ -1,200 +1,235 @@
+class ProductDetailModelGallery {
+  int? id;
+  String? photo;
+  String? namevi;
+  String? nameen;
+  int? idColor;
+  int? numb;
+
+  ProductDetailModelGallery({
+    this.id,
+    this.photo,
+    this.namevi,
+    this.nameen,
+    this.idColor,
+    this.numb,
+  });
+  ProductDetailModelGallery.fromJson(Map<String, dynamic> json) {
+    id = int.tryParse(json['id']?.toString() ?? '');
+    photo = json['photo']?.toString();
+    namevi = json['namevi']?.toString();
+    nameen = json['nameen']?.toString();
+    idColor = int.tryParse(json['id_color']?.toString() ?? '');
+    numb = int.tryParse(json['numb']?.toString() ?? '');
+  }
+  Map<String, dynamic> toJson() {
+    final data = <String, dynamic>{};
+    data['id'] = id;
+    data['photo'] = photo;
+    data['namevi'] = namevi;
+    data['nameen'] = nameen;
+    data['id_color'] = idColor;
+    data['numb'] = numb;
+    return data;
+  }
+}
+
+class ProductDetailModelThuoctinh {
+  int? idSize;
+  String? size;
+  int? idColor;
+  String? color;
+  String? idBaohanh;
+  String? baohanh;
+  int? regularPrice;
+  int? salePrice;
+
+  ProductDetailModelThuoctinh({
+    this.idSize,
+    this.size,
+    this.idColor,
+    this.color,
+    this.idBaohanh,
+    this.baohanh,
+    this.regularPrice,
+    this.salePrice,
+  });
+  ProductDetailModelThuoctinh.fromJson(Map<String, dynamic> json) {
+    idSize = int.tryParse(json['id_size']?.toString() ?? '');
+    size = json['size']?.toString();
+    idColor = int.tryParse(json['id_color']?.toString() ?? '');
+    color = json['color']?.toString();
+    idBaohanh = json['id_baohanh']?.toString();
+    baohanh = json['baohanh']?.toString();
+    regularPrice = int.tryParse(json['regular_price']?.toString() ?? '');
+    salePrice = int.tryParse(json['sale_price']?.toString() ?? '');
+  }
+  Map<String, dynamic> toJson() {
+    final data = <String, dynamic>{};
+    data['id_size'] = idSize;
+    data['size'] = size;
+    data['id_color'] = idColor;
+    data['color'] = color;
+    data['id_baohanh'] = idBaohanh;
+    data['baohanh'] = baohanh;
+    data['regular_price'] = regularPrice;
+    data['sale_price'] = salePrice;
+    return data;
+  }
+}
+
 class ProductDetailModel {
+  int? id;
+  int? idList;
+  int? idItem;
+  int? idCat;
+  int? idSub;
+  int? idBrand;
+  String? photo;
+  String? options;
+  String? slugvi;
+  String? slugen;
+  String? contenten;
+  String? contentvi;
+  String? descen;
+  String? descvi;
+  String? nameen;
+  String? namevi;
+  String? code;
+  int? regularPrice;
+  int? discount;
+  int? salePrice;
+  int? numb;
+  String? status;
+  String? type;
+  int? dateCreated;
+  int? dateUpdated;
+  int? view;
+  String? icon;
+  List<ProductDetailModelThuoctinh?>? thuoctinh;
+  List<ProductDetailModelGallery?>? gallery;
+
   ProductDetailModel({
-    required this.id,
-    required this.idList,
-    required this.idItem,
-    required this.idCat,
-    required this.idSub,
-    required this.idBrand,
-    required this.photo,
-    required this.options,
-    required this.slugvi,
-    required this.slugen,
-    required this.contenten,
-    required this.contentvi,
-    required this.descen,
-    required this.descvi,
-    required this.nameen,
-    required this.namevi,
-    required this.code,
-    required this.regularPrice,
-    required this.discount,
-    required this.salePrice,
-    required this.numb,
-    required this.status,
-    required this.type,
-    required this.dateCreated,
-    required this.dateUpdated,
-    required this.view,
-    required this.icon,
-    required this.thuoctinh,
-    required this.gallery,
+    this.id,
+    this.idList,
+    this.idItem,
+    this.idCat,
+    this.idSub,
+    this.idBrand,
+    this.photo,
+    this.options,
+    this.slugvi,
+    this.slugen,
+    this.contenten,
+    this.contentvi,
+    this.descen,
+    this.descvi,
+    this.nameen,
+    this.namevi,
+    this.code,
+    this.regularPrice,
+    this.discount,
+    this.salePrice,
+    this.numb,
+    this.status,
+    this.type,
+    this.dateCreated,
+    this.dateUpdated,
+    this.view,
+    this.icon,
+    this.thuoctinh,
+    this.gallery,
   });
-  late final int id;
-  late final int idList;
-  late final int idItem;
-  late final int idCat;
-  late final int idSub;
-  late final int idBrand;
-  late final String photo;
-  late final String options;
-  late final String slugvi;
-  late final String slugen;
-  late final String contenten;
-  late final String contentvi;
-  late final String descen;
-  late final String descvi;
-  late final String nameen;
-  late final String namevi;
-  late final String code;
-  late final double regularPrice;
-  late final int discount;
-  late final double salePrice;
-  late final int numb;
-  late final String status;
-  late final String type;
-  late final int dateCreated;
-  late final int dateUpdated;
-  late final int view;
-  late final String icon;
-  late final List<Thuoctinh> thuoctinh;
-  late final List<Gallery> gallery;
-
   ProductDetailModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    idList = json['id_list'];
-    idItem = json['id_item'];
-    idCat = json['id_cat'];
-    idSub = json['id_sub'];
-    idBrand = json['id_brand'];
-    photo = json['photo'];
-    options = json['options'];
-    slugvi = json['slugvi'];
-    slugen = json['slugen'];
-    contenten = json['contenten'];
-    contentvi = json['contentvi'];
-    descen = json['descen'];
-    descvi = json['descvi'];
-    nameen = json['nameen'];
-    namevi = json['namevi'];
-    code = json['code'];
-    regularPrice = double.parse(json['regular_price'].toString());
-    discount = json['discount'];
-    salePrice = double.parse(json['sale_price'].toString());
-    numb = json['numb'];
-    status = json['status'];
-    type = json['type'];
-    dateCreated = json['date_created'];
-    dateUpdated = json['date_updated'];
-    view = json['view'];
-    icon = json['icon'];
-    thuoctinh =
-        List.from(json['thuoctinh']).map((e) => Thuoctinh.fromJson(e)).toList();
-    gallery =
-        List.from(json['gallery']).map((e) => Gallery.fromJson(e)).toList();
+    id = int.tryParse(json['id']?.toString() ?? '');
+    idList = int.tryParse(json['id_list']?.toString() ?? '');
+    idItem = int.tryParse(json['id_item']?.toString() ?? '');
+    idCat = int.tryParse(json['id_cat']?.toString() ?? '');
+    idSub = int.tryParse(json['id_sub']?.toString() ?? '');
+    idBrand = int.tryParse(json['id_brand']?.toString() ?? '');
+    photo = json['photo']?.toString();
+    options = json['options']?.toString();
+    slugvi = json['slugvi']?.toString();
+    slugen = json['slugen']?.toString();
+    contenten = json['contenten']?.toString();
+    contentvi = json['contentvi']?.toString();
+    descen = json['descen']?.toString();
+    descvi = json['descvi']?.toString();
+    nameen = json['nameen']?.toString();
+    namevi = json['namevi']?.toString();
+    code = json['code']?.toString();
+    regularPrice = int.tryParse(json['regular_price']?.toString() ?? '');
+    discount = int.tryParse(json['discount']?.toString() ?? '');
+    salePrice = int.tryParse(json['sale_price']?.toString() ?? '');
+    numb = int.tryParse(json['numb']?.toString() ?? '');
+    status = json['status']?.toString();
+    type = json['type']?.toString();
+    dateCreated = int.tryParse(json['date_created']?.toString() ?? '');
+    dateUpdated = int.tryParse(json['date_updated']?.toString() ?? '');
+    view = int.tryParse(json['view']?.toString() ?? '');
+    icon = json['icon']?.toString();
+    if (json['thuoctinh'] != null && (json['thuoctinh'] is List)) {
+      final v = json['thuoctinh'];
+      final arr0 = <ProductDetailModelThuoctinh>[];
+      v.forEach((v) {
+        arr0.add(ProductDetailModelThuoctinh.fromJson(v));
+      });
+      thuoctinh = arr0;
+    }
+    if (json['gallery'] != null && (json['gallery'] is List)) {
+      final v = json['gallery'];
+      final arr0 = <ProductDetailModelGallery>[];
+      v.forEach((v) {
+        arr0.add(ProductDetailModelGallery.fromJson(v));
+      });
+      gallery = arr0;
+    }
   }
-
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['id'] = id;
-    _data['id_list'] = idList;
-    _data['id_item'] = idItem;
-    _data['id_cat'] = idCat;
-    _data['id_sub'] = idSub;
-    _data['id_brand'] = idBrand;
-    _data['photo'] = photo;
-    _data['options'] = options;
-    _data['slugvi'] = slugvi;
-    _data['slugen'] = slugen;
-    _data['contenten'] = contenten;
-    _data['contentvi'] = contentvi;
-    _data['descen'] = descen;
-    _data['descvi'] = descvi;
-    _data['nameen'] = nameen;
-    _data['namevi'] = namevi;
-    _data['code'] = code;
-    _data['regular_price'] = regularPrice;
-    _data['discount'] = discount;
-    _data['sale_price'] = salePrice;
-    _data['numb'] = numb;
-    _data['status'] = status;
-    _data['type'] = type;
-    _data['date_created'] = dateCreated;
-    _data['date_updated'] = dateUpdated;
-    _data['view'] = view;
-    _data['icon'] = icon;
-    _data['thuoctinh'] = thuoctinh.map((e) => e.toJson()).toList();
-    _data['gallery'] = gallery.map((e) => e.toJson()).toList();
-    return _data;
-  }
-}
-
-class Thuoctinh {
-  Thuoctinh({
-    required this.size,
-    required this.color,
-    required this.baohanh,
-    required this.regularPrice,
-    required this.salePrice,
-  });
-  late final String size;
-  late final String color;
-  late final String baohanh;
-  late final double regularPrice;
-  late final double salePrice;
-
-  Thuoctinh.fromJson(Map<String, dynamic> json) {
-    size = json['size'];
-    color = json['color'];
-    baohanh = json['baohanh'];
-    regularPrice = double.parse(json['regular_price'].toString());
-    salePrice = double.parse(json['sale_price'].toString());
-  }
-
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['size'] = size;
-    _data['color'] = color;
-    _data['baohanh'] = baohanh;
-    _data['regular_price'] = regularPrice;
-    _data['sale_price'] = salePrice;
-    return _data;
-  }
-}
-
-class Gallery {
-  Gallery({
-    required this.id,
-    required this.photo,
-    required this.namevi,
-    required this.nameen,
-    required this.idColor,
-    required this.numb,
-  });
-  late final int id;
-  late final String photo;
-  late final String namevi;
-  late final String nameen;
-  late final int idColor;
-  late final int numb;
-
-  Gallery.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    photo = json['photo'];
-    namevi = json['namevi'];
-    nameen = json['nameen'];
-    idColor = json['id_color'];
-    numb = json['numb'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['id'] = id;
-    _data['photo'] = photo;
-    _data['namevi'] = namevi;
-    _data['nameen'] = nameen;
-    _data['id_color'] = idColor;
-    _data['numb'] = numb;
-    return _data;
+    final data = <String, dynamic>{};
+    data['id'] = id;
+    data['id_list'] = idList;
+    data['id_item'] = idItem;
+    data['id_cat'] = idCat;
+    data['id_sub'] = idSub;
+    data['id_brand'] = idBrand;
+    data['photo'] = photo;
+    data['options'] = options;
+    data['slugvi'] = slugvi;
+    data['slugen'] = slugen;
+    data['contenten'] = contenten;
+    data['contentvi'] = contentvi;
+    data['descen'] = descen;
+    data['descvi'] = descvi;
+    data['nameen'] = nameen;
+    data['namevi'] = namevi;
+    data['code'] = code;
+    data['regular_price'] = regularPrice;
+    data['discount'] = discount;
+    data['sale_price'] = salePrice;
+    data['numb'] = numb;
+    data['status'] = status;
+    data['type'] = type;
+    data['date_created'] = dateCreated;
+    data['date_updated'] = dateUpdated;
+    data['view'] = view;
+    data['icon'] = icon;
+    if (thuoctinh != null) {
+      final v = thuoctinh;
+      final arr0 = [];
+      v!.forEach((v) {
+        arr0.add(v!.toJson());
+      });
+      data['thuoctinh'] = arr0;
+    }
+    if (gallery != null) {
+      final v = gallery;
+      final arr0 = [];
+      v!.forEach((v) {
+        arr0.add(v!.toJson());
+      });
+      data['gallery'] = arr0;
+    }
+    return data;
   }
 }

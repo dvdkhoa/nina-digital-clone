@@ -77,14 +77,14 @@ class _PopularScreenState extends ConsumerState<PopularScreen> {
                   child: Text(error.toString()),
                 ),
                 loading: () => Center(
-                  child: CircularProgressIndicator(),
+                  child: SpinKitCircle(size: 20, color: Colors.red),
                 ),
               ),
               const SizedBox(
                 height: 20,
               ),
               asyncProductValue.when(
-                  loading: () => CircularProgressIndicator(),
+                  loading: () => SpinKitCircle(size: 20, color: Colors.red),
                   data: (data) {
                     return ProductListWidget(products: data.products ?? []);
                   },
@@ -94,8 +94,8 @@ class _PopularScreenState extends ConsumerState<PopularScreen> {
                 height: 10,
               ),
               _isLoading
-                  ? SpinKitWave(
-                      color: Colors.lightBlueAccent.shade200,
+                  ? const SpinKitWave(
+                      color: Colors.red,
                       size: 20.0,
                     )
                   : SizedBox(),

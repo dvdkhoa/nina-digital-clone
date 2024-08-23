@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
@@ -12,6 +13,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 import 'package:video_player/video_player.dart';
 import 'package:mime/mime.dart';
 
+import '../../routes/navigator_key.dart';
 import '../common_widgets/gallery_photo/gallery_photo_view_widget.dart';
 
 class Helper {
@@ -31,7 +33,7 @@ class Helper {
       ImageSource source, BuildContext context) async {
     final picker = ImagePicker();
     List<XFile> pickedFiles = await picker.pickMultipleMedia();
-        for (final file in pickedFiles) {
+    for (final file in pickedFiles) {
       final size = await file.length();
       if (size > 104857600) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -39,8 +41,9 @@ class Helper {
         return null;
       }
       final mine = lookupMimeType(file.path);
-      if(mine?.startsWith('video') ?? false) {
-        VideoPlayerController videoController =  VideoPlayerController.file(File(file.path));
+      if (mine?.startsWith('video') ?? false) {
+        VideoPlayerController videoController =
+            VideoPlayerController.file(File(file.path));
 
         await videoController.initialize();
 
@@ -50,9 +53,9 @@ class Helper {
 
         print('seconds: $seconds');
 
-        if(seconds > 20) {
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Video không đựược dài quá 20 giây')));
+        if (seconds > 20) {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text('Video không đựược dài quá 20 giây')));
           return null;
         }
       }
@@ -174,19 +177,38 @@ class Helper {
       throw Exception('Could not launch $link');
     }
   }
+
+  static showAwesomeDialog({
+    required DialogType dialogType,
+    String? title,
+    String? desc,
+    String? btnOkText,
+    Function()? btnOkOnPress,
+    String? btnCancelText,
+    Function()? btnCancelOnPress,
+    bool useRootNavigator = false,
+  }) {
+    AwesomeDialog(
+      context: navigatorKey.currentContext!,
+      dialogType: dialogType,
+      animType: AnimType.scale,
+      title: title,
+      desc: desc,
+      btnOkText: btnOkText,
+      btnOkOnPress: btnOkOnPress,
+      btnCancelText: btnCancelText,
+      btnCancelOnPress: btnCancelOnPress,
+      useRootNavigator: useRootNavigator,
+    ).show();
+  }
 }
 
 class Loading {
-  late BuildContext context;
-
-  Loading(this.context);
-
-  Future<void> start() async {
+  static Future<void> start() async {
     return await showDialog<void>(
-      context: context,
+      context: navigatorKey.currentContext!,
       barrierDismissible: false,
       builder: (BuildContext context2) {
-        this.context = context2;
         return const Dialog(
           elevation: 0.0,
           backgroundColor:
@@ -208,7 +230,7 @@ class Loading {
     );
   }
 
-  Future<void> stop() async {
-    Navigator.pop(this.context);
+  static Future<void> stop() async {
+    navigatorKey.currentContext!.pop();
   }
 }

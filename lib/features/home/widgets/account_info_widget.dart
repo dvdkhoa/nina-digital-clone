@@ -14,57 +14,62 @@ class AccountInfoWidget extends ConsumerWidget implements PreferredSizeWidget{
 
     return asyncAccountInfo.when(
       data: (data) {
-        return AppBar(
-          automaticallyImplyLeading: true,
-          leadingWidth: 70,
-          leading: Container(
-            margin: const EdgeInsets.only(left: 20),
-            child: Container(
-              width: double.infinity,
-              child: ClipOval(
-                child: CachedNetworkImage(
-                  imageUrl: '${ApiUrl.domain}/uploads/users/${data?.avatar}',
-                  placeholder: (context, url) => Center(child: SpinKitCircle(size: 20, color: Colors.red,),),
-                  errorWidget: (context, url, error) => Image.asset('assets/images/boy.png'),
-                  width: 40,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-          ),
-          title: Container(
-            // padding: EdgeInsets.symmetric(vertical: 30),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Good Morning',
-                  style: defaultTextStyle.copyWith(
-                    fontSize: 14,
+        return Container(
+          padding: EdgeInsets.only(top: MediaQuery.of(context).viewPadding.top + 10, bottom: 10),
+          child: AppBar(
+            surfaceTintColor: Colors.white,
+            automaticallyImplyLeading: true,
+            leadingWidth: 70,
+            leading: Container(
+              margin: const EdgeInsets.only(left: 20),
+              child: Container(
+                width: double.infinity,
+                child: ClipOval(
+                  child: CachedNetworkImage(
+                    imageUrl: '${ApiUrl.domain}/uploads/users/${data?.avatar}',
+                    placeholder: (context, url) => const Center(child: SpinKitCircle(size: 20, color: Colors.red,),),
+                    errorWidget: (context, url, error) => Image.asset('assets/images/boy.png'),
+                    width: 40,
+                    height: 40,
+                    fit: BoxFit.cover,
                   ),
                 ),
-                Text(
-                  data?.fullname ?? 'Tài khoản',
-                  style: defaultTextStyle.copyWith(fontSize: 20),
-                ),
-              ],
-            ),
-          ),
-          actions: [
-            IconButton(
-              onPressed: () {
-                context.pushNamed(NotificationScreen.nameRoute);
-              },
-              icon: icons.Bell(
-                width: 20,
-                height: 20,
-                color: defaultTextStyle.color,
               ),
             ),
-            CartIconWidget(
-                totalQuantityCart: totalQuantityCart,
-                defaultTextStyle: defaultTextStyle)
-          ],
+            title: Container(
+              padding: EdgeInsets.symmetric(vertical: 30),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Good Morning',
+                    style: defaultTextStyle.copyWith(
+                      fontSize: 14,
+                    ),
+                  ),
+                  Text(
+                    data?.fullname ?? 'Tài khoản',
+                    style: defaultTextStyle.copyWith(fontSize: 20),
+                  ),
+                ],
+              ),
+            ),
+            actions: [
+              IconButton(
+                onPressed: () {
+                  context.pushNamed(NotificationScreen.nameRoute);
+                },
+                icon: icons.Bell(
+                  width: 20,
+                  height: 20,
+                  color: defaultTextStyle.color,
+                ),
+              ),
+              CartIconWidget(
+                  totalQuantityCart: totalQuantityCart,
+                  defaultTextStyle: defaultTextStyle)
+            ],
+          ),
         );
       },
       error: (error, stackTrace) => Center(
@@ -82,6 +87,6 @@ class AccountInfoWidget extends ConsumerWidget implements PreferredSizeWidget{
   @override
   // TODO: implement preferredSize
   // Size get preferredSize => throw UnimplementedError();
-  Size get preferredSize => Size.fromHeight(50.0);
+  Size get preferredSize => Size.fromHeight(70.0);
 
 }

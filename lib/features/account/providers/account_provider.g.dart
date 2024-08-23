@@ -6,7 +6,7 @@ part of 'account_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$asyncAccountHash() => r'f6751ce8cf4c39b43821c26ca44d943d5280adfb';
+String _$asyncAccountHash() => r'ec3c2ad9652ddb280f348441e0b7fa9736694602';
 
 /// See also [AsyncAccount].
 @ProviderFor(AsyncAccount)

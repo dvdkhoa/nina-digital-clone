@@ -128,16 +128,15 @@ class CartItemWidget extends ConsumerWidget {
                                                                 color: Colors
                                                                     .white)),
                                                     onPressed: () async {
-                                                      final loading =
-                                                          Loading(context);
-                                                      loading.start();
+                                                      Loading.start();
 
                                                       bool kq = await ref
                                                           .read(cartProvider
                                                               .notifier)
                                                           .removeCartItem(
                                                               model.id);
-                                                      await loading.stop();
+
+                                                      await Loading.stop();
 
                                                       AwesomeDialog(
                                                         context: context,
@@ -192,9 +191,11 @@ class CartItemWidget extends ConsumerWidget {
                           ),
                         ],
                       ),
-                Text('Màu sắc: note lại :v',
-                    style: defaultTextStyle.copyWith(
-                        fontSize: 12, color: Color(0xff6B6B6B))),
+                !Helper.isNull(model.color)
+                    ? Text('Màu sắc: ${model.color}',
+                        style: defaultTextStyle.copyWith(
+                            fontSize: 12, color: Color(0xff6B6B6B)))
+                    : SizedBox(),
                 Container(
                   margin: EdgeInsets.only(top: 10),
                   child: Row(

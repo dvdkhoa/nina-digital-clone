@@ -1,7 +1,10 @@
+import '../../../shared/utils/helper.dart';
+
 class CartItemModel {
   CartItemModel({
     required this.id,
     required this.idProduct,
+    this.color,
     required this.quantity,
     required this.namevi,
     required this.nameen,
@@ -13,6 +16,7 @@ class CartItemModel {
   });
   late final int id;
   late final int idProduct;
+  late final String? color;
   late int quantity;
   late final String namevi;
   late final String nameen;
@@ -25,6 +29,7 @@ class CartItemModel {
   CartItemModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     idProduct = json['id_product'];
+    color = !Helper.isNull(json['color']) ? json['color'] : '';
     quantity = json['quantity'];
     namevi = json['namevi'];
     nameen = json['nameen'];
@@ -57,12 +62,14 @@ class CartItemModel {
     String? namevi,
     String? nameen,
     String? photo,
+    String? color,
     String? code,
     double? regularPrice,
     double? salePrice,
     int? discount,
   }) {
     return CartItemModel(
+      color: color ?? this.color,
       id: id ?? this.id,
       idProduct: idProduct ?? this.idProduct,
       quantity: quantity ?? this.quantity,

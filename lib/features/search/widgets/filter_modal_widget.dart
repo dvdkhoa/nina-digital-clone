@@ -178,7 +178,7 @@ class _FilterModelBottomSheetState
                       child: ElevatedButton(
                         onPressed: () {
                           this.widget.onReset();
-                          context.pop();
+                          // context.pop();
                         },
                         child: Text(
                           'Reset',

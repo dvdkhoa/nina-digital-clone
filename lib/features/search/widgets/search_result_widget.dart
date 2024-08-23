@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../providers/search_provider.dart';
 import 'product_list_result_widget.dart';
 
@@ -18,8 +19,8 @@ class SearchResultWidget extends ConsumerWidget {
         children: [
           Divider(height: 25,),
           if (searchProvider.isLoading) ...[
-            Center(
-              child: CircularProgressIndicator(),
+            const Center(
+              child: SpinKitCircle(size: 30, color: Colors.red,),
             )
           ] else ...[
             Row(

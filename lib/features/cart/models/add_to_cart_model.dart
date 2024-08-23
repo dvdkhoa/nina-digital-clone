@@ -1,9 +1,10 @@
 class AddToCartModel {
   AddToCartModel(
-      {required this.userId, required this.productId, required this.quantity});
+      {required this.userId, required this.productId, this.colorId, required this.quantity});
 
   final int userId;
   final int productId;
+  final int? colorId;
   final int quantity;
 
   // factory AddToCartModel.fromJson(Map<String, dynamic> json) {
@@ -17,17 +18,20 @@ class AddToCartModel {
   Map<String, dynamic> toJson() => {
         'id_user': userId,
         'id_product': productId,
+        'id_color': colorId,
         'quantity': quantity,
       };
 
   AddToCartModel copyWith({
     int? userId,
     int? productId,
+    int? colorId,
     int? quantity,
   }) {
     return AddToCartModel(
       userId: userId ?? this.userId,
       productId: productId ?? this.productId,
+      colorId: colorId ?? this.colorId,
       quantity: quantity ?? this.quantity,
     );
   }

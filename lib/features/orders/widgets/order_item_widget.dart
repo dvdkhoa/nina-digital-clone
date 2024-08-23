@@ -62,7 +62,7 @@ class OrderItemWidget extends StatelessWidget {
               children: [
                 CachedNetworkImage(
                   imageUrl:
-                      '${ApiUrl.resourcesURL}/upload/product/${model.details?[0].photo}',
+                      '${ApiUrl.resourcesURL}/upload/product/${model.details?[0]?.photo}',
                   progressIndicatorBuilder: (context, url, downloadProgress) =>
                       SpinKitCircle(size: 20, color: Colors.red,),
                   errorWidget: (context, url, error) => Icon(Icons.error),

@@ -43,37 +43,43 @@ class NewsScreen extends ConsumerWidget {
         child: SingleChildScrollView(
           child: asyncNewsData.when(
             data: (data) {
-              return Container(
-                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                child: Column(
-                  children: [
-                    FadeInImage.assetNetwork(
-                      image:
-                          '${ApiUrl.resourcesURL}/upload/news/${data[0].photo}',
-                      placeholder: 'assets/images/placeholder.jpg',
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      data[0].namevi,
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      data[0].descvi,
-                      style: TextStyle(
-                          fontSize: 12, color: Color(0xff5B5B5B), height: 1.6),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 20),
-                      child: Column(
-                        children: _subNewsList(context, data),
+              return InkWell(
+                onTap: () {
+                  context.pushNamed(NewsDetailScreen.nameRoute,
+                      pathParameters: {'id': data[0].id.toString()});
+                },
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  child: Column(
+                    children: [
+                      FadeInImage.assetNetwork(
+                        image:
+                            '${ApiUrl.resourcesURL}/upload/news/${data[0].photo}',
+                        placeholder: 'assets/images/placeholder.jpg',
                       ),
-                    )
-                  ],
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        data[0].namevi,
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        data[0].descvi,
+                        style: TextStyle(
+                            fontSize: 12, color: Color(0xff5B5B5B), height: 1.6),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 20),
+                        child: Column(
+                          children: _subNewsList(context, data),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               );
             },

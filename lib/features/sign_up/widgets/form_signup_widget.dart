@@ -1,12 +1,12 @@
-part of '../sign_in_screen.dart';
+part of '../sign_up_screen.dart';
 
-class _FormSigninWidget extends ConsumerWidget with FormMixins {
-  const _FormSigninWidget({super.key});
+class _FormSignUpWidget extends ConsumerWidget with FormMixins {
+  const _FormSignUpWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen(
-      signInProvider,
+      formSignUpProvider,
       (previous, next) {
         if (previous?.formStatus != next.formStatus) {
           if (next.formStatus == FormStatus.submissionInProgress) {
@@ -14,25 +14,23 @@ class _FormSigninWidget extends ConsumerWidget with FormMixins {
           }
           if (next.formStatus == FormStatus.submissionFailure) {
             Loading.stop();
-            AwesomeDialog(
-              context: context,
+            Helper.showAwesomeDialog(
               dialogType: DialogType.error,
-              animType: AnimType.scale,
               title: 'THÔNG BÁO',
               desc: next.message,
               btnOkOnPress: () {},
-            ).show();
+            );
           }
           if (next.formStatus == FormStatus.submissionSuccess) {
             Loading.stop();
-            context.go(AppConfig.initialPath);
+            context.goNamed(SignInScreen.nameRoute);
           }
         }
       },
     );
 
     return Form(
-      key: _formSignInKey,
+      key: _formSignUpKey,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -41,7 +39,7 @@ class _FormSigninWidget extends ConsumerWidget with FormMixins {
             height: 16,
           ),
           Text(
-            "Đăng nhập",
+            "Đăng ký tài khoản",
             style: Theme.of(context).textTheme.headlineLarge,
           ),
           const SizedBox(
@@ -51,27 +49,26 @@ class _FormSigninWidget extends ConsumerWidget with FormMixins {
           const SizedBox(
             height: 15,
           ),
+          const _InputPhoneWidget(),
+          const SizedBox(
+            height: 15,
+          ),
           const _InputPasswordWidget(),
+          const SizedBox(
+            height: 15,
+          ),
+          const _InputRepasswordWidget(),
           const SizedBox(
             height: 25,
           ),
           customButton(
             context,
             background: Theme.of(context).primaryColor,
-            text: 'Đăng nhập',
+            text: 'Đăng ký',
             textColor: Colors.white,
             onTap: () {
-              _onDangNhap(context, ref);
+              _onDangKy(ref);
             },
-          ),
-          const SizedBox(
-            height: 25,
-          ),
-          GestureDetector(
-            onTap: () {
-              context.push(ForgotPasswordScreen.pathRoute);
-            },
-            child: Text('Quên mật khẩu ?'),
           ),
           Container(
             padding: const EdgeInsets.symmetric(vertical: 30),
@@ -133,7 +130,7 @@ class _FormSigninWidget extends ConsumerWidget with FormMixins {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Bạn chưa có tài khoản?',
+                  'Bạn đã có tài khoản?',
                   style: TextStyle(color: Colors.black54, fontSize: 14),
                 ),
                 const SizedBox(
@@ -141,10 +138,10 @@ class _FormSigninWidget extends ConsumerWidget with FormMixins {
                 ),
                 GestureDetector(
                   onTap: () {
-                    context.go(SignUpScreen.pathRoute);
+                    context.go(SignInScreen.pathRoute);
                   },
                   child: Text(
-                    'Đăng ký',
+                    'Đăng nhập',
                     style: TextStyle(color: Colors.black, fontSize: 14),
                   ),
                 )

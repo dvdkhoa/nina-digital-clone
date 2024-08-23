@@ -9,51 +9,47 @@ class _InputPasswordWidget extends ConsumerStatefulWidget {
 
 class __InputPasswordWidgetState extends ConsumerState<_InputPasswordWidget>
     with FormMixins {
-  Color? active;
   bool _hideText = true;
 
   @override
   Widget build(BuildContext context) {
-    return Focus(
-      onFocusChange: (value) {
-        if (value) {
-          active = Theme.of(context).primaryColor;
-        } else {
-          active = null;
-        }
-        setState(() {});
-      },
-      child: customTextFormField(
-        context,
-        fillColor: _fillColor,
-        borderRadius: _borderRadius,
-        hintText: 'Mật khẩu*',
-        prefixIcon: Container(
+    return customTextFormField(
+      context,
+      fillColor: _fillColor,
+      borderRadius: _borderRadius,
+      hintText: 'Mật khẩu*',
+      prefixIcon: Container(
+        padding: const EdgeInsets.only(left: 12, right: 12, top: 2),
+        child: const Icon(Icons.lock_outline),
+      ),
+      suffixIcon: GestureDetector(
+        onTap: () {
+          setState(() {
+            _hideText = !_hideText;
+          });
+        },
+        child: Container(
           padding: const EdgeInsets.only(left: 12, right: 12, top: 2),
-          child: icons.Lock(
-            color: active,
-          ),
+          child: (_hideText == false)
+              ? const Icon(
+                  Icons.visibility_off_outlined,
+                )
+              : const Icon(
+                  Icons.visibility_outlined,
+                ),
         ),
-        suffixIcon: GestureDetector(
-          onTap: () {
-            setState(() {
-              _hideText = !_hideText;
-            });
-          },
-          child: Container(
-            padding: const EdgeInsets.only(left: 12, right: 12, top: 2),
-            child: (_hideText == false) ? icons.Eye() : icons.EyeClosed(),
-          ),
-        ),
-        obscureText: _hideText,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        validator: FormBuilderValidators.compose(
-          [
-            FormBuilderValidators.required(errorText: 'Không bỏ trống'),
-            FormBuilderValidators.minLength(6,
-                errorText: 'Mật khẩu tối thiểu 6 ký tự'),
-          ],
-        ),
+      ),
+      obscureText: _hideText,
+      onChanged: (value) {
+        ref.read(formSignUpProvider.notifier).onPasswordChange(value);
+      },
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator: FormBuilderValidators.compose(
+        [
+          FormBuilderValidators.required(errorText: 'Không bỏ trống'),
+          FormBuilderValidators.minLength(6,
+              errorText: 'Mật khẩu tối thiểu 6 ký tự'),
+        ],
       ),
     );
   }

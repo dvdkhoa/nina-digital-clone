@@ -49,13 +49,13 @@ class ProductDetailScreen extends ConsumerStatefulWidget {
 class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
   int _activeIndex = 0;
 
-  int _colorActiveIndex = 0;
+  int? _selectedColor;
 
   int _quantity = 1;
 
-  void changeColor(index) {
+  void changeColor(colorId) {
     setState(() {
-      _colorActiveIndex = index;
+      _selectedColor = colorId;
     });
   }
 
@@ -86,26 +86,23 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
     )..show();
   }
 
-  List<Widget> _productColorsWidget(List<Thuoctinh> attributes, int index) {
+  List<Widget> _productColorsWidget(
+      List<ProductDetailModelThuoctinh?>? attributes, int? selectedColor) {
     List<Widget> list = [];
-    for (int i = 0; i < attributes.length; i++) {
-      if (i == index) {
+    if (attributes!.isNotEmpty) {
+      for (int i = 0; i < attributes.length; i++) {
+        final isActive = !Helper.isNull(selectedColor) &&
+            attributes[i]?.idColor == selectedColor!;
+
         list.add(_productByColorWidget(
-          active: true,
-          onSelect: () => changeColor(i),
-          attr: attributes[i],
-        ));
-      } else {
-        list.add(_productByColorWidget(
-          active: false,
-          onSelect: () => changeColor(i),
-          attr: attributes[i],
+          active: isActive,
+          onSelect: () => changeColor(attributes[i]?.idColor),
+          attr: attributes[i]!,
         ));
       }
     }
     return list;
   }
-
   @override
   Widget build(BuildContext context) {
     final userInfo = ref.watch(authUserProvider.select(
@@ -131,6 +128,9 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
             child: asyncProductDetail.when(
               data: (data) {
+                if(data.thuoctinh!.isNotEmpty) {
+                  _selectedColor ??= data.thuoctinh?[0]?.idColor ?? null;
+                }
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -150,12 +150,12 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                         items: [
                           Image.network(
                               '${ApiUrl.resourcesURL}/upload/product/${data.photo}'),
-                          ...data.gallery.map((item) {
+                          ...?data.gallery?.map((item) {
                             return Builder(
                               builder: (BuildContext context) {
                                 return Image.network(
                                   // 'assets/images/$image',
-                                  '${ApiUrl.resourcesURL}/upload/product/${item.photo}',
+                                  '${ApiUrl.resourcesURL}/upload/product/${item?.photo}',
                                   fit: BoxFit.fitHeight,
                                 );
                               },
@@ -168,7 +168,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                       margin: EdgeInsets.only(top: 20),
                       child: Center(
                         child: AnimatedSmoothIndicator(
-                          count: data.gallery.length + 1,
+                          count: data.gallery?.length ?? 0 + 1,
                           effect: const ExpandingDotsEffect(
                             activeDotColor: Colors.black,
                             dotColor: Colors.grey,
@@ -190,7 +190,8 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                             ? IconButton(
                                 onPressed: () {
                                   ref
-                                      .read(asyncFavoriteProductProvider.notifier)
+                                      .read(
+                                          asyncFavoriteProductProvider.notifier)
                                       .likeProduct(data.id);
                                 },
                                 icon: isLiked
@@ -237,7 +238,8 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                               vertical: 4, horizontal: 10),
                           decoration: const BoxDecoration(
                               color: Color(0xffE7E7E7),
-                              borderRadius: BorderRadius.all(Radius.circular(5))),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5))),
                           child: const Text(
                             'Đã bán 8,374',
                             style: TextStyle(fontSize: 11),
@@ -289,15 +291,16 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                         // shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
                         children: _productColorsWidget(
-                            data.thuoctinh, _colorActiveIndex),
+                            data.thuoctinh, _selectedColor),
                       ),
                     ),
-                    ProductDescWidget(desc: data.descvi),
+                    ProductDescWidget(desc: data.descvi.toString()),
                     Container(
                       margin: EdgeInsets.only(top: 10, bottom: 10),
                       padding: EdgeInsets.symmetric(vertical: 10),
                       decoration: BoxDecoration(
-                          border: Border.all(width: 1, color: Color(0xff171717))),
+                          border:
+                              Border.all(width: 1, color: Color(0xff171717))),
                       alignment: Alignment.center,
                       child: const Text.rich(TextSpan(
                           text: 'Gọi đặt mua ',
@@ -316,7 +319,10 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
               error: (error, stackTrace) => Center(
                 child: Text(error.toString() + stackTrace.toString()),
               ),
-              loading: () => SpinKitCircle(color: Colors.red, size: 30,),
+              loading: () => SpinKitCircle(
+                color: Colors.red,
+                size: 30,
+              ),
             ),
           ),
         ),
@@ -391,15 +397,14 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                             size: 20,
                           ),
                           onPressed: () async {
-                            final loading = Loading(context);
-                            loading.start();
+                            Loading.start();
 
                             final result = await ref
                                 .read(cartProvider.notifier)
-                                .addToCart(
-                                    int.parse(widget.productId), _quantity);
+                                .addToCart(int.parse(widget.productId),
+                                    _selectedColor, _quantity);
 
-                            await loading.stop();
+                            await Loading.stop();
 
                             if (result) {
                               _showSuccessDialog();
@@ -428,7 +433,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
 }
 
 Widget _productByColorWidget(
-    {required Thuoctinh attr,
+    {required ProductDetailModelThuoctinh attr,
     required bool active,
     required Function onSelect}) {
   return InkWell(

@@ -110,6 +110,8 @@ class _AddReviewScreenState extends ConsumerState<AddReviewScreen> {
       return;
     }
 
+    Loading.start();
+
     final userInfo = ref.read(authUserProvider.select((value)=>value.userLogin));
     ReviewModel model = ReviewModel(
       fullname: userInfo?.fullname,
@@ -123,7 +125,9 @@ class _AddReviewScreenState extends ConsumerState<AddReviewScreen> {
       poster: userInfo?.avatar,
     );
 
-    ref.read(asyncReviewNotifierProvider(widget.productId).notifier).createReview(model, _images);
+    await ref.read(asyncReviewNotifierProvider(widget.productId).notifier).createReview(model, _images);
+
+    await Loading.stop();
 
     context.pop();
   }

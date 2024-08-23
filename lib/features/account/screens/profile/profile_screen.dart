@@ -159,13 +159,15 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   }
 
   Future _onSubmit() async {
-    Loading(context).start();
+
+    Loading.start();
 
     final updateAccountState = ref.watch(updateAccountProvider);
 
-    ref.read(asyncAccountProvider.notifier).updateInfomation(updateAccountState.fullname, updateAccountState.username, updateAccountState.birthday, updateAccountState.email, updateAccountState.phone, updateAccountState.gender);
+    await ref.read(asyncAccountProvider.notifier).updateInfomation(updateAccountState.fullname, updateAccountState.username, updateAccountState.birthday, updateAccountState.email, updateAccountState.phone, updateAccountState.gender);
 
-    await Loading(context).stop();
+    Loading.stop();
+
     context.pop();
   }
 

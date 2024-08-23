@@ -36,7 +36,7 @@ class ProductOrderItemWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Iphone 14 Pro Max',
+                      model?.name ?? '',
                       style: defaultTextStyle.copyWith(fontSize: 15),
                     ),
                     SizedBox(
@@ -45,15 +45,15 @@ class ProductOrderItemWidget extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        // Text(
-                        //   'Màu sắc: Gold',
-                        //   style: defaultTextStyle.copyWith(
-                        //     fontSize: 12,
-                        //     color: Color(0xff6B6B6B),
-                        //   ),
-                        // ),
                         Text(
-                          'Số lượng: 2',
+                          'Màu sắc: ${model.color}',
+                          style: defaultTextStyle.copyWith(
+                            fontSize: 12,
+                            color: Color(0xff6B6B6B),
+                          ),
+                        ),
+                        Text(
+                          'Số lượng: ${model.quantity}',
                           style: defaultTextStyle.copyWith(
                             fontSize: 12,
                             color: Color(0xff6B6B6B),

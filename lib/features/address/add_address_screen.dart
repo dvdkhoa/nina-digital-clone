@@ -36,7 +36,7 @@ class _AddAddressScreenState extends ConsumerState<AddAddressScreen> {
     final UserModel? userInfo =
         ref.watch(authUserProvider.select((value) => value.userLogin));
 
-    final loading = Loading(context)..start();
+    Loading.start();
 
     final address = AddressModel(
         idUser: int.parse(userInfo?.id.toString() ?? ''),
@@ -51,7 +51,7 @@ class _AddAddressScreenState extends ConsumerState<AddAddressScreen> {
 
     await ref.read(asyncAddressNotifierProvider.notifier).addAddress(address);
 
-    await loading.stop();
+    Loading.stop();
 
     context.pop();
   }

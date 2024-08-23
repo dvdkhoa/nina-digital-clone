@@ -10,6 +10,9 @@ import '../../../shared/constants/api_url.dart';
 import '../../../shared/extensions/string_ext.dart';
 import '../../product/product_detail_screen.dart';
 import '../../product_category/product_category_screen.dart';
+import '../../search/providers/filter_provider.dart';
+import '../../search/providers/search_provider.dart';
+import '../../search/search_screen.dart';
 import '../models/mock_model.dart';
 
 class CategoryScreen extends ConsumerWidget {
@@ -46,7 +49,13 @@ class CategoryScreen extends ConsumerWidget {
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () {
-                    print('danh sach san pham theo danh muc');
+                    ref
+                        .read(filterNotifierProvider.notifier)
+                        .changeProLists(data[index].id);
+                    ref
+                        .read(searchNotifierProvider.notifier)
+                        .filterProducts();
+                    context.pushNamed(SearchScreen.nameRoute, queryParameters: { 'id_list': data[index].id.toString() });
                   },
                   child: Container(
                     child: Column(
