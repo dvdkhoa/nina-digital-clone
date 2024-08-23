@@ -48,7 +48,7 @@ class CartRepository {
   Future deleteCart(id) async {
     final response = await dioClient.delete('${ApiUrl.CART}/$id');
 
-    if (response['code'] == 200) {
+    if (response.statusCode == 200) {
       return response;
     } else {
       print('Lỗi: ${response}');

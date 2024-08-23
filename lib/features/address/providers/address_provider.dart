@@ -43,19 +43,20 @@ class AsyncAddressNotifier extends _$AsyncAddressNotifier {
 
   addAddress(AddressModel address) async {
     final addressRepository = AddressRepository(ref.watch(dioProvider));
-    final result =
-        await addressRepository.addAddress(address) as Map<String, dynamic>;
 
-    if (result != null) {
-      state.whenData(
-        (List<AddressModel> list) {
-          final temp = result['data']['insertId'].toString();
-          address.id = int.parse(temp);
-          list.add(address);
-          state = AsyncData(list);
-        },
-      );
-    }
+    await state.whenData((value) async{
+      final result =
+          await addressRepository.addAddress(address) as Map<String, dynamic>?;
+
+      if (result != null) {
+        final temp = result['data']['insertId'].toString();
+        address.id = int.parse(temp);
+
+        final list = value.toList(growable: true)..add(address);
+
+        state = AsyncValue.data(list);
+      }
+    },);
   }
 
   updateAddress(AddressModel address) async {

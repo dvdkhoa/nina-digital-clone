@@ -1,6 +1,6 @@
 part of '../home_screen.dart';
 
-class AccountInfoWidget extends ConsumerWidget implements PreferredSizeWidget{
+class AccountInfoWidget extends ConsumerWidget implements PreferredSizeWidget {
   const AccountInfoWidget({super.key});
 
   @override
@@ -15,7 +15,8 @@ class AccountInfoWidget extends ConsumerWidget implements PreferredSizeWidget{
     return asyncAccountInfo.when(
       data: (data) {
         return Container(
-          padding: EdgeInsets.only(top: MediaQuery.of(context).viewPadding.top + 10, bottom: 10),
+          padding: EdgeInsets.only(
+              top: MediaQuery.of(context).viewPadding.top + 10, bottom: 10),
           child: AppBar(
             surfaceTintColor: Colors.white,
             automaticallyImplyLeading: true,
@@ -25,14 +26,24 @@ class AccountInfoWidget extends ConsumerWidget implements PreferredSizeWidget{
               child: Container(
                 width: double.infinity,
                 child: ClipOval(
-                  child: CachedNetworkImage(
-                    imageUrl: '${ApiUrl.domain}/uploads/users/${data?.avatar}',
-                    placeholder: (context, url) => const Center(child: SpinKitCircle(size: 20, color: Colors.red,),),
-                    errorWidget: (context, url, error) => Image.asset('assets/images/boy.png'),
-                    width: 40,
-                    height: 40,
-                    fit: BoxFit.cover,
-                  ),
+                  child: !Helper.isNull(data?.avatar)
+                      ? CachedNetworkImage(
+                          imageUrl:
+                              '${ApiUrl.domain}/uploads/users/${data?.avatar}',
+                          placeholder: (context, url) => const Center(
+                            child: SpinKitCircle(
+                              size: 20,
+                              color: Colors.red,
+                            ),
+                          ),
+                          errorWidget: (context, url, error) =>
+                              Image.asset('assets/images/boy.png'),
+                          width: 40,
+                          height: 40,
+                          fit: BoxFit.cover,
+                        )
+                      : Image.asset('assets/images/boy.png',
+                          width: 40, height: 40, fit: BoxFit.cover),
                 ),
               ),
             ),
@@ -88,5 +99,4 @@ class AccountInfoWidget extends ConsumerWidget implements PreferredSizeWidget{
   // TODO: implement preferredSize
   // Size get preferredSize => throw UnimplementedError();
   Size get preferredSize => Size.fromHeight(70.0);
-
 }

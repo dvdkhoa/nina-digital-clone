@@ -168,7 +168,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                       margin: EdgeInsets.only(top: 20),
                       child: Center(
                         child: AnimatedSmoothIndicator(
-                          count: data.gallery?.length ?? 0 + 1,
+                          count: (data.gallery?.length ?? 0) + 1,
                           effect: const ExpandingDotsEffect(
                             activeDotColor: Colors.black,
                             dotColor: Colors.grey,

@@ -44,9 +44,9 @@ class CartNotifier extends Notifier<CartState> {
 
     final cartRepository = CartRepository(ref.watch(dioProvider));
     final res = await cartRepository.getCart(_userInfo?.id.toString())
-        as Map<String, dynamic>;
+        as Map<String, dynamic>?;
 
-    if (res.containsKey('data')) {
+    if (res!=null && res.containsKey('data')) {
       final list = res['data']['cart_items'] as List;
 
       final cartItems =

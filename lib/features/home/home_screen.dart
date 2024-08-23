@@ -11,6 +11,7 @@ import '../../shared/constants/api_url.dart';
 import 'package:iconoir_flutter/iconoir_flutter.dart' as icons;
 import 'package:badges/badges.dart' as badges;
 
+import '../../shared/utils/helper.dart';
 import '../account/providers/account_provider.dart';
 import '../cart/cart_screen.dart';
 import '../cart/providers/cart_provider.dart';

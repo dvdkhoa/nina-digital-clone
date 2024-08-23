@@ -2,21 +2,28 @@ part of '../review_screen.dart';
 
 class _ReviewItemWidget extends StatelessWidget with UiMixins {
   final ReviewModel model;
+
   _ReviewItemWidget({Key? key, required this.model}) : super(key: key);
 
   final dateFormat = DateFormat.yMMMMEEEEd('vi');
 
   @override
   Widget build(BuildContext context) {
-
     List<GalleryItem> galleries = [];
 
-    final photoGalleries =  model.photos?.map((photo) => GalleryItem(id: photo.id.toString(), resource: photo.photo.toString())).toList();
-    final videoGalleries =  model.videos?.map((video) => GalleryItem(id: video.id.toString(), resource: video.video.toString(), isVideo: true)).toList();
+    final photoGalleries = model.photos
+        ?.map((photo) => GalleryItem(
+            id: photo.id.toString(), resource: photo.photo.toString()))
+        .toList();
+    final videoGalleries = model.videos
+        ?.map((video) => GalleryItem(
+            id: video.id.toString(),
+            resource: video.video.toString(),
+            isVideo: true))
+        .toList();
 
     galleries.addAll(photoGalleries!);
     galleries.addAll(videoGalleries!);
-
 
     return Container(
       child: Column(
@@ -26,14 +33,24 @@ class _ReviewItemWidget extends StatelessWidget with UiMixins {
           Row(
             children: [
               ClipOval(
-                child: CachedNetworkImage(
-                  imageUrl: '${ApiUrl.domain}/uploads/users/${model.poster}',
-                  placeholder: (context, url) => Image.asset('assets/images/placeholder.jpg'),
-                  errorWidget: (context, url, error) => Image.asset('assets/images/boy.png'),
-                  width: 40,
-                  height: 40,
-                  fit: BoxFit.cover,
-                ),
+                child: !Helper.isNull(model.poster)
+                    ? CachedNetworkImage(
+                        imageUrl:
+                            '${ApiUrl.domain}/uploads/users/${model.poster}',
+                        placeholder: (context, url) =>
+                            Image.asset('assets/images/placeholder.jpg'),
+                        errorWidget: (context, url, error) =>
+                            Image.asset('assets/images/boy.png'),
+                        width: 40,
+                        height: 40,
+                        fit: BoxFit.cover,
+                      )
+                    : Image.asset(
+                        'assets/images/boy.png',
+                        width: 40,
+                        height: 40,
+                        fit: BoxFit.cover,
+                      ),
               ),
               SizedBox(
                 width: 15,
@@ -66,7 +83,8 @@ class _ReviewItemWidget extends StatelessWidget with UiMixins {
           ),
           Text(
             // dateFormat.format(DateTime.fromMillisecondsSinceEpoch(model.datePosted ?? 0 * 1000)),
-            dateFormat.format(DateTime.fromMillisecondsSinceEpoch(model.datePosted! * 1000)),
+            dateFormat.format(
+                DateTime.fromMillisecondsSinceEpoch(model.datePosted! * 1000)),
             style: TextStyle(fontSize: 12, color: Colors.grey),
           ),
         ],
@@ -74,5 +92,3 @@ class _ReviewItemWidget extends StatelessWidget with UiMixins {
     );
   }
 }
-
-
