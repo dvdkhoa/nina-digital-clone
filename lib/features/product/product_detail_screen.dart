@@ -272,19 +272,9 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                     const SizedBox(
                       height: 10,
                     ),
-                    Divider(height: 5),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    // const Text(
-                    //   'Màu sắc : Gold',
-                    //   style: TextStyle(
-                    //     fontSize: 15,
-                    //     color: Colors.black,
-                    //   ),
-                    // ),
-                    Container(
-                      margin: EdgeInsets.only(top: 20, bottom: 20),
+
+                    (data.thuoctinh != null && data.thuoctinh!.isNotEmpty) ? Container(
+                      margin: EdgeInsets.only(top: 10, bottom: 20),
                       height: 40,
                       width: double.infinity,
                       child: ListView(
@@ -293,7 +283,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                         children: _productColorsWidget(
                             data.thuoctinh, _selectedColor),
                       ),
-                    ),
+                    ) : SizedBox.shrink(),
                     ProductDescWidget(desc: data.descvi.toString()),
                     Container(
                       margin: EdgeInsets.only(top: 10, bottom: 10),
