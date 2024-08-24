@@ -121,7 +121,9 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
     final isLiked = userInfo?.crush?.contains(widget.productId) ?? false;
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text('Chi tiết sản phẩm'),
+      ),
       body: Center(
         child: SingleChildScrollView(
           child: Container(

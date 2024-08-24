@@ -18,6 +18,7 @@ class AccountInfoWidget extends ConsumerWidget implements PreferredSizeWidget {
           padding: EdgeInsets.only(
               top: MediaQuery.of(context).viewPadding.top + 10, bottom: 10),
           child: AppBar(
+            shadowColor: Colors.black.withOpacity(.2),
             surfaceTintColor: Colors.white,
             automaticallyImplyLeading: true,
             leadingWidth: 70,
@@ -25,25 +26,30 @@ class AccountInfoWidget extends ConsumerWidget implements PreferredSizeWidget {
               margin: const EdgeInsets.only(left: 20),
               child: Container(
                 width: double.infinity,
-                child: ClipOval(
-                  child: !Helper.isNull(data?.avatar)
-                      ? CachedNetworkImage(
-                          imageUrl:
-                              '${ApiUrl.domain}/uploads/users/${data?.avatar}',
-                          placeholder: (context, url) => const Center(
-                            child: SpinKitCircle(
-                              size: 20,
-                              color: Colors.red,
+                child: InkWell(
+                  onTap: () {
+                    context.goNamed(AccountScreen.nameRoute);
+                  },
+                  child: ClipOval(
+                    child: !Helper.isNull(data?.avatar)
+                        ? CachedNetworkImage(
+                            imageUrl:
+                                '${ApiUrl.domain}/uploads/users/${data?.avatar}',
+                            placeholder: (context, url) => const Center(
+                              child: SpinKitCircle(
+                                size: 20,
+                                color: Colors.red,
+                              ),
                             ),
-                          ),
-                          errorWidget: (context, url, error) =>
-                              Image.asset('assets/images/boy.png'),
-                          width: 40,
-                          height: 40,
-                          fit: BoxFit.cover,
-                        )
-                      : Image.asset('assets/images/boy.png',
-                          width: 40, height: 40, fit: BoxFit.cover),
+                            errorWidget: (context, url, error) =>
+                                Image.asset('assets/images/boy.png'),
+                            width: 40,
+                            height: 40,
+                            fit: BoxFit.cover,
+                          )
+                        : Image.asset('assets/images/boy.png',
+                            width: 40, height: 40, fit: BoxFit.cover),
+                  ),
                 ),
               ),
             ),
@@ -71,8 +77,8 @@ class AccountInfoWidget extends ConsumerWidget implements PreferredSizeWidget {
                   context.pushNamed(NotificationScreen.nameRoute);
                 },
                 icon: icons.Bell(
-                  width: 20,
-                  height: 20,
+                  width: 22,
+                  height: 22,
                   color: defaultTextStyle.color,
                 ),
               ),

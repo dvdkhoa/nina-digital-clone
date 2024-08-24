@@ -4,6 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../../shared/constants/api_url.dart';
 import '../../../shared/extensions/string_ext.dart';
+import '../../../shared/utils/helper.dart';
 import '../../checkout/models/order_model.dart';
 
 class ProductOrderItemWidget extends StatelessWidget {
@@ -46,7 +47,7 @@ class ProductOrderItemWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Màu sắc: ${model.color}',
+                          'Màu sắc: ${Helper.isNull(model.color) ? 'Mặc định' : model.color}',
                           style: defaultTextStyle.copyWith(
                             fontSize: 12,
                             color: Color(0xff6B6B6B),

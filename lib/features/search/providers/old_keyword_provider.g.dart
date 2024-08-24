@@ -6,7 +6,7 @@ part of 'old_keyword_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$asyncOldKeywordHash() => r'44269900d62af2abf26ca1b2a1d74b11ee711135';
+String _$asyncOldKeywordHash() => r'f4e166fe08df5b7a03c53b169f3547afccc2172a';
 
 /// Copied from Dart SDK
 class _SystemHash {

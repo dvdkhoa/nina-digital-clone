@@ -24,7 +24,7 @@ class CategoryListWidget extends ConsumerWidget {
     return SectionLayoutWidget(
       title: 'Danh mục',
       child: SizedBox(
-        height: 220,
+        height: 180,
         // width: 200,
         child: asyncValue.when(
           data: (data) {
@@ -62,8 +62,8 @@ class CategoryListWidget extends ConsumerWidget {
                                 errorWidget: (context, url, error) =>
                                     Image.asset('assets/images/error.png'),
                                 fit: BoxFit.scaleDown,
-                                width: 80,
-                                height: 80,
+                                width: 60,
+                                height: 60,
                               ),
                             ),
                           ),

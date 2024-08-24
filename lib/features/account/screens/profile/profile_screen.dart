@@ -52,12 +52,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 children: [
                   _TextInputWidget(
                     initValue: updateAccountState.fullname.toString(),
+                    hintText: 'Họ tên',
                     onChange: (value) {
                       ref.read(updateAccountProvider.notifier).onChangeFullname(value);
                     },
                   ),
                   _TextInputWidget(
                     initValue: updateAccountState.username.toString(),
+                    hintText: 'Nickname',
                     onChange: (value) {
                       ref.read(updateAccountProvider.notifier).onChangeUsername(value);
                     },

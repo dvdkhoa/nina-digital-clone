@@ -12,6 +12,7 @@ import 'package:iconoir_flutter/iconoir_flutter.dart' as icons;
 import 'package:badges/badges.dart' as badges;
 
 import '../../shared/utils/helper.dart';
+import '../account/acount_screen.dart';
 import '../account/providers/account_provider.dart';
 import '../cart/cart_screen.dart';
 import '../cart/providers/cart_provider.dart';
@@ -156,8 +157,8 @@ class CartIconWidget extends ConsumerWidget {
             context.pushNamed(CartScreen.nameRoute);
           },
           child: icons.ShoppingBag(
-            height: 20,
-            width: 20,
+            height: 22,
+            width: 22,
             color: defaultTextStyle.color,
           ),
         ),

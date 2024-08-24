@@ -195,7 +195,7 @@ class CartItemWidget extends ConsumerWidget {
                     ? Text('Màu sắc: ${model.color}',
                         style: defaultTextStyle.copyWith(
                             fontSize: 12, color: Color(0xff6B6B6B)))
-                    : SizedBox(),
+                    : SizedBox.shrink(),
                 Container(
                   margin: EdgeInsets.only(top: 10),
                   child: Row(

@@ -48,7 +48,12 @@ int _oldSearchEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  bytesCount += 3 + object.keyword.length * 3;
+  {
+    final value = object.keyword;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   return bytesCount;
 }
 
@@ -69,9 +74,9 @@ OldSearch _oldSearchDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = OldSearch();
-  object.datetime = reader.readDateTime(offsets[0]);
+  object.datetime = reader.readDateTimeOrNull(offsets[0]);
   object.id = id;
-  object.keyword = reader.readString(offsets[1]);
+  object.keyword = reader.readStringOrNull(offsets[1]);
   return object;
 }
 
@@ -83,16 +88,16 @@ P _oldSearchDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 1:
-      return (reader.readString(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
 }
 
 Id _oldSearchGetId(OldSearch object) {
-  return object.id ?? Isar.autoIncrement;
+  return object.id;
 }
 
 List<IsarLinkBase<dynamic>> _oldSearchGetLinks(OldSearch object) {
@@ -182,8 +187,25 @@ extension OldSearchQueryWhere
 
 extension OldSearchQueryFilter
     on QueryBuilder<OldSearch, OldSearch, QFilterCondition> {
+  QueryBuilder<OldSearch, OldSearch, QAfterFilterCondition> datetimeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'datetime',
+      ));
+    });
+  }
+
+  QueryBuilder<OldSearch, OldSearch, QAfterFilterCondition>
+      datetimeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'datetime',
+      ));
+    });
+  }
+
   QueryBuilder<OldSearch, OldSearch, QAfterFilterCondition> datetimeEqualTo(
-      DateTime value) {
+      DateTime? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'datetime',
@@ -193,7 +215,7 @@ extension OldSearchQueryFilter
   }
 
   QueryBuilder<OldSearch, OldSearch, QAfterFilterCondition> datetimeGreaterThan(
-    DateTime value, {
+    DateTime? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -206,7 +228,7 @@ extension OldSearchQueryFilter
   }
 
   QueryBuilder<OldSearch, OldSearch, QAfterFilterCondition> datetimeLessThan(
-    DateTime value, {
+    DateTime? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -219,8 +241,8 @@ extension OldSearchQueryFilter
   }
 
   QueryBuilder<OldSearch, OldSearch, QAfterFilterCondition> datetimeBetween(
-    DateTime lower,
-    DateTime upper, {
+    DateTime? lower,
+    DateTime? upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -235,24 +257,8 @@ extension OldSearchQueryFilter
     });
   }
 
-  QueryBuilder<OldSearch, OldSearch, QAfterFilterCondition> idIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'id',
-      ));
-    });
-  }
-
-  QueryBuilder<OldSearch, OldSearch, QAfterFilterCondition> idIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'id',
-      ));
-    });
-  }
-
   QueryBuilder<OldSearch, OldSearch, QAfterFilterCondition> idEqualTo(
-      Id? value) {
+      Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'id',
@@ -262,7 +268,7 @@ extension OldSearchQueryFilter
   }
 
   QueryBuilder<OldSearch, OldSearch, QAfterFilterCondition> idGreaterThan(
-    Id? value, {
+    Id value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -275,7 +281,7 @@ extension OldSearchQueryFilter
   }
 
   QueryBuilder<OldSearch, OldSearch, QAfterFilterCondition> idLessThan(
-    Id? value, {
+    Id value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -288,8 +294,8 @@ extension OldSearchQueryFilter
   }
 
   QueryBuilder<OldSearch, OldSearch, QAfterFilterCondition> idBetween(
-    Id? lower,
-    Id? upper, {
+    Id lower,
+    Id upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -304,8 +310,24 @@ extension OldSearchQueryFilter
     });
   }
 
+  QueryBuilder<OldSearch, OldSearch, QAfterFilterCondition> keywordIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'keyword',
+      ));
+    });
+  }
+
+  QueryBuilder<OldSearch, OldSearch, QAfterFilterCondition> keywordIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'keyword',
+      ));
+    });
+  }
+
   QueryBuilder<OldSearch, OldSearch, QAfterFilterCondition> keywordEqualTo(
-    String value, {
+    String? value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -318,7 +340,7 @@ extension OldSearchQueryFilter
   }
 
   QueryBuilder<OldSearch, OldSearch, QAfterFilterCondition> keywordGreaterThan(
-    String value, {
+    String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -333,7 +355,7 @@ extension OldSearchQueryFilter
   }
 
   QueryBuilder<OldSearch, OldSearch, QAfterFilterCondition> keywordLessThan(
-    String value, {
+    String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -348,8 +370,8 @@ extension OldSearchQueryFilter
   }
 
   QueryBuilder<OldSearch, OldSearch, QAfterFilterCondition> keywordBetween(
-    String lower,
-    String upper, {
+    String? lower,
+    String? upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -531,13 +553,13 @@ extension OldSearchQueryProperty
     });
   }
 
-  QueryBuilder<OldSearch, DateTime, QQueryOperations> datetimeProperty() {
+  QueryBuilder<OldSearch, DateTime?, QQueryOperations> datetimeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'datetime');
     });
   }
 
-  QueryBuilder<OldSearch, String, QQueryOperations> keywordProperty() {
+  QueryBuilder<OldSearch, String?, QQueryOperations> keywordProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'keyword');
     });

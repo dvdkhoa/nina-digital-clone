@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 
 import '../../../shared/constants/api_url.dart';
 import '../../../shared/extensions/string_ext.dart';
+import '../../../shared/utils/helper.dart';
 import '../../checkout/models/order_model.dart';
 import '../order_detail_screen.dart';
 
@@ -24,6 +25,8 @@ class OrderItemWidget extends StatelessWidget {
     // Định dạng datetime theo ý muốn (ví dụ: dd/MM/yyyy HH:mm:ss)
     DateFormat formatter = DateFormat('dd/MM/yyyy HH:mm');
     String dateCreated = formatter.format(dateTime);
+
+    final firstItem = model.details?[0];
 
     return GestureDetector(
       onTap: () {
@@ -62,7 +65,7 @@ class OrderItemWidget extends StatelessWidget {
               children: [
                 CachedNetworkImage(
                   imageUrl:
-                      '${ApiUrl.resourcesURL}/upload/product/${model.details?[0]?.photo}',
+                      '${ApiUrl.resourcesURL}/upload/product/${firstItem?.photo}',
                   progressIndicatorBuilder: (context, url, downloadProgress) =>
                       SpinKitCircle(size: 20, color: Colors.red,),
                   errorWidget: (context, url, error) => Icon(Icons.error),
@@ -75,7 +78,7 @@ class OrderItemWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Iphone 14 Pro Max',
+                        firstItem?.name ?? '',
                         style: defaultTextStyle.copyWith(fontSize: 15),
                       ),
                       SizedBox(
@@ -84,13 +87,13 @@ class OrderItemWidget extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          // Text(
-                          //   'Màu sắc: Gold',
-                          //   style: defaultTextStyle.copyWith(
-                          //     fontSize: 12,
-                          //     color: Color(0xff6B6B6B),
-                          //   ),
-                          // ),
+                          Text(
+                            'Màu sắc: ${Helper.isNull(firstItem?.color) ? 'Mặc định' : firstItem?.color}',
+                            style: defaultTextStyle.copyWith(
+                              fontSize: 12,
+                              color: Color(0xff6B6B6B),
+                            ),
+                          ),
                           Text(
                             'Số lượng: ${model.details?[0].quantity}',
                             style: defaultTextStyle.copyWith(

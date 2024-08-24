@@ -87,6 +87,7 @@ class AsyncAccount extends _$AsyncAccount {
             final res = await _accountRepository.updateInfomation(value?.id ?? 0, jsonData);
             if(res) {
               await _updateUserStorage(data: jsonData!);
+              await ref.read(authUserProvider.notifier).updateUserLogin(data: jsonData);
             }
             return value;
           }

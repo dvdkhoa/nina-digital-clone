@@ -51,96 +51,106 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   Widget build(BuildContext context) {
     print('rebuild search');
     final defaultTextStyle = DefaultTextStyle.of(context).style;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Search'),
-        // centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            children: [
-              TextField(
-                controller: searchController,
-                onChanged: (value) {
-                  ref.read(filterNotifierProvider.notifier).changeSearchKeyWord(value);
-                },
-                style: TextStyle(fontSize: 14),
-                decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Color(0xffF5F5F5),
-                    prefixIcon: IconButton(
-                      icon: Icon(Icons.search, color: Colors.grey.shade500),
-                      onPressed: () {
-                        _onSubmit();
-                      },
-                    ),
-                    suffixIcon: GestureDetector(
-                      child: Icon(Icons.tune),
-                      onTap: () {
-                        showModalBottomSheet(
-                          useSafeArea: true,
-                          isScrollControlled: true,
-                          enableDrag: true,
-                          isDismissible: true,
-                          showDragHandle: true,
-                          context: context,
-                          builder: (context) {
-                            return Padding(
-                              padding: EdgeInsets.only(
-                                  bottom:
-                                      MediaQuery.of(context).viewInsets.bottom),
-                              child: FilterModelBottomSheet(
-                                onFilter: () {
-                                  setFilter(true);
-                                },
-                                onReset: () {
-                                  setFilter(false);
-                                  ref
-                                      .read(filterNotifierProvider.notifier)
-                                      .reset();
-                                 searchController.text = '';
-                                },
-                              ),
-                            );
-                          },
-                        );
-                      },
-                    ),
-                    hintText: 'Nhập nội dung tìm kiếm',
-                    hintStyle: TextStyle(fontSize: 14),
-                    enabledBorder: _enableBorder,
-                    focusedBorder: _focusBorder),
-              ),
-              // SizedBox(
-              //   height: 20,
-              // ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //   children: [
-              //     Text(
-              //       'Hôm nay',
-              //       style: TextStyle(fontSize: 15),
-              //     ),
-              //     InkWell(
-              //       onTap: () {
-              //         print('Xóa');
-              //         // ref.read(filterNotifierProvider.notifier).changeSearchKeyWord(null);
-              //         // setState(() {});
-              //       },
-              //       child: Text(
-              //         'Xóa tất cả',
-              //         style: TextStyle(fontSize: 13),
-              //       ),
-              //     ),
-              //   ],
-              // ),
-              // Divider(
-              //   height: 15,
-              // ),
-              ResultSectionWidget(isFilter: isFilter,)
-            ],
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Search'),
+          // centerTitle: true,
+        ),
+        body: SingleChildScrollView(
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              children: [
+                TextField(
+                  controller: searchController,
+                  onChanged: (value) {
+                    // print(value);
+                    // ref.read(filterNotifierProvider.notifier).changeSearchKeyWord(value);
+                  },
+                  onSubmitted: (value) {
+                    _onSubmit();
+                  },
+                  style: TextStyle(fontSize: 14),
+                  decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Color(0xffF5F5F5),
+                      prefixIcon: IconButton(
+                        icon: Icon(Icons.search, color: Colors.grey.shade500),
+                        onPressed: () {
+                          _onSubmit();
+                        },
+                      ),
+                      suffixIcon: GestureDetector(
+                        child: Icon(Icons.tune),
+                        onTap: () {
+                          showModalBottomSheet(
+                            useSafeArea: true,
+                            isScrollControlled: true,
+                            enableDrag: true,
+                            isDismissible: true,
+                            showDragHandle: true,
+                            context: context,
+                            builder: (context) {
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                    bottom:
+                                    MediaQuery.of(context).viewInsets.bottom),
+                                child: FilterModelBottomSheet(
+                                  onFilter: () {
+                                    setFilter(true);
+                                  },
+                                  onReset: () {
+                                    setFilter(false);
+                                    ref
+                                        .read(filterNotifierProvider.notifier)
+                                        .reset();
+                                    searchController.text = '';
+                                  },
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      ),
+                      hintText: 'Nhập nội dung tìm kiếm',
+                      hintStyle: TextStyle(fontSize: 14),
+                      enabledBorder: _enableBorder,
+                      focusedBorder: _focusBorder),
+                ),
+                // SizedBox(
+                //   height: 20,
+                // ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     Text(
+                //       'Hôm nay',
+                //       style: TextStyle(fontSize: 15),
+                //     ),
+                //     InkWell(
+                //       onTap: () {
+                //         print('Xóa');
+                //         // ref.read(filterNotifierProvider.notifier).changeSearchKeyWord(null);
+                //         // setState(() {});
+                //       },
+                //       child: Text(
+                //         'Xóa tất cả',
+                //         style: TextStyle(fontSize: 13),
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                // Divider(
+                //   height: 15,
+                // ),
+                ResultSectionWidget(isFilter: isFilter, searchController: searchController,)
+              ],
+            ),
           ),
         ),
       ),
@@ -148,14 +158,16 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   }
 
   void _onSubmit() async {
-    final keyword = ref.read(filterNotifierProvider.select((value)=>value.keyword));
+
+    ref.read(filterNotifierProvider.notifier).changeSearchKeyWord(searchController.text);
+
     await ref
         .read(searchNotifierProvider.notifier)
-        .searchProducts(keyword);
+        .searchProducts(searchController.text);
 
     final userId = ref.read(authUserProvider.select((value) => value.userLogin?.id,));
 
-    await ref.read(asyncOldKeywordProvider(userId).notifier).createSearch(keyword!);
+    await ref.read(asyncOldKeywordProvider(userId).notifier).createSearch(searchController.text);
 
     setState(() {
     });

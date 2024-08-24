@@ -7,7 +7,7 @@ part of 'address_provider.dart';
 // **************************************************************************
 
 String _$asyncAddressNotifierHash() =>
-    r'c67b5d82bad14427a84db2aac743f538778ae8fe';
+    r'cfe371d0bba9abd9dd83468f536098cffadf6305';
 
 /// See also [AsyncAddressNotifier].
 @ProviderFor(AsyncAddressNotifier)

@@ -6,7 +6,7 @@ import 'filter_state.dart';
 
 part 'filter_provider.g.dart';
 
-@Riverpod(keepAlive: true)
+@Riverpod(keepAlive: false)
 class FilterNotifier extends _$FilterNotifier {
   @override
   FilterState build() {

@@ -5,9 +5,10 @@ class _TextInputWidget extends StatelessWidget {
   final Widget? icon;
   final Function onChange;
   final TextEditingController? controller;
+  final String? hintText;
 
   _TextInputWidget(
-      {this.initValue, this.icon, required this.onChange, this.controller});
+      {this.initValue, this.icon, required this.onChange, this.controller, this.hintText});
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +22,7 @@ class _TextInputWidget extends StatelessWidget {
         },
         style: DefaultTextStyle.of(context).style.copyWith(fontSize: 13),
         decoration: InputDecoration(
+            hintText: hintText,
             suffixIcon: this.icon != null ? this.icon : null,
             filled: true,
             fillColor: const Color(0xFFF4F4F4),
